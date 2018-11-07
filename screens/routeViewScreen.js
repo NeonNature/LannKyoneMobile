@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import Expo from 'expo';
 
 const styles= StyleSheet.create({
 	main : {

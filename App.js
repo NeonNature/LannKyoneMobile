@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { createBottomTabNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -9,16 +9,37 @@ import MapViewScreen from './screens/MapViewScreen';
 import MessageScreen from './screens/MessageScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RouteViewScreen from './screens/RouteViewScreen';
+import AddRouteScreen from './screens/AddRouteScreen';
 
 //navigation
+
+const RouteStack = createStackNavigator(
+	{
+		RouteList : RouteViewScreen,
+		AddRoute : AddRouteScreen,
+	},
+	{
+		initialRouteName : 'RouteList',
+		navigationOptions : {
+			headerTintColor : '#31c3e0',
+			headerStyle : {
+				backgroundColor : '#fff',
+			},
+		},
+	}
+)
 
 MapViewScreen.navigationOptions = {
 	tabBarIcon : ({focused, tintColor}) => (
 		<Ionicons name={`ios-map${focused ? '' : '-outline'}`} size={25} color={tintColor} />
 	),
+	headerTintColor: '#31c3e0',
+    headerStyle: {
+        backgroundColor: '#fff',
+    },
 }
 
-RouteViewScreen.navigationOptions = {
+RouteStack.navigationOptions = {
 	tabBarIcon : ({focused, tintColor}) => (
 		<Ionicons name={`ios-car${focused ? '' : '-outline'}`} size={25} color={tintColor} />
 	),
@@ -39,14 +60,14 @@ ProfileScreen.navigationOptions = {
 const MainTabs = createBottomTabNavigator(
 	{
 		Map : MapViewScreen,
-		Routes : RouteViewScreen,
+		Routes : RouteStack,
 		Messages : MessageScreen,
 		Profile : ProfileScreen,
 	},
 	{
 		tabBarOptions : {
 			activeTintColor : '#31c3e0',
-		},
+		}
 	}
 )
 

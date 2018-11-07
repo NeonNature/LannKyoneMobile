@@ -1,6 +1,5 @@
 import React from 'react';
 import { ScrollView, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard, ImageBackground, Image } from 'react-native';
-import Expo from 'expo';
 
 import { getUser } from '../api/api';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Button } from 'react-native';
 import Expo from 'expo';
 
 const styles= StyleSheet.create({
@@ -13,11 +13,19 @@ const styles= StyleSheet.create({
 })
 
 export default class RouteViewScreen extends React.Component {
-  render() {
-    return (
-		<View style={styles.main}>
-			<Text style={styles.text}>RouteViewScreen</Text>
-		</View>
-    );
-  }
+
+	static navigationOptions = ({navigation}) => ({
+		headerTitle: 'Available routes',
+		headerRight: (
+			<Button title='+ Add' onPress={ ()=>(navigation.navigate('AddRoute')) } color='#31c3e0' />
+		),
+	})
+
+	render() {
+		return (
+			<View style={styles.main}>
+				<Text style={styles.text}>RouteViewScreen</Text>
+			</View>
+		);
+	}
 }

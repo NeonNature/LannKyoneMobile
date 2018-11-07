@@ -1,13 +1,13 @@
 import React from 'react';
-import { ScrollView, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { ScrollView, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard, ImageBackground, Image } from 'react-native';
 import Expo from 'expo';
 
 import { getUser } from '../api/api';
 
 const styles= StyleSheet.create({
 	main : {
-		flex : 1,
-		paddingTop : Expo.Constants.statusBarHeight,
+		paddingTop : 50,
+		
 	},
 	textbox : {
 		borderWidth: 1,
@@ -17,8 +17,13 @@ const styles= StyleSheet.create({
 		margin: 10,
 		borderRadius: 8,
 		flexDirection: 'row',
-		backgroundColor: '#d4d7db',
-	}
+		backgroundColor: '#edeff2',
+	},
+	image : {
+		width: 100,
+		height: 70,
+		paddingBottom: 100,
+	},
 })
 
 export default class ProfileScreen extends React.Component {
@@ -39,21 +44,23 @@ export default class ProfileScreen extends React.Component {
 		if(this.state.user.role=="Driver")
 		{
 			return (
-				<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-				<ScrollView style={styles.main} contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
-					<TextInput style={styles.textbox} value={this.state.user.name} />
-					<TextInput style={styles.textbox} value={this.state.user.nrc} />
-					<TextInput style={styles.textbox} value={this.state.user.phone} />
-					<TextInput style={styles.textbox} value={this.state.user.university} />
-					<TextInput style={styles.textbox} value={this.state.user.carModel} />
-					<TextInput style={styles.textbox} value={this.state.user.carNumber} />
-				</ScrollView>
+				<TouchableWithoutFeedback onPress={() => (Keyboard.dismiss)}>
+					<ImageBackground source={require('../assets/profilebg.jpg')} style={{width: '100%', height: '100%'}}>
+						<ScrollView style={styles.main} contentContainerStyle={{flexGrow: 1, alignItems: 'center', }}>
+							<Image style={styles.image} source={require('../assets/profile.png')} />
+							<TextInput style={styles.textbox} value={this.state.user.name} />
+							<TextInput style={styles.textbox} value={this.state.user.nrc} />
+							<TextInput style={styles.textbox} value={this.state.user.phone} />
+							<TextInput style={styles.textbox} value={this.state.user.carModel} />
+							<TextInput style={styles.textbox} value={this.state.user.carNumber} />
+						</ScrollView>
+					</ImageBackground>
 				</TouchableWithoutFeedback>
 			);
 		}
 		
 		return (
-			<ScrollView style={styles.main}>
+			<ScrollView style={styles.main} contentContainerStyle={{flexGrow: 1, alignItems: 'center', justifyContent: 'center'}}>
 				<TextInput style={styles.textbox} value={this.state.user.name} />
 				<TextInput style={styles.textbox} value={this.state.user.nrc} />
 				<TextInput style={styles.textbox} value={this.state.user.phone} />

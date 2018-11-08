@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, KeyboardAvoidingView, StyleSheet, Button } from 'react-native';
+import { TextInput, KeyboardAvoidingView, StyleSheet, Button, AlertIOS } from 'react-native';
 
 import {addNewRoute} from '../api/api';
 
@@ -18,10 +18,18 @@ const styles= StyleSheet.create({
 		borderRadius: 8,
 		flexDirection: 'row',
 		backgroundColor: '#edeff2',
-	},
+    },
+    datePicker : {
+        borderWidth : 1,
+        borderColor : 'black',
+    }
 })
 
 export default class AddRouteScreen extends React.Component {
+
+    static navigationOptions = ({navigation}) => ({
+        headerTitle: 'Add new route',
+    })
 
     state = {
         startPoint : '',
@@ -49,7 +57,15 @@ export default class AddRouteScreen extends React.Component {
 
     addRoute = async (newRoute) => {
         const response = await addNewRoute(newRoute)
-        console.log(response)
+        if(response.ok) {
+            AlertIOS.alert(
+                'Success!',
+                'Your route is successfully created',
+                () => (
+                    this.props.navigation.navigate('RouteList')
+                )
+            )
+        }
     }
 
     render() {
@@ -60,7 +76,7 @@ export default class AddRouteScreen extends React.Component {
                 <TextInput style={styles.textbox} multiline={true} placeholder='Notes' value={this.state.note} onChangeText={this.setNote} />
                 <TextInput style={styles.textbox} placeholder='Date' value={this.state.date} onChangeText={this.setDate} />
                 <TextInput style={styles.textbox} placeholder='Time' value={this.state.time} onChangeText={this.setTime} />
-                <Button title="Add route" onPress={this.addRoute} />
+                <Button title="Add route" onPress={()=>(this.addRoute(this.state))} />
             </KeyboardAvoidingView>
         );
     }

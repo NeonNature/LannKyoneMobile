@@ -15,7 +15,7 @@ const styles= StyleSheet.create({
 export default class RouteViewScreen extends React.Component {
 
 	static navigationOptions = ({navigation}) => ({
-		headerTitle: 'Available routes',
+		headerTitle: 'Routes',
 		headerRight: (
 			<Button title='+ Add' onPress={ ()=>(navigation.navigate('AddRoute')) } color='#31c3e0' />
 		),

@@ -26,4 +26,4 @@ export const addNewRoute = async (route) => {
     })
 
     return response
-}
+}   

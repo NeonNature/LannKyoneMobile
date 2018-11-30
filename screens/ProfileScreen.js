@@ -1,27 +1,70 @@
 import React from 'react';
-import { ScrollView, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard, ImageBackground, Image } from 'react-native';
+import { ScrollView, StyleSheet, TextInput, View, Text, Image, Button, TouchableOpacity } from 'react-native';
+import {Dimensions} from 'react-native';
 
 import { getUser } from '../api/api';
 
 const styles= StyleSheet.create({
 	main : {
-		paddingTop : 50,
-		
-	},
-	textbox : {
-		borderWidth: 1,
-		borderColor: 'black',
-		minWidth: 320,
-		minHeight: 35,
-		margin: 10,
-		borderRadius: 8,
-		flexDirection: 'row',
-		backgroundColor: '#edeff2',
+		paddingTop : 30,
+		alignItems : 'center',
+		flex : 1,
 	},
 	image : {
-		width: 100,
-		height: 70,
-		paddingBottom: 100,
+		width: 120,
+		height: 120,
+	},
+	buttonView : {
+		height : 60,
+		flex: 0,
+		flexDirection: 'row',
+	},
+	historyButton : {
+		width : Dimensions.get('window').width/2,
+		paddingTop : 15,
+		backgroundColor : '#c239b1',
+		alignItems: 'center',
+	},
+	shareButton : {
+		width : Dimensions.get('window').width/2,
+		paddingTop : 15,
+		backgroundColor : '#803176',
+		alignItems: 'center',
+	},
+	buttonText : {
+		color: '#fff',
+		fontSize: 20,
+		fontWeight: 'bold',
+	},
+	lkp : {
+		paddingTop : 15,
+		paddingBottom : 15, 
+		fontSize : 15,
+		fontWeight : 'bold',
+	},
+	content : {
+		padding : 20,
+		backgroundColor : '#f2f1f2',
+		width : Dimensions.get('window').width*0.75,
+		height : 190,
+		borderRadius : 40,
+		alignItems : 'center',
+	},
+	paymentButton : {
+		width : 170,
+		height : 55,
+		padding : 15,
+		borderRadius : 40,
+		backgroundColor : '#9e005d',
+		alignItems : 'center',
+	},
+	logoutButton : {
+		width : 170,
+		height : 55,
+		padding : 15,
+		borderRadius : 40,
+		backgroundColor : '#464646',
+		alignItems : 'center',
 	},
 })
 
@@ -39,32 +82,87 @@ export default class ProfileScreen extends React.Component {
 		this.setState({user : data})
 	}
 
+	showHistory = () => {
+
+	}
+
+	shareProfile = () => {
+
+	}
+
   	render() {
 		if(this.state.user.role=="Driver")
 		{
 			return (
-				<TouchableWithoutFeedback onPress={() => (Keyboard.dismiss)}>
-					<ImageBackground source={require('../assets/profilebg.jpg')} style={{width: '100%', height: '100%'}}>
-						<ScrollView style={styles.main} contentContainerStyle={{flexGrow: 1, alignItems: 'center', }}>
-							<Image style={styles.image} source={require('../assets/profile.png')} />
-							<TextInput style={styles.textbox} value={this.state.user.name} />
-							<TextInput style={styles.textbox} value={this.state.user.nrc} />
-							<TextInput style={styles.textbox} value={this.state.user.phone} />
-							<TextInput style={styles.textbox} value={this.state.user.carModel} />
-							<TextInput style={styles.textbox} value={this.state.user.carNumber} />
-						</ScrollView>
-					</ImageBackground>
-				</TouchableWithoutFeedback>
+				<View style={styles.main}>
+					<Image source={require('../assets/profile.png')} style={styles.image} />
+					<Text style={styles.lkp} >1500 LKP</Text>
+
+					<View style={styles.buttonView}>
+						<TouchableOpacity style={styles.historyButton} onPress={this.showHistory}>
+							<Text style={styles.buttonText}>History</Text>
+						</TouchableOpacity>
+						<TouchableOpacity style={styles.shareButton} onPress={this.shareProfile}>
+							<Text style={styles.buttonText}>Share</Text>
+						</TouchableOpacity>
+					</View>
+					<View style={{padding : 10}}></View>
+
+					<View style={styles.content}>
+						<Text style={{fontSize: 24, fontWeight: 'bold'}}>{this.state.user.name}</Text>
+						<Text style={{fontSize: 17, fontWeight: 'bold', paddingTop: 18}}>{this.state.user.university}</Text>
+						<Text style={{fontSize: 17, fontWeight: 'bold', paddingTop: 18}}>{this.state.user.phone}</Text>
+						<Text style={{fontSize: 17, fontWeight: 'bold', paddingTop: 18}}>{this.state.user.carNumber}</Text>
+					</View>
+					<Text style={{fontSize: 17, fontWeight: 'bold'}}><Image source={require('../assets/duck.png')} style={{width: 32, height: 32}}/> x{this.state.user.rating}</Text>
+					<View style={{padding : 10}}></View>
+
+					<TouchableOpacity style={styles.paymentButton} onPress={this.showHistory}>
+						<Text style={styles.buttonText}>Payment</Text>
+					</TouchableOpacity>
+					<View style={{padding : 7}}></View>
+
+					<TouchableOpacity style={styles.logoutButton} onPress={this.showHistory}>
+						<Text style={styles.buttonText}>Logout</Text>
+					</TouchableOpacity>
+
+				</View>
 			);
 		}
 		
 		return (
-			<ScrollView style={styles.main} contentContainerStyle={{flexGrow: 1, alignItems: 'center', justifyContent: 'center'}}>
-				<TextInput style={styles.textbox} value={this.state.user.name} />
-				<TextInput style={styles.textbox} value={this.state.user.nrc} />
-				<TextInput style={styles.textbox} value={this.state.user.phone} />
-				<TextInput style={styles.textbox} value={this.state.user.university} />
-			</ScrollView>
+			<View style={styles.main}>
+					<Image source={require('../assets/profile.png')} style={styles.image} />
+
+					<View style={styles.buttonView}>
+						<TouchableOpacity style={styles.historyButton} onPress={this.showHistory}>
+							<Text style={styles.buttonText}>History</Text>
+						</TouchableOpacity>
+						<TouchableOpacity style={styles.shareButton} onPress={this.shareProfile}>
+							<Text style={styles.buttonText}>Share</Text>
+						</TouchableOpacity>
+					</View>
+					<View style={{padding : 10}}></View>
+
+					<View style={styles.content}>
+						<Text style={{fontSize: 24, fontWeight: 'bold'}}>{this.state.user.name}</Text>
+						<Text style={{fontSize: 17, fontWeight: 'bold', paddingTop: 18}}>{this.state.user.university}</Text>
+						<Text style={{fontSize: 17, fontWeight: 'bold', paddingTop: 18}}>{this.state.user.phone}</Text>
+						<Text style={{fontSize: 17, fontWeight: 'bold', paddingTop: 18}}>{this.state.user.carNumber}</Text>
+					</View>
+					<Text style={{fontSize: 17, fontWeight: 'bold'}}><Image source={require('../assets/duck.png')} style={{width: 32, height: 32}}/> x1000 (153)</Text>
+					<View style={{padding : 10}}></View>
+
+					<TouchableOpacity style={styles.paymentButton} onPress={this.showHistory}>
+						<Text style={styles.buttonText}>Payment</Text>
+					</TouchableOpacity>
+					<View style={{padding : 7}}></View>
+
+					<TouchableOpacity style={styles.logoutButton} onPress={this.showHistory}>
+						<Text style={styles.buttonText}>Logout</Text>
+					</TouchableOpacity>
+
+				</View>
 		);
   	}
 }

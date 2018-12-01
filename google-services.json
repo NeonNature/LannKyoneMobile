@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "556031698288",
+    "firebase_url": "https://lankyone-mobile.firebaseio.com",
+    "project_id": "lankyone-mobile",
+    "storage_bucket": "lankyone-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:556031698288:android:9c62061b9bfd27f7",
+        "android_client_info": {
+          "package_name": "com.innovatorymm.lannkyone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "556031698288-5o10opo75qrbr5j8873iu40pju1i2aog.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-tJXdHWoEl9W8VRjuHX7XFhLzMLk-sks"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

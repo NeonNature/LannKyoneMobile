@@ -1,23 +1,45 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import Expo from 'expo';
+import { GiftedChat } from 'react-native-gifted-chat';
+import Fire from '../api/Fire';
 
-const styles= StyleSheet.create({
-	main : {
-		alignItems: 'center', 
-		justifyContent: 'center',
-	},
-	text : {
-		paddingTop: Expo.Constants.statusBarHeight
-	}
-})
+Chat = (props) => (
+	<GiftedChat 
+		messages={props.messages} 
+		onSend={Fire.shared.send}
+		user={{
+			_id: 3,
+			name: 'React Native',
+			avatar: 'https://placeimg.com/140/140/any',
+		}}
+	/>
+)
 
 export default class MessageScreen extends React.Component {
-  render() {
-    return (
-		<View style={styles.main}>
-			<Text style={styles.text}>MessageScreen</Text>
-		</View>
-    );
-  }
+
+	static navigationOptions = ({navigation}) => ({
+		title : 'Waing',
+	})
+
+	state = {
+		messages : [],
+	}
+
+	componentDidMount() {
+		Fire.shared.on(message => (
+			this.setState(prevState => ({
+				messages: GiftedChat.append(prevState.messages, message)
+			}))
+		))
+		console.log(this.state.messages)
+	}
+
+	componentWillUnmount() {
+		Fire.shared.off()
+	}
+
+	render() {
+		return (
+			<Chat messages={this.state.messages}/>
+		);
+	}
 }

@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import MapViewScreen from './screens/MapViewScreen';
+import MessageListScreen from './screens/MessageListScreen';
 import MessageScreen from './screens/MessageScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RouteViewScreen from './screens/RouteViewScreen';
@@ -20,6 +20,24 @@ const RouteStack = createStackNavigator(
 	},
 	{
 		initialRouteName : 'RouteList',
+		navigationOptions : {
+			headerTintColor : '#31c3e0',
+			headerStyle : {
+				backgroundColor : '#fff',
+			},
+		},
+	}
+)
+
+const MessageStack = createStackNavigator(
+	{
+		MessageList : MessageListScreen,
+		MessageBox : MessageScreen,
+	},
+	{
+		mode : 'card',
+		header : 'none',
+		initialRouteName : 'MessageList',
 		navigationOptions : {
 			headerTintColor : '#31c3e0',
 			headerStyle : {
@@ -45,10 +63,21 @@ RouteStack.navigationOptions = {
 	),
 }
 
-MessageScreen.navigationOptions = {
-	tabBarIcon : ({focused, tintColor}) => (
-		<Ionicons name={`ios-chatboxes${focused ? '' : '-outline'}`} size={25} color={tintColor} />
-	),
+MessageStack.navigationOptions = ({navigation}) => {
+	if(navigation.state.index == 1) {
+		return {
+			tabBarVisible : false,
+			tabBarIcon : ({focused, tintColor}) => (
+				<Ionicons name={`ios-chatboxes${focused ? '' : '-outline'}`} size={25} color={tintColor} />
+			),
+		}
+	}
+	return {
+		tabBarVisible : true,
+		tabBarIcon : ({focused, tintColor}) => (
+			<Ionicons name={`ios-chatboxes${focused ? '' : '-outline'}`} size={25} color={tintColor} />
+		),
+	}
 }
 
 ProfileScreen.navigationOptions = {
@@ -61,7 +90,7 @@ const MainTabs = createBottomTabNavigator(
 	{
 		Map : MapViewScreen,
 		Routes : RouteStack,
-		Messages : MessageScreen,
+		Messages : MessageStack,
 		Profile : ProfileScreen,
 	},
 	{

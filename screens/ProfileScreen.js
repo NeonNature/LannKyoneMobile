@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, TextInput, View, Text, Image, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import {Dimensions} from 'react-native';
 
 import { getUser } from '../api/api';

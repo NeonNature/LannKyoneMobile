@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import {Dimensions} from 'react-native';
 
-import { getUser } from '../api/api';
+import { userData, setUserData } from '../api/data';
 
 const styles= StyleSheet.create({
 	main : {
@@ -78,7 +78,7 @@ export default class ProfileScreen extends React.Component {
 	}
 
 	getData = async () => {
-		const data = await getUser();
+		const data = userData
 		this.setState({user : data})
 	}
 
@@ -88,6 +88,11 @@ export default class ProfileScreen extends React.Component {
 
 	shareProfile = () => {
 
+	}
+
+	logout = () => {
+		setUserData({})
+		this.props.navigation.navigate('Login')
 	}
 
   	render() {
@@ -122,7 +127,7 @@ export default class ProfileScreen extends React.Component {
 					</TouchableOpacity>
 					<View style={{padding : 7}}></View>
 
-					<TouchableOpacity style={styles.logoutButton} onPress={this.showHistory}>
+					<TouchableOpacity style={styles.logoutButton} onPress={this.logout}>
 						<Text style={styles.buttonText}>Logout</Text>
 					</TouchableOpacity>
 
@@ -133,7 +138,7 @@ export default class ProfileScreen extends React.Component {
 		return (
 			<View style={styles.main}>
 					<Image source={require('../assets/profile.png')} style={styles.image} />
-
+					<View style={{marginVertical : 5}}></View>
 					<View style={styles.buttonView}>
 						<TouchableOpacity style={styles.historyButton} onPress={this.showHistory}>
 							<Text style={styles.buttonText}>History</Text>

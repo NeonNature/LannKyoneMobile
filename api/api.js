@@ -4,6 +4,29 @@ export const getUser = async () => {
     return data
 }
 
+export const userRegister = async(data) => {
+
+    userData = {
+        name : data.name,
+        phone : data.phone,
+        university : data.university,
+        carModel : data.carModel,
+        carNumber : data.carNumber,
+        password : data.password,
+        role : 'Driver',
+    }
+
+    console.log(userData)
+
+    const response = await fetch('https://api.innovatorymm.com/api/v1/users', {
+        method : 'POST',
+        headers : { 'content-type' : 'application/json'},
+        body : JSON.stringify(userData)
+    })
+    console.log(response)
+    return response
+}
+
 export const login = async(data) => {
 
     const userData = {

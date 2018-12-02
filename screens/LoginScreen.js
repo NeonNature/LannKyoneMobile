@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, TextInput, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, AlertIOS } from 'react-native';
+import { Text, View, TouchableOpacity, TextInput, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import Expo from 'expo';
 import { login } from '../api/api';
 import { setUserData } from '../api/data';
@@ -61,17 +61,23 @@ export default class LoginScreen extends React.Component {
         const response = await login(this.state)
         if(response.ok) {
             const {data} = await response.json()
+            setUserData(data)
             this.props.navigation.navigate('Main')
         }
         else {
-            return (
-                <AlertIOS title="Incorrect username or password!" />
+            Alert.alert(
+                'Error!',
+                'မွားေနတယ္ခ်ိဖ',
+                [
+                    {text: 'ေတာ္ၿပီ', style: 'cancel'},
+                    {text: 'ေအးပါကြာ',},
+                ]
             )
         }
     }
 
     register = () => {
-        console.log('hello')
+        this.props.navigation.navigate('Register')
     }
 
     render() {

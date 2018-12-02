@@ -1,8 +1,10 @@
-export let userData = {
-
-}
+export let userData = {}
+export let routeData = {}
 
 export const setUserData = (data) => {
     userData = data
-    console.log('done')
+}
+
+export const setRouteData = (data) => {
+    routeData = data
 }

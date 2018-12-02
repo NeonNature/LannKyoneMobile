@@ -10,6 +10,8 @@ import MessageScreen from './screens/MessageScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import RouteViewScreen from './screens/RouteViewScreen';
 import AddRouteScreen from './screens/AddRouteScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import LoginScreen from './screens/LoginScreen';
 
 //navigation
 
@@ -95,8 +97,20 @@ const MainTabs = createBottomTabNavigator(
 	},
 	{
 		tabBarOptions : {
-			activeTintColor : '#31c3e0',
+			activeTintColor : '#c239b1',
 		}
+	}
+)
+
+const MainStack = createStackNavigator(
+	{
+		Login : LoginScreen,
+		Register : RegisterScreen,
+		Main : MainTabs,
+	},
+	{
+		initialRouteName : 'Login',
+		headerMode : 'none',
 	}
 )
 
@@ -105,7 +119,7 @@ const MainTabs = createBottomTabNavigator(
 export default class App extends React.Component {
   render() {
     return (
-		<MainTabs />
+		<MainStack />
     );
   }
 }

@@ -1,15 +1,20 @@
 import React from 'react';
 
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import MapViewScreen from './screens/MapViewScreen';
-import MessageListScreen from './screens/MessageListScreen';
-import MessageScreen from './screens/MessageScreen';
-import ProfileScreen from './screens/ProfileScreen';
+
+import MessageListScreen from './screens/message/MessageListScreen';
+import MessageScreen from './screens/message/MessageScreen';
+
+import ProfileScreen from './screens/profile/ProfileScreen';
+import PaymentScreen from './screens/profile/PaymentScreen';
+
 import RouteViewScreen from './screens/RouteViewScreen';
 import AddRouteScreen from './screens/AddRouteScreen';
+
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
 
@@ -40,6 +45,24 @@ const MessageStack = createStackNavigator(
 		mode : 'card',
 		header : 'none',
 		initialRouteName : 'MessageList',
+		navigationOptions : {
+			headerTintColor : '#31c3e0',
+			headerStyle : {
+				backgroundColor : '#fff',
+			},
+		},
+	}
+)
+
+const ProfileStack = createStackNavigator(
+	{
+		Profile : ProfileScreen,
+		Payment : PaymentScreen,
+	},
+	{
+		mode : 'modal',
+		header : 'none',
+		initialRouteName : 'Profile',
 		navigationOptions : {
 			headerTintColor : '#31c3e0',
 			headerStyle : {
@@ -93,7 +116,7 @@ const MainTabs = createBottomTabNavigator(
 		Map : MapViewScreen,
 		Routes : RouteStack,
 		Messages : MessageStack,
-		Profile : ProfileScreen,
+		Profile : ProfileStack,
 	},
 	{
 		tabBarOptions : {
@@ -102,7 +125,7 @@ const MainTabs = createBottomTabNavigator(
 	}
 )
 
-const MainStack = createStackNavigator(
+const MainStack = createSwitchNavigator(
 	{
 		Login : LoginScreen,
 		Register : RegisterScreen,

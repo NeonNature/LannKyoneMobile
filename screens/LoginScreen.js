@@ -49,12 +49,10 @@ export default class LoginScreen extends React.Component {
 
     setPhoneNumber = (phoneNo) => {
         this.setState({phone : phoneNo})
-        console.log(this.state.phone)
     }
 
     setPassword = (password) => {
         this.setState({password : password})
-        console.log(this.state.password)
     }
 
     userLogin = async() => {
@@ -74,6 +72,7 @@ export default class LoginScreen extends React.Component {
                 ]
             )
         }
+        //this.props.navigation.navigate('Main')
     }
 
     register = () => {

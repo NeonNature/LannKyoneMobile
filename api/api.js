@@ -1,5 +1,5 @@
-export const getUser = async () => {
-    const response = await fetch('https://api.innovatorymm.com/api/v1/users/0808051936360726')
+export const getUser = async (uid) => {
+    const response = await fetch('https://api.innovatorymm.com/api/v1/users/'+uid)
     const {data} = await response.json()
     return data
 }
@@ -38,6 +38,20 @@ export const login = async(data) => {
         method : 'POST',
         headers : {'content-type' : 'application/json'},
         body : JSON.stringify(userData)
+    })
+
+    return response
+}
+
+export const makeTopup = async (data) => {
+    const paymentData = {
+        code : data.code,
+        userID : data.userID,
+    }
+    const response = await fetch('https://api.innovatorymm.com/api/v1/payment/topup', {
+        method : 'POST',
+        headers : {'content-type' : 'application/json'},
+        body : JSON.stringify(paymentData)
     })
 
     return response

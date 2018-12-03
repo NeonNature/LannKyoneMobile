@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
-import Fire from '../api/Fire';
+import Fire from '../../api/Fire';
 
 const styles = StyleSheet.create({
 	bubbleText : {

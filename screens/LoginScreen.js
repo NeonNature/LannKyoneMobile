@@ -1,6 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, TextInput, StyleSheet, Image, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import Expo from 'expo';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+
 import { login } from '../api/api';
 import { setUserData } from '../api/data';
 
@@ -8,35 +10,37 @@ const styles = StyleSheet.create({
     container : {
         flex : 1,
         paddingTop : Expo.Constants.statusBarHeight,
-        backgroundColor : '#fff',
+        backgroundColor : '#70206a',
         alignItems : 'center',
-    },
-    mainText : {
-        fontSize : 15,
-        fontWeight : 'bold',
+        justifyContent : 'center',
     },
     textInput : {
         padding : 10,
         fontSize : 15,
-        borderWidth : 1,
-        borderColor : '#111',
-        minWidth : 300,
-        minHeight : 30,
-        borderRadius : 15,
-        marginVertical : 10,
+        backgroundColor : '#fff',
+        color : '#803176',
+        minWidth : wp('70%'),
+        minHeight : hp('6%'),
+        borderRadius : 30,
+        marginVertical : hp('1.5%'),
     },
     loginButton : {
-        marginTop : 10,
-        width : 300,
-		height : 40,
-		padding : 10,
-		borderRadius : 15,
-		backgroundColor : '#9e005d',
-		alignItems : 'center',
+        marginVertical : hp('2%'),
+        width : wp('50%'),
+		height : hp('6%'),
+		borderRadius : 30,
+		backgroundColor : '#fff',
+        alignItems : 'center',
+        justifyContent : 'center',
+    },
+    loginButtonText : {
+        color : '#803176',
+        fontSize : hp('3%'),
+        fontWeight : 'bold',
     },
     buttonText : {
-        color: '#fff',
-		fontSize: 15,
+        color: '#e0ff00',
+		fontSize: hp('2%'),
 		fontWeight: 'bold',
     },
 })
@@ -72,7 +76,6 @@ export default class LoginScreen extends React.Component {
                 ]
             )
         }
-        //this.props.navigation.navigate('Main')
     }
 
     register = () => {
@@ -82,9 +85,7 @@ export default class LoginScreen extends React.Component {
     render() {
         return (
             <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}} >
-            <View style={styles.container} behavior='padding' keyboardVerticalOffset={10}>
-                <Image source={require('../assets/icon.png')} />
-                <Text style={styles.mainText}>#Towards a closer Yangon</Text>
+            <View style={styles.container}>
                 <TextInput
                     style={styles.textInput}
                     value={this.state.phone}
@@ -99,13 +100,14 @@ export default class LoginScreen extends React.Component {
                     placeholder="Enter password"
                     secureTextEntry={true}
                 />
+
                 <TouchableOpacity style={styles.loginButton} onPress={this.userLogin}>
-					<Text style={styles.buttonText}>Login</Text>
-				</TouchableOpacity>
-                <Text style={{marginVertical : 10}}>Or</Text>
-                <TouchableOpacity style={styles.loginButton} onPress={this.register}>
-					<Text style={styles.buttonText}>Register</Text>
-				</TouchableOpacity>
+                    <Text style={styles.loginButtonText}>Login</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={this.register}>
+                    <Text style={styles.buttonText}>အေကာင့္မရွိဘူးလားခ်ိဖ</Text>
+                </TouchableOpacity>
             </View>
             </TouchableWithoutFeedback>
         )

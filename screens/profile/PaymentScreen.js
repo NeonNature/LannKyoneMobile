@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { ScrollView, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { userData, setUserData } from '../../api/data';
 import { makeTopup, getUser } from '../../api/api';
@@ -8,36 +9,31 @@ const styles = StyleSheet.create({
     container : {
         flex : 1,
         paddingTop : Expo.Constants.statusBarHeight,
-        backgroundColor : '#fff',
-        alignItems : 'center',
-    },
-    mainText : {
-        fontSize : 15,
-        fontWeight : 'bold',
+        backgroundColor : '#70206a',
     },
     textInput : {
         padding : 10,
         fontSize : 15,
-        borderWidth : 1,
-        borderColor : '#111',
-        minWidth : 300,
-        minHeight : 30,
-        borderRadius : 15,
-        marginVertical : 10,
+        backgroundColor : '#fff',
+        color : '#803176',
+        minWidth : wp('70%'),
+        minHeight : hp('6%'),
+        borderRadius : 30,
+        marginVertical : hp('1.5%'),
     },
     button : {
-        marginTop : 10,
-        width : 300,
-		height : 40,
-		padding : 10,
-		borderRadius : 15,
-		backgroundColor : '#9e005d',
-		alignItems : 'center',
+        marginVertical : hp('2%'),
+        width : wp('50%'),
+		height : hp('6%'),
+		borderRadius : 30,
+		backgroundColor : '#fff',
+        alignItems : 'center',
+        justifyContent : 'center',
     },
     buttonText : {
-        color: '#fff',
-		fontSize: 15,
-		fontWeight: 'bold',
+        color : '#803176',
+        fontSize : hp('3%'),
+        fontWeight : 'bold',
     },
 })
 
@@ -90,17 +86,20 @@ export default class PaymentScreen extends React.Component {
 
     render() {
         return (
-            <View>
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="Enter topup code"
-                    value={this.state.code}
-                    onChangeText={this.handleCode}
-                />
-                <TouchableOpacity style={styles.button} onPress={this.makePayment}>
-                    <Text style={styles.buttonText}>Top up</Text>
-                </TouchableOpacity>
-            </View>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <ScrollView style={styles.container} alignItems="center" justifyContent="center">
+                        <Text style={{fontSize: hp('3%'), color: '#fff', fontWeight: 'bold', marginVertical: hp('2%')}}>Topup account</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            placeholder="Enter topup code"
+                            value={this.state.code}
+                            onChangeText={this.handleCode}
+                        />
+                        <TouchableOpacity style={styles.button} onPress={this.makePayment}>
+                            <Text style={styles.buttonText}>Top up</Text>
+                        </TouchableOpacity>
+                </ScrollView>
+            </TouchableWithoutFeedback>
 
         )
     }

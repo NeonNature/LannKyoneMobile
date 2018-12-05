@@ -72,10 +72,6 @@ const styles= StyleSheet.create({
 
 export default class ProfileScreen extends React.Component {
 	
-	static navigationOptions = {
-		header : 'none',
-	}
-	
 	state = {
 		user : {},
 	}
@@ -95,7 +91,7 @@ export default class ProfileScreen extends React.Component {
 	}
 
 	showHistory = () => {
-
+		this.props.navigation.navigate('History')
 	}
 
 	shareProfile = () => {

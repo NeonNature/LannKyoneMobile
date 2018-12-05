@@ -11,12 +11,14 @@ import MessageScreen from './screens/message/MessageScreen';
 
 import ProfileScreen from './screens/profile/ProfileScreen';
 import PaymentScreen from './screens/profile/PaymentScreen';
+import HistoryScreen from './screens/profile/HistoryScreen';
 
 import RouteViewScreen from './screens/RouteViewScreen';
 import AddRouteScreen from './screens/AddRouteScreen';
 
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
+import IntroScreen from './screens/IntroScreen';
 
 //navigation
 
@@ -58,10 +60,11 @@ const ProfileStack = createStackNavigator(
 	{
 		Profile : ProfileScreen,
 		Payment : PaymentScreen,
+		History : HistoryScreen,
 	},
 	{
 		mode : 'modal',
-		header : 'none',
+		headerMode : 'none',
 		initialRouteName : 'Profile',
 		navigationOptions : {
 			headerTintColor : '#31c3e0',
@@ -105,7 +108,7 @@ MessageStack.navigationOptions = ({navigation}) => {
 	}
 }
 
-ProfileScreen.navigationOptions = {
+ProfileStack.navigationOptions = {
 	tabBarIcon : ({focused, tintColor}) => (
 		<Ionicons name={`ios-contact${focused ? '' : '-outline'}`} size={25} color={tintColor} />
 	),
@@ -127,12 +130,13 @@ const MainTabs = createBottomTabNavigator(
 
 const MainStack = createSwitchNavigator(
 	{
+		Intro : IntroScreen,
 		Login : LoginScreen,
 		Register : RegisterScreen,
 		Main : MainTabs,
 	},
 	{
-		initialRouteName : 'Login',
+		initialRouteName : 'Intro',
 		headerMode : 'none',
 	}
 )

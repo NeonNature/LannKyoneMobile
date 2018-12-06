@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { userData, setUserData } from '../../api/data';
@@ -7,8 +7,6 @@ import { userData, setUserData } from '../../api/data';
 const styles= StyleSheet.create({
 	main : {
 		paddingTop : hp('5%'),
-		alignItems : 'center',
-		flex : 1,
 	},
 	image : {
 		width: 120,
@@ -113,7 +111,7 @@ export default class ProfileScreen extends React.Component {
 		if(this.state.user.role=="Driver")
 		{
 			return (
-				<View style={styles.main}>
+				<ScrollView style={styles} >
 					<Image source={require('../../assets/profile.png')} style={styles.image} />
 					<Text style={styles.lkp} >{this.state.user.point} LKP</Text>
 
@@ -142,12 +140,13 @@ export default class ProfileScreen extends React.Component {
 						<Text style={styles.buttonText}>Logout</Text>
 					</TouchableOpacity>
 
-				</View>
+				</ScrollView>
 			);
 		}
 		
 		return (
-			<View style={styles.main}>
+			<ScrollView style={styles.main} contentContainerStyle={{
+				alignItems : 'center'}}>
 				<Image source={require('../../assets/profile.png')} style={styles.image} />
 				<View style={{marginVertical : 5}}></View>
 				<View style={styles.buttonView}>
@@ -171,7 +170,7 @@ export default class ProfileScreen extends React.Component {
 					<Text style={styles.buttonText}>Logout</Text>
 				</TouchableOpacity>
 
-			</View>
+			</ScrollView>
 		);
   	}
 }

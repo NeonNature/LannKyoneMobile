@@ -3,8 +3,8 @@ import { Text, View, TouchableOpacity, TextInput, StyleSheet, TouchableWithoutFe
 import Expo from 'expo';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { login } from '../api/api';
-import { setUserData } from '../api/data';
+import { login } from '../../api/api';
+import { setUserData } from '../../api/data';
 
 const styles = StyleSheet.create({
     container : {
@@ -60,7 +60,7 @@ export default class LoginScreen extends React.Component {
     }
 
     userLogin = async() => {
-        const response = await login(this.state)
+        /*const response = await login(this.state)
         if(response.ok) {
             const {data} = await response.json()
             setUserData(data)
@@ -75,7 +75,8 @@ export default class LoginScreen extends React.Component {
                     {text: 'ေအးပါကြာ',},
                 ]
             )
-        }
+        }*/
+        this.props.navigation.navigate('Main')
     }
 
     register = () => {

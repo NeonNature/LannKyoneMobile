@@ -16,11 +16,28 @@ import HistoryScreen from './screens/profile/HistoryScreen';
 import RouteViewScreen from './screens/RouteViewScreen';
 import AddRouteScreen from './screens/AddRouteScreen';
 
-import RegisterScreen from './screens/RegisterScreen';
-import LoginScreen from './screens/LoginScreen';
+import RegisterOption from './screens/register/RegisterOption';
+import RegisterScreen from './screens/register/RegisterScreen';
+import LoginScreen from './screens/register/LoginScreen';
 import IntroScreen from './screens/IntroScreen';
 
 //navigation
+
+const RegisterStack = createStackNavigator(
+	{
+		RegisterOption : RegisterOption,
+		Registration : RegisterScreen,
+	},
+	{
+		initialRouteName : 'RegisterOption',
+		navigationOptions : {
+			headerTintColor : '#70206a',
+			headerStyle : {
+				backgroundColor : '#fff',
+			}
+		}
+	}
+)
 
 const RouteStack = createStackNavigator(
 	{
@@ -132,7 +149,7 @@ const MainStack = createSwitchNavigator(
 	{
 		Intro : IntroScreen,
 		Login : LoginScreen,
-		Register : RegisterScreen,
+		Register : RegisterStack,
 		Main : MainTabs,
 	},
 	{

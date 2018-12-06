@@ -7,6 +7,7 @@ export const getUser = async (uid) => {
 export const userRegister = async(data) => {
 
     userData = {
+        id : data.id,
         name : data.name,
         phone : data.phone,
         university : data.university,
@@ -14,6 +15,7 @@ export const userRegister = async(data) => {
         carNumber : data.carNumber,
         password : data.password,
         role : 'Driver',
+        photo : data.formData,
     }
 
     console.log(userData)
@@ -23,7 +25,15 @@ export const userRegister = async(data) => {
         headers : { 'content-type' : 'application/json'},
         body : JSON.stringify(userData)
     })
-    console.log(response)
+    return response
+}
+
+export const photoUpload = async(formData) => {
+    const response = await fetch('https://api.innovatorymm.com/api/v1/users/imageupload', {
+        method : 'POST',
+        headers : { 'content-type' : 'multipart/form-data' },
+        body : formData,
+    })
     return response
 }
 

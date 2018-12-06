@@ -1,15 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, TouchableWithoutFeedback, TextInput, StyleSheet, Alert, Picker, Platform, Modal } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Expo from 'expo';
+import { Constants, ImagePicker, Permissions } from 'expo';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { userRegister } from '../api/api';
+import { userRegister, photoUpload } from '../../api/api';
 
 const styles = StyleSheet.create({
     container : {
         flex : 1,
-        paddingTop : Expo.Constants.statusBarHeight,
         backgroundColor : '#fff',
     },
     registerButton : {
@@ -84,6 +83,7 @@ const styles = StyleSheet.create({
 
 export default class Register extends React.Component {
     state = {
+        id : '',
         name : '',
         phone : '',
         university : '',
@@ -91,7 +91,13 @@ export default class Register extends React.Component {
         carNumber : '',
         password : '',
         confirmPassword : '',
+        role : '',
         modalVisibility : false,
+        formData : null,
+    }
+
+    componentDidMount() {
+        option = JSON.stringify(this.props.navigation.getParam('option', 'Passenger'))
     }
 
     handleName = (name) => {
@@ -127,9 +133,43 @@ export default class Register extends React.Component {
         this.setState({carNumber: carNumber})
     }
 
+    handleImage = async() => {
+
+        let {status} = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL)
+        
+        if(status !== 'granted') {
+            return
+        }
+        let result = await ImagePicker.launchCameraAsync({
+            allowsEditing : true,
+            aspect : [4, 3],
+        })
+
+        if(result.cancelled) {
+            return
+        }
+
+        let localUri = result.uri
+        let filename = localUri.split('/').pop()
+
+        let match = /\.(\w+)$/.exec(filename)
+        let type = match ? `image/${match[1]}` : `image`
+
+        let formData = new FormData()
+        formData.append('photo', {uri: localUri, name: filename, type})
+        
+        this.setState({formData : formData})
+    }
+
     userRegister = async() => {
+        const imageResponse = await photoUpload(this.state.formData)
+        const data = await imageResponse.json()
+
+        this.setState({id : data})
+
         const response = await userRegister(this.state)
-        if(response.ok) {
+        
+        if(response.ok ) {
             Alert.alert(
                 'Success!',
                 'အေကာင့္ရၿပီခ်ိဖ',
@@ -208,21 +248,31 @@ export default class Register extends React.Component {
                     </Modal>
                 </View>
                 )}
+                <TouchableOpacity onPress={this.handleImage} style={styles.selectButton}>
+                        <Text style={styles.selectText}>{this.state.formData ? 'Photo uploaded!' : 'Upload your Student ID'}</Text>
+                </TouchableOpacity>
                 
-                <TextInput 
-                    value={this.state.carModel}
-                    placeholder="Enter car model"
-                    placeholderTextColor='#fff'
-                    onChangeText={this.handleCarModel}
-                    style={styles.textInput}
-                />            
-                <TextInput 
-                    value={this.state.carNumber}
-                    placeholder="Enter car number"
-                    placeholderTextColor='#fff'
-                    onChangeText={this.handleCarNumber}
-                    style={styles.textInput}
-                />
+                
+                {this.props.navigation.getParam('option', 'Driver') === "Driver" ? (
+                    <View>
+                        <TextInput 
+                            value={this.state.carModel}
+                            placeholder="Enter car model"
+                            placeholderTextColor='#fff'
+                            onChangeText={this.handleCarModel}
+                            style={styles.textInput}
+                        />
+
+                        <TextInput 
+                            value={this.state.carNumber}
+                            placeholder="Enter car number"
+                            placeholderTextColor='#fff'
+                            onChangeText={this.handleCarNumber}
+                            style={styles.textInput}
+                        />
+                    </View>
+                ) : <View />}
+                
                 <TextInput 
                     value={this.state.password}
                     placeholder="Enter password"

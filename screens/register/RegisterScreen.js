@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, TouchableWithoutFeedback, TextInput, StyleSheet, Alert, Picker, Platform, Modal } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Constants, ImagePicker, Permissions } from 'expo';
+import { ImagePicker, Permissions } from 'expo';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { userRegister, photoUpload } from '../../api/api';
+import { userRegister, profileUpload } from '../../api/api';
 
 const styles = StyleSheet.create({
     container : {
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
     },
     selectButton : {
-        marginTop : hp('1%'),
+        marginVertical : hp('1%'),
         width : wp('70%'),
         height : hp('6%'),
         padding : hp('1%'),
@@ -97,7 +97,9 @@ export default class Register extends React.Component {
     }
 
     componentDidMount() {
-        option = JSON.stringify(this.props.navigation.getParam('option', 'Passenger'))
+        this.setState({
+            role : this.props.navigation.getParam('option', 'Driver')
+        })
     }
 
     handleName = (name) => {
@@ -157,7 +159,6 @@ export default class Register extends React.Component {
 
         let formData = new FormData()
         formData.append('photo', {uri: localUri, name: filename, type})
-        
         this.setState({formData : formData})
     }
 

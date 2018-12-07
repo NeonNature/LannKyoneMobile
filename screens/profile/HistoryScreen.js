@@ -1,34 +1,52 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Camera, Permissions } from 'expo';
+import { ScrollView, StyleSheet } from 'react-native';
+import { Card, Title, Paragraph } from 'react-native-paper';
+import { Constants } from 'expo';
+
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+
+import { getRoutesByUser } from '../../api/api';
+import { userData } from '../../api/data';
+
+const historyStyle = StyleSheet.create({
+    main : {
+        paddingTop : Constants.statusBarHeight,
+        flex : 1,
+        backgroundColor : '#70206a',
+    },
+    card : {
+        marginVertical : hp('1%'),
+    }
+})
 
 export default class HistoryScreen extends React.Component {
     state = {
-        hasCameraPermission : null,
-        type : Camera.Constants.Type.front,
+        routeData : [],
+    }
+    
+    async componentDidMount() {
+        const data = await getRoutesByUser(userData.id)
+        this.setState({routeData : data})
     }
 
-    async componentWillMount() {
-        const {status} = await Permissions.askAsync(Permissions.CAMERA)
-        this.setState({hasCameraPermission : status==='granted'})
+    cardView = () => {
+        return 
     }
 
     render() {
-        const { hasCameraPermission } = this.state
-        if(hasCameraPermission === null) {
-            return (
-                <View />
+        return (
+            <ScrollView style={historyStyle.main}>
+                {this.state.routeData.map((route)=>(
+                <Card style={historyStyle.card} key={route.id}>
+                    <Card.Content>
+                        <Title>Start point : {route.startPoint}</Title>
+                        <Title>Destination : {route.endPoint}</Title>
+                        <Paragraph>Date & time : {route.date}, {route.time} </Paragraph>
+                    </Card.Content>
+                </Card>
             )
-        } else if(hasCameraPermission === false) {
-            return (
-                <View>
-                    <Text>No access to camera :(</Text>
-                </View>
-            )
-        } else {
-            return (
-                <Camera style={{flex : 1}} type={this.state.type}></Camera>
-            )
-        }
+        )}
+            </ScrollView>
+        )
     }
 }

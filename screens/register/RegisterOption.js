@@ -2,7 +2,7 @@ import React from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-styles = StyleSheet.create({
+regstyles = StyleSheet.create({
     main : {
         backgroundColor : '#fff',
         flex : 1,
@@ -16,15 +16,20 @@ styles = StyleSheet.create({
         alignItems: 'center',
         opacity : 1,
         borderRadius : 40,
+        marginVertical : hp('1%'),
     },
     buttonText : {
         color: '#fff',
-		fontSize: hp('2%'),
+		fontSize: hp('2.5%'),
 		fontWeight: 'bold',
     },
 })
 
 export default class RegisterOption extends React.Component {
+    static navigationOptions = {
+        header : null,
+    }
+
     state = {
     }
 
@@ -39,13 +44,13 @@ export default class RegisterOption extends React.Component {
 
     render() {
         return (
-            <View style={styles.main}>
-                <TouchableOpacity style={styles.button} onPress={this.passengerRegister}>
-                    <Text style={styles.buttonText}>Register as Passenger</Text>
+            <View style={regstyles.main}>
+                <TouchableOpacity style={regstyles.button} onPress={this.passengerRegister}>
+                    <Text style={regstyles.buttonText}>Register as Passenger</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={this.driverRegister}>
-                    <Text style={styles.buttonText}>Register as Driver</Text>
+                <TouchableOpacity style={regstyles.button} onPress={this.driverRegister}>
+                    <Text style={regstyles.buttonText}>Register as Driver</Text>
                 </TouchableOpacity>
             </View>
         )

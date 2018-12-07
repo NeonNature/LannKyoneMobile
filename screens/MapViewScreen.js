@@ -201,6 +201,9 @@ modal: {
 	marginBottom: 50,
 	borderRadius: 20
 },
+createbtn: {
+	elevation: 4,
+}
 
 
 })
@@ -359,6 +362,7 @@ export default class MapViewScreen extends Component {
                       enablePoweredByContainer={false}
                 />           
                   <Button
+                  style={styles.createbtn}
                     onPress={this.create}
                     color="hotpink"
                     mode="contained"

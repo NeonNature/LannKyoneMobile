@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Provider as PaperProvider } from 'react-native-paper';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -46,12 +46,7 @@ const RouteStack = createStackNavigator(
 	},
 	{
 		initialRouteName : 'RouteList',
-		navigationOptions : {
-			headerTintColor : '#31c3e0',
-			headerStyle : {
-				backgroundColor : '#fff',
-			},
-		},
+		headerMode : 'none',
 	}
 )
 
@@ -96,10 +91,6 @@ MapViewScreen.navigationOptions = {
 	tabBarIcon : ({focused, tintColor}) => (
 		<Ionicons name={`ios-map${focused ? '' : '-outline'}`} size={25} color={tintColor} />
 	),
-	headerTintColor: '#31c3e0',
-    headerStyle: {
-        backgroundColor: '#fff',
-    },
 }
 
 RouteStack.navigationOptions = {
@@ -163,7 +154,9 @@ const MainStack = createSwitchNavigator(
 export default class App extends React.Component {
   render() {
     return (
+    <PaperProvider>
 		<MainStack />
+		</PaperProvider>
     );
   }
 }

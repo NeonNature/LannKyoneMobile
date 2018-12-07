@@ -65,20 +65,34 @@ export default class RouteViewScreen extends Component {
 	})
 */
 
- _handlePress = () =>
-    this.setState({
-      expanded: !this.state.expanded
-    });
+
+
+
 
 constructor(props) {
     super(props);
     this.state = {
       requester: 'Waing La Min Lwin',
       expanded: false,
+      rating: 123,
+      phone: '09440259616'
     };
   }
 
+ accept = () => {
+        console.log('Accept Quack');
 
+    }
+
+ reject = () => {
+        console.log('Reject Quack');
+
+    }
+
+     _handlePress = () =>
+    this.setState({
+      expanded: !this.state.expanded
+    });
 
 	render() {
 		return (
@@ -100,20 +114,22 @@ constructor(props) {
 				<Card style={styles.noti}>
 				    <Card.Content style={styles.center}>
 				      <Title> {this.state.requester}</Title>
-				      <Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x 212</Paragraph>
-				      <Paragraph>09440259616</Paragraph>
+				      <Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x {this.state.rating}</Paragraph>
+				      <Paragraph>{this.state.phone}</Paragraph>
 				    </Card.Content>
 				    <Card.Actions style={styles.center}>
 				      <IconButton			
   						  icon="cancel"
   						  color="red"
   						  size={25}
+  						  onPress={this.reject()}
   						/>
 				      <IconButton
 				      	style={styles.ricon}
   						  icon="done"
   						  color="green"
   						  size={25}
+  						  onPress={this.accept()}
   						/>
 				    </Card.Actions>
 				</Card>
@@ -121,20 +137,22 @@ constructor(props) {
 				<Card style={styles.noti}>
 				    <Card.Content style={styles.center}>
 				      <Title> {this.state.requester}</Title>
-				      <Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x 212</Paragraph>
-				      <Paragraph>09440259616</Paragraph>
+				      <Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x {this.state.rating}</Paragraph>
+				      <Paragraph>{this.state.phone}</Paragraph>
 				    </Card.Content>
 				    <Card.Actions style={styles.center}>
 				      <IconButton			
   						  icon="cancel"
   						  color="red"
   						  size={25}
+  						  onPress={this.reject()}
   						/>
 				      <IconButton
 				      	style={styles.ricon}
   						  icon="done"
   						  color="green"
   						  size={25}
+  						  onPress={this.accept()}
   						/>
 				    </Card.Actions>
 				</Card>
@@ -142,20 +160,22 @@ constructor(props) {
 				<Card style={styles.noti}>
 				    <Card.Content style={styles.center}>
 				      <Title> {this.state.requester}</Title>
-				      <Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x 212</Paragraph>
-				      <Paragraph>09440259616</Paragraph>
+				      <Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x {this.state.rating}</Paragraph>
+				      <Paragraph>{this.state.phone}</Paragraph>
 				    </Card.Content>
 				    <Card.Actions style={styles.center}>
 				      <IconButton			
   						  icon="cancel"
   						  color="red"
   						  size={25}
+  						  onPress={this.reject}
   						/>
 				      <IconButton
 				      	style={styles.ricon}
   						  icon="done"
   						  color="green"
   						  size={25}
+  						  onPress={this.accept}
   						/>
 				    </Card.Actions>
 				</Card>

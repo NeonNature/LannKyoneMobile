@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 import Fire from '../../api/Fire';
+import {userData} from '../../api/data';
+
 
 const styles = StyleSheet.create({
 	bubbleText : {
@@ -10,10 +12,12 @@ const styles = StyleSheet.create({
 	}
 })
 
+const avatarURI = userData.profile === null ? 'https://placeimg.com/140/140/any' : `https://api.innovatorymm.com/profiles/${userData.id}`
+
 export default class MessageScreen extends React.Component {
 
 	static navigationOptions = ({navigation}) => ({
-		title : 'Waing',
+		title : 'Messages',
 	})
 
 	state = {
@@ -58,7 +62,7 @@ export default class MessageScreen extends React.Component {
 				renderBubble={this.renderBubble}
 				user={{
 					_id: 1,
-					name: 'React Native',
+					name: 'Test',
 					avatar: 'https://placeimg.com/140/140/any',
 				}}
 			/>

@@ -14,7 +14,7 @@ export const userRegister = async(data) => {
         carModel : data.carModel,
         carNumber : data.carNumber,
         password : data.password,
-        role : 'Driver',
+        role : data.role,
         photo : data.formData,
     }
 
@@ -30,6 +30,15 @@ export const userRegister = async(data) => {
 
 export const photoUpload = async(formData) => {
     const response = await fetch('https://api.innovatorymm.com/api/v1/users/imageupload', {
+        method : 'POST',
+        headers : { 'content-type' : 'multipart/form-data' },
+        body : formData,
+    })
+    return response
+}
+
+export const profileUpload = async(formData) => {
+    const response = await fetch('https://api.innovatorymm.com/api/v1/users/profileupload', {
         method : 'POST',
         headers : { 'content-type' : 'multipart/form-data' },
         body : formData,
@@ -87,4 +96,11 @@ export const addNewRoute = async (route) => {
     })
 
     return response
-}   
+}
+
+export const getRoutesByUser = async (uid) => {
+    const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/user/${uid}`)
+    const data = await response.json()
+
+    return data
+}

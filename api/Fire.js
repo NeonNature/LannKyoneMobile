@@ -32,7 +32,7 @@ class Fire {
     }
 
     get ref() {
-        return firebase.database().ref('messages');
+        return firebase.database().ref(`messages`);
     }
 
     on = callback => (

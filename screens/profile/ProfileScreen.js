@@ -1,16 +1,19 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, Dimensions, ScrollView, RefreshControl } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { ImagePicker, Permissions } from 'expo';
 
 import { userData, setUserData } from '../../api/data';
+import { getUser, profileUpload } from '../../api/api';
 
 const styles= StyleSheet.create({
 	main : {
 		paddingTop : hp('5%'),
 	},
 	image : {
-		width: 120,
-		height: 120,
+		width: hp('18%'),
+		height: hp('18%'),
+		borderRadius : hp('9%'),
 	},
 	buttonView : {
 		height : hp('7.5%'),
@@ -18,7 +21,7 @@ const styles= StyleSheet.create({
 		flexDirection: 'row',
 	},
 	historyButton : {
-		width : Dimensions.get('window').width/2,
+		width : Dimensions.get('window').width,
 		padding : hp('2%'),
 		backgroundColor : '#c239b1',
 		alignItems: 'center',
@@ -72,10 +75,13 @@ export default class ProfileScreen extends React.Component {
 	
 	state = {
 		user : {},
+		formData : null,
 	}
 
-	componentDidMount() {
-		this.getData()
+	async componentDidMount() {
+		const user = await getUser('0808051936360726')
+		this.setState({user : user})
+		setUserData(user)
 	}
 
 	componentWillReceiveProps() {
@@ -83,9 +89,38 @@ export default class ProfileScreen extends React.Component {
 	}
 
 	getData = () => {
-		//const data = await getUser()
 		const data = userData
 		this.setState({user : data})
+	}
+
+	changeProfile = async() => {
+		let {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+        
+        if(status !== 'granted') {
+            return
+        }
+        let result = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing : true,
+            aspect : [4, 3],
+        })
+
+        if(result.cancelled) {
+            return
+        }
+
+        let localUri = result.uri
+        let filename = `${this.state.user.id}.jpg`
+
+        let match = /\.(\w+)$/.exec(filename)
+        let type = match ? `image/${match[1]}` : `image`
+
+        let formData = new FormData()
+		formData.append('photo', {uri: localUri, name: filename, type})
+		
+		this.setState({formData : formData, source : formData._parts[0][1].uri})
+	
+        const response = await profileUpload(this.state.formData)
+		console.log(await response.json())
 	}
 
 	showHistory = () => {
@@ -111,17 +146,25 @@ export default class ProfileScreen extends React.Component {
 		if(this.state.user.role=="Driver")
 		{
 			return (
-				<ScrollView style={styles} >
-					<Image source={require('../../assets/profile.png')} style={styles.image} />
+				<ScrollView 
+					style={styles.main} 
+					contentContainerStyle={{alignItems : 'center'}} 
+				>
+					<TouchableOpacity onPress={this.changeProfile}>
+						{this.state.user.profile === null ? (
+							<Image source={require('../../assets/profile.png')} style={styles.image} />
+						) : (
+							<Image source={{uri : `https://api.innovatorymm.com/profiles/${this.state.user.profile}`}} style={styles.image} />
+						)}
+						
+					</TouchableOpacity>
 					<Text style={styles.lkp} >{this.state.user.point} LKP</Text>
 
 					<View style={styles.buttonView}>
 						<TouchableOpacity style={styles.historyButton} onPress={this.showHistory}>
 							<Text style={styles.buttonText}>History</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={styles.shareButton} onPress={this.shareProfile}>
-							<Text style={styles.buttonText}>Share</Text>
-						</TouchableOpacity>
+						
 					</View>
 
 					<View style={styles.content}>
@@ -147,15 +190,17 @@ export default class ProfileScreen extends React.Component {
 		return (
 			<ScrollView style={styles.main} contentContainerStyle={{
 				alignItems : 'center'}}>
-				<Image source={require('../../assets/profile.png')} style={styles.image} />
+				{this.state.user.profile === null ? (
+					<Image source={require('../../assets/profile.png')} style={styles.image} />
+				) : (
+					<Image source={{uri : `https://api.innovatorymm.com/profiles/${this.state.user.profile}`}} style={styles.image} />
+				)}
 				<View style={{marginVertical : 5}}></View>
 				<View style={styles.buttonView}>
 					<TouchableOpacity style={styles.historyButton} onPress={this.showHistory}>
 						<Text style={styles.buttonText}>History</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={styles.shareButton} onPress={this.shareProfile}>
-						<Text style={styles.buttonText}>Share</Text>
-					</TouchableOpacity>
+					
 				</View>
 
 				<View style={styles.content}>

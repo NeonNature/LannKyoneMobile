@@ -46,7 +46,6 @@ const RouteStack = createStackNavigator(
 	},
 	{
 		initialRouteName : 'RouteList',
-		headerMode : 'none',
 	}
 )
 

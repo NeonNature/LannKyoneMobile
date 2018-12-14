@@ -23,6 +23,7 @@
     "react-native-modal-datetime-picker": "^6.0.0",
     "react-native-paper": "^2.2.8",
     "react-native-responsive-screen": "^1.1.10",
-    "react-navigation": "^2.18.2"
+    "react-navigation": "^2.18.2",
+    "scaledrone-react-native": "^1.4.0"
   }
 }

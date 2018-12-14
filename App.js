@@ -125,7 +125,7 @@ const MainTabs = createBottomTabNavigator(
 	{
 		Map : MapViewScreen,
 		Routes : RouteStack,
-		Messages : MessageStack,
+		//Messages : MessageStack,
 		Profile : ProfileStack,
 	},
 	{

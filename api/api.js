@@ -104,3 +104,11 @@ export const getRoutesByUser = async (uid) => {
 
     return data
 }
+
+export const getRoutes = async () => {
+    const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/`)
+    const data = await response.json()
+
+    return data
+}
+

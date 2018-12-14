@@ -4,7 +4,8 @@ import { Text, View, ScrollView, StyleSheet, Modal, TouchableOpacity } from 'rea
 import { TextInput, Card, Button, Divider } from 'react-native-paper';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import { userRegister, profileUpload } from '../api/api';
+
+import { addNewRoute } from '../api/api';
 
 const styles= StyleSheet.create({
   main: {
@@ -49,10 +50,9 @@ static navigationOptions = ({navigation}) => ({
 constructor(props) {
     super(props);
     this.state = {
-      start: '',
-      end: '',
-      datetime: 'Pick Date and Time',
-      modalVisibility: false,
+      startPoint: '',
+      endPoint: '',
+      time: 'Pick Date and Time',
       isDateTimePickerVisible: false,
   
     };
@@ -64,30 +64,26 @@ constructor(props) {
   hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   handleDatePicked = (datetime) => {
-    this.setState({datetime : moment(datetime).format('MMMM Do, h:mm:ss a')})
+    this.setState({time : moment(time).format('MMMM Do, h:mm:ss a')})
     this.hideDateTimePicker();
   };
 
-  toggleModal = () => {
-        this.setState({modalVisibility : true})
+  handleStart = (startPoint) => {
+        this.setState({startPoint: startPoint})
     }
 
-  handleStart = (start) => {
-        this.setState({start: start})
-    }
-
-    handleEnd = (end) => {
-        this.setState({end: end})
+    handleEnd = (endPoint) => {
+        this.setState({endPoint: endPoint})
     }
 
     create = async() => {
-       /* 
-        const response = await userRegister(this.state)
+
+        const response = await addNewRoute(this.state)
         
         if(response.ok ) {
             Alert.alert(
                 'Success!',
-                'ၾကိတ္လိုက္ျပီခ်ိဖ',
+                'ၾကိတ္လိုက္ျပီ ခ်ိဖ',
                 [
                     {text: 'OK', onPress : ()=>this.props.navigation.navigate('Routes') ,style: 'default'},
                 ]
@@ -111,7 +107,7 @@ constructor(props) {
                     ]
                 )
             }            
-        } */
+        }
     }
 
 
@@ -121,14 +117,14 @@ constructor(props) {
       <Card style={styles.card}>
       <Card.Content>
             <TextInput 
-              value={this.state.start}
+              value={this.state.startPoint}
               label="Starting Point"
               onChangeText={this.handleStart}
               underlineColor="#803176"
               style={styles.textInput}
             />
             <TextInput 
-              value={this.state.start}
+              value={this.state.endPoint}
               label="Ending Point"
               onChangeText={this.handleEnd}
               underlineColor="#803176"
@@ -141,7 +137,7 @@ constructor(props) {
               mode="contained"
               dark={true}
               >
-              {this.state.datetime}
+              {this.state.time}
               </Button>
                <DateTimePicker
                  isVisible={this.state.isDateTimePickerVisible}

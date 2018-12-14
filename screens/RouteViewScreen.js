@@ -4,7 +4,13 @@ import { Button, IconButton, Card, Title, Paragraph, List, Checkbox, Divider, FA
 import Expo from 'expo';
 
 const styles= StyleSheet.create({
-
+	container: {
+		position: 'absolute',
+		top: 0,
+		bottom: 0,
+		left: 0,
+		right: 0,
+	},
 	main : {
 		marginTop: 20,
 		marginLeft: 20,
@@ -110,7 +116,7 @@ constructor(props) {
 	render() {
 		return (
 		
-		<View>
+		<View style={styles.container}>
 		<ScrollView style={styles.main}>
 			<List.Accordion
 				 style={styles.list}
@@ -135,7 +141,6 @@ constructor(props) {
 				    <Card.Content style={styles.center}>
 				      <Title> {this.state.requester}</Title>
 				      <Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x {this.state.rating}</Paragraph>
-				      <Paragraph>{this.state.phone}</Paragraph>
 				    </Card.Content>
 				    <Card.Actions style={styles.center}>
 				      <IconButton			
@@ -154,51 +159,6 @@ constructor(props) {
 				    </Card.Actions>
 				</Card>
 
-				<Card style={styles.noti}>
-				    <Card.Content style={styles.center}>
-				      <Title> {this.state.requester}</Title>
-				      <Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x {this.state.rating}</Paragraph>
-				      <Paragraph>{this.state.phone}</Paragraph>
-				    </Card.Content>
-				    <Card.Actions style={styles.center}>
-				      <IconButton			
-  						  icon="cancel"
-  						  color="red"
-  						  size={25}
-  						  onPress={this.reject}
-  						/>
-				      <IconButton
-				      	style={styles.ricon}
-  						  icon="done"
-  						  color="green"
-  						  size={25}
-  						  onPress={this.accept}
-  						/>
-				    </Card.Actions>
-				</Card>
-
-				<Card style={styles.noti}>
-				    <Card.Content style={styles.center}>
-				      <Title> {this.state.requester}</Title>
-				      <Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x {this.state.rating}</Paragraph>
-				      <Paragraph>{this.state.phone}</Paragraph>
-				    </Card.Content>
-				    <Card.Actions style={styles.center}>
-				      <IconButton			
-  						  icon="cancel"
-  						  color="red"
-  						  size={25}
-  						  onPress={this.reject}
-  						/>
-				      <IconButton
-				      	style={styles.ricon}
-  						  icon="done"
-  						  color="green"
-  						  size={25}
-  						  onPress={this.accept}
-  						/>
-				    </Card.Actions>
-				</Card>
 				</ScrollView>
 				<FAB
     				style={styles.fab}

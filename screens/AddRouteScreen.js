@@ -6,6 +6,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
 import { addNewRoute } from '../api/api';
+import { userData } from '../api/data';
 
 const styles= StyleSheet.create({
   main: {
@@ -52,10 +53,14 @@ constructor(props) {
     this.state = {
       startPoint: '',
       endPoint: '',
-      time: 'Pick Date and Time',
+      date: 'Pick Date and Time',
+      userID : '',
       isDateTimePickerVisible: false,
-  
     };
+  }
+
+  componentDidMount() {
+    this.setState({userID : userData.id})
   }
 
 
@@ -63,8 +68,8 @@ constructor(props) {
 
   hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
-  handleDatePicked = (time) => {
-    this.setState({time : moment(time).format('MMMM Do, h:mm:ss a')})
+  handleDatePicked = (date) => {
+    this.setState({date : moment(date).format('MMMM Do, h:mm:ss a')})
     this.hideDateTimePicker();
   };
 
@@ -79,6 +84,7 @@ constructor(props) {
     create = async() => {
 
         const response = await addNewRoute(this.state)
+        console.log(response)
         
         if(response.ok ) {
             Alert.alert(
@@ -118,7 +124,7 @@ constructor(props) {
               mode="contained"
               dark={true}
               >
-              {this.state.time}
+              {this.state.date}
               </Button>
                <DateTimePicker
                  isVisible={this.state.isDateTimePickerVisible}

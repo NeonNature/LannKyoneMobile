@@ -259,11 +259,6 @@ export default class MapViewScreen extends Component {
             { icon: {require('../assets/duck.png')}, label: 'Chit Poat', onPress: () => console.log('Pressed notifications') },
           ]}
           onStateChange={({ open }) => this.setState({ open })}
-          onPress={() => {
-            if (this.state.open) {
-              // do something if the speed dial is open
-            }
-          }}
         />
       </Portal>
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { StyleSheet, Alert } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { TextInput, Card, Button, Divider } from 'react-native-paper';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';

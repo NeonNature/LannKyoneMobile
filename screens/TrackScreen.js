@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, View, TextInput, Text } from 'react-native';
-import { Button, FAB } from 'react-native-paper';
+import { Button, FAB, Portal } from 'react-native-paper';
 import MapView, { Callout, Marker } from 'react-native-maps';
 import Expo from 'expo';
 
@@ -198,7 +198,7 @@ endbtn: {
 },
   fab: {
       position: 'absolute',
-      backgroundColor: '#803176',
+      //backgroundColor: '#803176',
       margin: 25,
       right: 0,
       bottom: 0,
@@ -251,10 +251,12 @@ export default class MapViewScreen extends Component {
                     color="#803176"
                     mode="contained"
                     dark={true}>
-                  End
+                  End Route
                   </Button>
             </View>
         </Callout>
+
+        <Portal>
         <FAB.Group
                 style={styles.fab}
                 open={this.state.open}
@@ -266,6 +268,8 @@ export default class MapViewScreen extends Component {
                 ]}
                 onStateChange={({ open }) => this.setState({ open })}
             />
+        </Portal>
+
       </View>
     );
   }

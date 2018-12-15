@@ -63,7 +63,7 @@ constructor(props) {
 
   hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
-  handleDatePicked = (datetime) => {
+  handleDatePicked = (time) => {
     this.setState({time : moment(time).format('MMMM Do, h:mm:ss a')})
     this.hideDateTimePicker();
   };
@@ -85,29 +85,10 @@ constructor(props) {
                 'Success!',
                 'ၾကိတ္လိုက္ျပီ ခ်ိဖ',
                 [
-                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('Routes') ,style: 'default'},
+                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('RouteList') ,style: 'default'},
                 ]
             )
-        } else {
-            const message = await response.json()
-            if(message) {
-                Alert.alert(
-                    'Error',
-                    message,
-                    [
-                        {text: 'OK', style: 'cancel'},
-                    ]
-                )
-            } else {
-                Alert.alert(
-                    'Error',
-                    'Something went wrong :(',
-                    [
-                        {text: 'OK', style: 'cancel'},
-                    ]
-                )
-            }            
-        }
+        } 
     }
 
 

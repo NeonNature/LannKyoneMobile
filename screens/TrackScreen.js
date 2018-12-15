@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, View, TextInput, Text } from 'react-native';
-import { Modal, Portal, Button } from 'react-native-paper';
-import MapView, { Callout, Marker, AnimatedRegion } from 'react-native-maps';
+import { Modal, Portal, Button, FAB } from 'react-native-paper';
+import MapView, { Callout, Marker } from 'react-native-maps';
 import Expo from 'expo';
-
-const Scaledrone = require('scaledrone-react-native');
-
-const SCALEDRONE_CHANNEL_ID = 'TTgdxI4T39mMgxfZ';
 
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyDfl-3OpxnLkWWfQ3PBoZUXOteCKYRLAXw';
@@ -180,7 +176,7 @@ var mapStyle = [
   }
 ];
 
-const styles= StyleSheet.create({
+const styles= StyleSheet.end({
   calloutView: {
   borderRadius: 10,
   width: 200,
@@ -207,36 +203,9 @@ modal: {
   marginBottom: 50,
   borderRadius: 20
 },
-createbtn: {
+endbtn: {
   elevation: 4,
 },
-
- members: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    width: '100%',
-    paddingHorizontal: 10,
-  },
-
-
-  member: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,1)',
-    borderRadius: 20,
-    height: 30,
-    marginTop: 10,
-  },
-  memberName: {
-    marginHorizontal: 10,
-  },
-  avatar: {
-    height: 30,
-    width: 30,
-    borderRadius: 15,
-  }
 
 
 })
@@ -252,173 +221,10 @@ export default class MapViewScreen extends Component {
                 longitudeDelta: LONGITUDE_DELTA,
               },
       modal: false,
-      members: [],
       name: 'Chit Poat',
-      routeid: 1,
-
+      open: false,
     };
   }
-
-   componentDidMount() {
-
-    const drone = new Scaledrone(SCALEDRONE_CHANNEL_ID);
-
-    drone.on('error', error => console.error(error));
-
-    drone.on('close', reason => console.error(reason));
-
-    drone.on('open', error => {
-
-      if (error) {
-
-        return console.error(error);
-
-      }
-
-    AuthRequest(drone.clientId, this.state.name);
-
-    drone.authenticate(jwt);
-
-
-    });
-
-    const room = drone.subscribe('observable-' + this.state.routeid, {
-
-      historyCount: 50 // load 50 past messages
-
-    });
-
-    room.on('open', error => {
-
-      if (error) {
-
-        return console.error(error);
-
-      }
-
-      this.startLocationTracking(position => {
-
-        const {latitude, longitude} = position.coords;
-
-        // publish device's new location
-
-        drone.publish({
-
-          room: 'observable-' + this.state.routeid,
-
-          message: {latitude, longitude}
-
-        });
-
-      });
-
-    });
-
-    // received past message
-
-    room.on('history_message', message =>
-
-      this.updateLocation(message.data, message.clientId)
-
-    );
-
-    // received new message
-
-    room.on('data', (data, member) =>
-
-      this.updateLocation(data, member.id)
-
-    );
-
-    // array of all connected members
-
-    room.on('members', members =>
-
-      this.setState({members})
-
-    );
-
-    // new member joined room
-
-    room.on('member_join', member => {
-
-      const members = this.state.members.slice(0);
-
-      members.push(member);
-
-      this.setState({members});
-
-    });
-
-    // member left room
-
-    room.on('member_leave', member => {
-
-      const members = this.state.members.slice(0);
-
-      const index = members.findIndex(m => m.id === member.id);
-
-      if (index !== -1) {
-
-        members.splice(index, 1);
-
-        this.setState({members});
-
-      }
-
-    });
-
-  }
-
-
-
-  startLocationTracking(callback) {
-
-    navigator.geolocation.watchPosition(
-
-      callback,
-
-      error => console.log(error),
-
-      {
-
-        enableHighAccuracy: true,
-
-        timeout: 20000,
-
-        maximumAge: 1000
-
-      }
-
-    );
-
-  }
-
-
-
-  updateLocation(data, memberId) {
-    const {members} = this.state;
-    const member = members.find(m => m.id === memberId);
-    if (!member) {
-      // a history message might be sent from a user who is no longer online
-      return;
-    }
-    if (member.location) {
-      member.location.timing({
-        latitude: data.latitude,
-        longitude: data.longitude,
-      }).start();
-    } else {
-      member.location = new AnimatedRegion({
-        latitude: data.latitude,
-        longitude: data.longitude,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      });
-      this.forceUpdate();
-    }
-  }
-
 
 
    showModal = () => this.setState({ modal: true });
@@ -426,7 +232,7 @@ export default class MapViewScreen extends Component {
 
   //--------------------------------------------
 
-  create = () => {
+  end = () => {
         console.log('Filler Quack');
 
         this.showModal();
@@ -442,22 +248,44 @@ export default class MapViewScreen extends Component {
            </View>
       </Modal>
     </Portal>
+    <Portal>
+        <FAB.Group
+          style={styles.fab}
+          open={this.state.open}
+          icon={require('../assets/duck.png')}
+          actions={[
+            { icon: {require('../assets/duck.png')}, label: 'Poatie', onPress: () => console.log('Pressed star')},
+            { icon: {require('../assets/duck.png')}, label: 'Poatoat', onPress: () => console.log('Pressed email') },
+            { icon: {require('../assets/duck.png')}, label: 'Chit Poat', onPress: () => console.log('Pressed notifications') },
+          ]}
+          onStateChange={({ open }) => this.setState({ open })}
+          onPress={() => {
+            if (this.state.open) {
+              // do something if the speed dial is open
+            }
+          }}
+        />
+      </Portal>
+
       <MapView
               customMapStyle={mapStyle}
-              ref={ref => {this.map = ref;}}
               width={width}
               height={height}
               initialRegion={this.state.region}>
-            <View pointerEvents="none" style={styles.members}>
-                {this.createMembers()}
-            </View>
+
+          {this.state.markers.map(marker => (
+                 <Marker
+                   coordinate={this.state.region}
+                   title={this.state.name}
+                 />
+                ))}
+
       </MapView>
       <Callout>
               <View style={styles.calloutView} >
-                
                   <Button
-                  style={styles.createbtn}
-                    onPress={this.create}
+                  style={styles.endbtn}
+                    onPress={this.end}
                     color="#803176"
                     mode="contained"
                     dark={true}>
@@ -465,67 +293,11 @@ export default class MapViewScreen extends Component {
                   </Button>
             </View>
         </Callout>
-        <View pointerEvents="none" style={styles.members}>
-          {this.createMembers()}
-        </View>
-
-    </View>
+      </View>
     );
   }
 
 
-
-  createMarkers() {
-    const {members} = this.state;
-    const membersWithLocations = members.filter(m => !!m.location);
-    return membersWithLocations.map(member => {
-      const {id, location, authData} = member;
-      const {name, color} = authData;
-      return (
-        <Marker.Animated
-          key={id}
-          identifier={id}
-          coordinate={location}
-          pinColor={color}
-          title={name}
-        />
-      );
-    })
-  }
-
-  createMembers() {
-    const {members} = this.state;
-    return members.map(member => {
-      const {name, color} = member.authData;
-      return (
-        <View key={member.id} style={styles.member}>
-          <View style={[styles.avatar, {backgroundColor: color}]}></View>
-          <Text style={styles.memberName}>{name}</Text>
-        </View>
-      );
-    });
-  }
-
-  AuthRequest(clientId, name) {
-  let status;
-  return fetch('http://localhost:3000/auth', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({clientId, name}),
-  }).then(res => {
-    status = res.status;
-    return res.text();
-  }).then(text => {
-    if (status === 200) {
-      return text;
-    } else {
-      alert(text);
-    }
-  }).catch(error => console.error(error));
-}
 
 
 }

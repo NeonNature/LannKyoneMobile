@@ -134,11 +134,11 @@ constructor(props) {
 
   async componentDidMount() {
 
-	const routes = await getRoutes()
+  const routes = await getRoutes()
 
-	this.setState({routes : routes})
+  this.setState({routes : routes})
 
-	console.log(this.state.routes)
+  console.log(this.state.routes)
 
   }
 
@@ -146,43 +146,43 @@ constructor(props) {
 
   generateRoute = (route) => (
 
-	<List.Accordion
+  <List.Accordion
 
-	style={styles.list}
+  style={styles.list}
 
-		title = {`${route.start} - ${route.end}`}
+    title = {`${route.start} - ${route.end}`}
 
-		description={route.time}
+    description={route.time}
 
-		left={props => <List.Icon {...props} icon="map" />}
+    left={props => <List.Icon {...props} icon="map" />}
 
-		expanded={this.state.expanded[`${route.name}`]}
+    expanded={this.state.expanded[`${route.name}`]}
 
-		onPress={this.toggle(`${route.name}`)}
+    onPress={this.toggle(`${route.name}`)}
 
 >
 
-	<List.Item 
+  <List.Item 
 
-		style={styles.lists} 
+    style={styles.lists} 
 
-		title={route.name}
+    title={route.name}
 
-		left={props => <List.Icon {...props} icon='directions-car'  style={styles.duck} /> } 
+    left={props => <List.Icon {...props} icon='directions-car'  style={styles.duck} /> } 
 
-	/>
+  />
 
-	<List.Item 
+  <List.Item 
 
-		style={styles.lists} 
+    style={styles.lists} 
 
-		title={route.rating} 
+    title={route.rating} 
 
-		left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={styles.duck} /> }
+    left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={styles.duck} /> }
 
-	/>
+  />
 
-	<List.Item style={styles.flist} title="Request" />
+  <List.Item style={styles.flist} title="Request" />
 
 </List.Accordion>
 
@@ -224,7 +224,7 @@ constructor(props) {
 
     <ScrollView style={styles.main}>
 
-		{this.state.routes.map((route)=>(this.generateRoute(route)))}
+    {this.state.routes.map((route)=>(this.generateRoute(route)))}
 
     </ScrollView>
 

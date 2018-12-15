@@ -94,7 +94,9 @@ constructor(props) {
                     {text: 'OK', onPress : ()=>this.props.navigation.navigate('RouteList') ,style: 'default'},
                 ]
             )
-        } 
+        } else {
+          console.error('error!')
+        }
     }
 
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet, Image } from 'react-native';
-import { Button, Title, Paragraph, List, Checkbox } from 'react-native-paper';
+import { Portal, Modal, Button, Title, Paragraph, List, Checkbox } from 'react-native-paper';
 import Expo from 'expo';
 
 
@@ -63,8 +63,13 @@ constructor(props) {
     this.state = {
       expanded: {},
       routes: {},
+      visible: false,
     };
   }
+
+  _showModal = () => this.setState({ visible: true });
+  _hideModal = () => this.setState({ visible: false });
+
 
   async componentDidMount() {
 
@@ -124,6 +129,12 @@ constructor(props) {
   render() {
     return (
     <ScrollView style={styles.main}>
+    <Portal>
+        <Modal visible={visible} onDismiss={this._hideModal}>
+          <Text>Example Modal</Text>
+        </Modal>
+      </Portal>
+
         {this.generateRoutes}      
     </ScrollView>
     

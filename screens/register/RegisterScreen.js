@@ -238,10 +238,18 @@ export default class Register extends React.Component {
                                 </View>
                                 <View>
                                     <Picker selectedValue={this.state.university} onValueChange={this.handleUniversity} style={{backgroundColor : '#fff'}}>
-                                            <Picker.Item key='1' label='YTU' value='YTU'/>
-                                            <Picker.Item key='2' label='YUFL' value='YUFL'/>
-                                            <Picker.Item key='3' label='UM2' value='UM2'/>
-                                            <Picker.Item key='4' label='NMDC' value='NMDC'/>
+                                            <Picker.Item key='1' label='DU' value='DU'/>
+                                            <Picker.Item key='2' label='NMDC' value='NMDC'/>
+                                            <Picker.Item key='3' label='MMU' value='MMU'/>
+                                            <Picker.Item key='4' label='TTU' value='TTU'/>
+                                            <Picker.Item key='5' label='UCSY' value='UCSY'/>
+                                            <Picker.Item key='6' label='UFL' value='UFL'/>
+                                            <Picker.Item key='7' label='UIT' value='UIT'/>
+                                            <Picker.Item key='8' label='UM1' value='UM1'/>
+                                            <Picker.Item key='9' label='UM2' value='UM2'/>
+                                            <Picker.Item key='10' label='YU' value='YU'/>
+                                            <Picker.Item key='11' label='YTU' value='YTU'/>
+                                            <Picker.Item key='12' label='WYTU' value='WYTU'/>
                                     </Picker>
                                 </View>
                             </View>

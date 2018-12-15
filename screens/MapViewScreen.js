@@ -57,23 +57,42 @@ const styles= StyleSheet.create({
 
 export default class MapViewScreen extends Component {
 
-
 constructor(props) {
     super(props);
     this.state = {
       expanded: {},
-      routes: {},
+      routes: [],
     };
   }
 
   async componentDidMount() {
-
-    const routes = await getRoutes()
-    this.setState({routes : routes})
-
+	const routes = await getRoutes()
+	this.setState({routes : routes})
+	console.log(this.state.routes)
   }
 
-
+  generateRoute = (route) => (
+	<List.Accordion
+	style={styles.list}
+		title = {`${route.start} - ${route.end}`}
+		description={route.time}
+		left={props => <List.Icon {...props} icon="map" />}
+		expanded={this.state.expanded[`${route.name}`]}
+		onPress={this.toggle(`${route.name}`)}
+>
+	<List.Item 
+		style={styles.lists} 
+		title={route.name}
+		left={props => <List.Icon {...props} icon='directions-car'  style={styles.duck} /> } 
+	/>
+	<List.Item 
+		style={styles.lists} 
+		title={route.rating} 
+		left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={styles.duck} /> }
+	/>
+	<List.Item style={styles.flist} title="Request" />
+</List.Accordion>
+  )
 
  request = () => {
         console.log('Accept Quack');
@@ -89,42 +108,10 @@ constructor(props) {
     });
 }
 
-
-    generateRoutes = () => {
-
-      for (let routes of this.state.routes) {
-
-      return (
-
-      <List.Accordion
-         style={styles.list}
-             title = {`${routes.start} - ${routes.end}`}
-             description={routes.time}
-             left={props => <List.Icon {...props} icon="map" />}
-             expanded={this.state.expanded[`${routes.name}`]}
-             onPress={this.toggle(`${routes.name}`)}
-          >
-              <List.Item 
-              style={styles.lists} 
-              title={routes.name}
-              left={props => <List.Icon {...props} icon='directions-car'  style={styles.duck} /> } 
-              />
-              <List.Item 
-              style={styles.lists} 
-              title={routes.rating} 
-              left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={styles.duck} /> }
-              />
-              <List.Item style={styles.flist} title="Request" />
-          </List.Accordion>
-
-        ); 
-    }
-  }
-
   render() {
     return (
     <ScrollView style={styles.main}>
-        {this.generateRoutes}      
+		{this.state.routes.map((route)=>(this.generateRoute(route)))}
     </ScrollView>
     
     );

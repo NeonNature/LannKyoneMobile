@@ -6,7 +6,7 @@ import Expo from 'expo';
 
 import { getRoutes } from '../api/api';
 
-const styles= StyleSheet.create({
+const mapstyles= StyleSheet.create({
 
   main : {
     marginTop: 20,
@@ -57,42 +57,15 @@ const styles= StyleSheet.create({
 
 export default class MapViewScreen extends Component {
 
-constructor(props) {
-    super(props);
-    this.state = {
+    state = {
       expanded: {},
       routes: [],
-    };
-  }
+    }
 
   async componentDidMount() {
-	const routes = await getRoutes()
-	this.setState({routes : routes})
-	console.log(this.state.routes)
+	const routeData = await getRoutes()
+	this.setState({routes : routeData})
   }
-
-  generateRoute = (route) => (
-	<List.Accordion
-	style={styles.list}
-		title = {`${route.start} - ${route.end}`}
-		description={route.time}
-		left={props => <List.Icon {...props} icon="map" />}
-		expanded={this.state.expanded[`${route.name}`]}
-		onPress={this.toggle(`${route.name}`)}
->
-	<List.Item 
-		style={styles.lists} 
-		title={route.name}
-		left={props => <List.Icon {...props} icon='directions-car'  style={styles.duck} /> } 
-	/>
-	<List.Item 
-		style={styles.lists} 
-		title={route.rating} 
-		left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={styles.duck} /> }
-	/>
-	<List.Item style={styles.flist} title="Request" />
-</List.Accordion>
-  )
 
  request = () => {
         console.log('Accept Quack');
@@ -110,8 +83,28 @@ constructor(props) {
 
   render() {
     return (
-    <ScrollView style={styles.main}>
-		{this.state.routes.map((route)=>(this.generateRoute(route)))}
+    <ScrollView style={mapstyles.main}>
+		{this.state.routes.map((route)=>(
+			<List.Accordion
+			key={route.id}
+				style={mapstyles.list}
+				title = {`${route.startPoint} - ${route.endPoint}`}
+				description={route.date}
+				left={props => <List.Icon {...props} icon="map" />}
+		>
+			<List.Item 
+				style={mapstyles.lists} 
+				title={route.name}
+				left={props => <List.Icon {...props} icon='directions-car'  style={mapstyles.duck} /> } 
+			/>
+			<List.Item 
+				style={mapstyles.lists} 
+				title={route.rating} 
+				left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={mapstyles.duck} /> }
+			/>
+			<List.Item style={mapstyles.flist} title="Request" />
+		</List.Accordion>
+		))}
     </ScrollView>
     
     );

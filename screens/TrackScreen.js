@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, View, TextInput, Text } from 'react-native';
-import { Modal, Portal, Button, FAB } from 'react-native-paper';
+import { Button, FAB } from 'react-native-paper';
 import MapView, { Callout, Marker } from 'react-native-maps';
 import Expo from 'expo';
 
@@ -176,7 +176,7 @@ var mapStyle = [
   }
 ];
 
-const styles= StyleSheet.end({
+const styles= StyleSheet.create({
   calloutView: {
   borderRadius: 10,
   width: 200,
@@ -193,20 +193,16 @@ main : {
     right: 0,
     bottom: 0,
   },
-modal: {
-  backgroundColor: 'white',
-  flex: 1,
-  alignItems: 'center',
-  marginLeft: 20,
-  marginRight: 20,
-  marginTop: 20,
-  marginBottom: 50,
-  borderRadius: 20
-},
 endbtn: {
   elevation: 4,
 },
-
+  fab: {
+      position: 'absolute',
+      backgroundColor: '#803176',
+      margin: 25,
+      right: 0,
+      bottom: 0,
+    },
 
 })
 
@@ -220,60 +216,31 @@ export default class MapViewScreen extends Component {
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LONGITUDE_DELTA,
               },
-      modal: false,
       name: 'Chit Poat',
       open: false,
     };
   }
 
-
-   showModal = () => this.setState({ modal: true });
-  hideModal = () => this.setState({ modal: false });
-
   //--------------------------------------------
 
   end = () => {
         console.log('Filler Quack');
-
-        this.showModal();
     }
 
   render() {
     return (
     <View style={styles.main}>
-    <Portal>
-      <Modal  style={styles.modal} visible={this.state.modal} onDismiss={this.hideModal}>
-        <View style={styles.modal}>
-            <Text>Example Modal</Text>
-           </View>
-      </Modal>
-    </Portal>
-    <Portal>
-        <FAB.Group
-          style={styles.fab}
-          open={this.state.open}
-          icon={require('../assets/duck.png')}
-          actions={[
-            { icon: {require('../assets/duck.png')}, label: 'Poatie', onPress: () => console.log('Pressed star')},
-            { icon: {require('../assets/duck.png')}, label: 'Poatoat', onPress: () => console.log('Pressed email') },
-            { icon: {require('../assets/duck.png')}, label: 'Chit Poat', onPress: () => console.log('Pressed notifications') },
-          ]}
-          onStateChange={({ open }) => this.setState({ open })}
-        />
-      </Portal>
-
       <MapView
               customMapStyle={mapStyle}
               width={width}
               height={height}
               initialRegion={this.state.region}>
 
-          {this.state.markers.map(marker => (
+          
                  <Marker
                    coordinate={this.state.region}
                    title={this.state.name}
                  />
-                ))}
 
       </MapView>
       <Callout>
@@ -288,6 +255,17 @@ export default class MapViewScreen extends Component {
                   </Button>
             </View>
         </Callout>
+        <FAB.Group
+                style={styles.fab}
+                open={this.state.open}
+                icon={require('../assets/duck.png')}
+                actions={[
+                  { icon: require('../assets/duck.png'), label: 'Poatie', onPress: () => console.log('Quack!')},
+                  { icon: require('../assets/duck.png'), label: 'Poatoat', onPress: () => console.log('Quack!') },
+                  { icon: require('../assets/duck.png'), label: 'Chit Poat', onPress: () => console.log('Quack!') },
+                ]}
+                onStateChange={({ open }) => this.setState({ open })}
+            />
       </View>
     );
   }

@@ -62,13 +62,14 @@ constructor(props) {
     super(props);
     this.state = {
       expanded: {},
-      routes: [],
+      routes: {},
     };
   }
 
   async componentDidMount() {
+
     const routes = await getRoutes()
-    this.setState({routes: routes})
+    this.setState({routes : routes})
 
   }
 
@@ -79,28 +80,29 @@ constructor(props) {
 
     }
 
-    toggle(id) {
+    toggle(name) {
    this.setState({
         expanded: {
             ...this.state.expanded,
-            [id]: !this.state.expanded[id]
+            [name]: !this.state.expanded[name]
         }
     });
 }
 
 
+    generateRoutes = () => {
 
-  render() {
-    return (
-    <ScrollView style={styles.main}>
-      {this.state.routes.map((routes)=>(
-        <List.Accordion
+      for (let routes of this.state.routes) {
+
+      return (
+
+      <List.Accordion
          style={styles.list}
              title = {`${routes.start} - ${routes.end}`}
-             description={routes.date}
+             description={routes.time}
              left={props => <List.Icon {...props} icon="map" />}
-             expanded={this.state.expanded[`${routes.id}`]}
-             onPress={this.toggle(`${routes.id}`)}
+             expanded={this.state.expanded[`${routes.name}`]}
+             onPress={this.toggle(`${routes.name}`)}
           >
               <List.Item 
               style={styles.lists} 
@@ -113,7 +115,16 @@ constructor(props) {
               left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={styles.duck} /> }
               />
               <List.Item style={styles.flist} title="Request" />
-          </List.Accordion>))}
+          </List.Accordion>
+
+        ); 
+    }
+  }
+
+  render() {
+    return (
+    <ScrollView style={styles.main}>
+        {this.generateRoutes}      
     </ScrollView>
     
     );

@@ -6,7 +6,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
 import { addNewRoute } from '../api/api';
-import { userData } from '../api/data';
+import { userData, setRouteData, routeData } from '../api/data';
 
 const styles= StyleSheet.create({
   main: {
@@ -54,7 +54,7 @@ constructor(props) {
       startPoint: '',
       endPoint: '',
       date: 'Pick Date and Time',
-      note: '',
+      notes: '',
       userID : '',
       isDateTimePickerVisible: false,
     };
@@ -83,20 +83,20 @@ constructor(props) {
     }
 
     handleNote = (note) => {
-        this.setState({note: note})
+        this.setState({notes: note})
     }
 
     create = async() => {
 
         const response = await addNewRoute(this.state)
-        console.log(response)
-        
+		const {data} = await response.json()
+		setRouteData(data)
         if(response.ok ) {
             Alert.alert(
                 'Success!',
                 'ၾကိတ္လိုက္ျပီ ခ်ိဖ',
                 [
-                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('RouteList') ,style: 'default'},
+                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('RouteList', {status : 'done'}) ,style: 'default'},
                 ]
             )
         } else {

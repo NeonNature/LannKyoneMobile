@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, TextInput, StyleSheet, TouchableWithoutFe
 import Expo from 'expo';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { login } from '../../api/api';
+import { login, getUser } from '../../api/api';
 import { setUserData } from '../../api/data';
 
 const styles = StyleSheet.create({
@@ -76,6 +76,8 @@ export default class LoginScreen extends React.Component {
                 ]
             )
         }*/
+        const user = await getUser('0808051936360726')
+        setUserData(user)
         this.props.navigation.navigate('Main')
     }
 

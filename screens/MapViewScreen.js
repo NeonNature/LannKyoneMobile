@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 
-import { Text, View, ScrollView, StyleSheet, Image } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Image, Alert } from 'react-native';
 
 import { Modal, Portal, TextInput, Button, Title, Paragraph, List, Checkbox } from 'react-native-paper';
 
 import Expo from 'expo';
 
-import {requestRoute} from '../api/api';
-
-
+import { requestRoute, getRoutes } from '../api/api';
 import { userData } from '../api/data';
-import { getRoutes } from '../api/api';
 
 const mapstyles= StyleSheet.create({
 
@@ -167,6 +164,7 @@ request = async() => {
         console.log(response)
         
         if(response.ok) {
+			this.setState({visible : false})
             Alert.alert(
                 'Success!',
                 'ၾကိတ္လိုက္ျပီ ခ်ိဖ',
@@ -175,13 +173,18 @@ request = async() => {
                 ]
             )
         } else {
-          console.error('error!')
-        }
+			Alert.alert(
+				'Error!',
+				'Something went wrong :(',
+				[
+					{text : 'OK', style : 'default'},
+				]
+			)
+		}
     }
 
 
   _showModal = (route) => {
-	  console.log(route)
 	  this.setState({ visible: true, routeID: route })
   }
   _hideModal = () => this.setState({ visible: false });

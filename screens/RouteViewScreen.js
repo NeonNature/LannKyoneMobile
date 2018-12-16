@@ -3,6 +3,9 @@ import { Text, View, ScrollView, StyleSheet, Image } from 'react-native';
 import { Button, IconButton, Card, Title, Paragraph, List, Checkbox, Divider, FAB } from 'react-native-paper';
 import Expo from 'expo';
 
+import { getRequests } from '../api/api';
+import { routeData } from '../api/data';
+
 const styles= StyleSheet.create({
 	container: {
 		position: 'absolute',
@@ -99,30 +102,36 @@ export default class RouteViewScreen extends Component {
 		header: null,
 	})
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			route : {},
+			requester: 'Waing La Min Lwin',
+			expanded: false,
+			rating: 123,
+			phone: '09440259616',
+			requests : [],
+		};
+	}
 
+	componentDidMount() {
+		this.setState({route: routeData})
+	}
 
+	async componentWillReceiveProps() {
+		this.setState({route: routeData})
+		const response = await getRequests(this.state.route.id)
+		const {data} = await response.json()
+		this.setState({requests : data})
+	}
 
+	accept = () => {
+		console.log('Accept Quack');
+	}
 
-
-constructor(props) {
-    super(props);
-    this.state = {
-      requester: 'Waing La Min Lwin',
-      expanded: false,
-      rating: 123,
-      phone: '09440259616'
-    };
-  }
-
- accept = () => {
-        console.log('Accept Quack');
-
-    }
-
- reject = () => {
-        console.log('Reject Quack');
-
-    }
+	reject = () => {
+		console.log('Reject Quack');
+	}
 
      _handlePress = () =>
     this.setState({
@@ -133,11 +142,11 @@ constructor(props) {
 		return (
 		
 		<View style={styles.container}>
-		<ScrollView style={styles.main}>
+		{this.state.route ? <ScrollView style={styles.main}>
 			<List.Accordion
 				 style={styles.list}
-         		 title="YTU - Junction City"
-         		 description="2/4"
+         		 title={`${this.state.route.startPoint} - ${this.state.route.endPoint}`}
+         		 description={`${this.state.route.passenger}/4`}
          		 left={props => <List.Icon {...props} icon="map" />}
          		 expanded={this.state.expanded}
          		 onPress={this._handlePress}
@@ -175,7 +184,7 @@ constructor(props) {
 				    </Card.Actions>
 				</Card>
 
-				</ScrollView>
+		</ScrollView> : <View/> }
 				<FAB
     				style={styles.fab}
     				color="white"

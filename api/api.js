@@ -79,10 +79,11 @@ export const addNewRoute = async (route) => {
     const data = {
         startPoint : route.startPoint,
         endPoint : route.endPoint,
+        notes : route.notes,
         date : route.date, 
         userID : route.userID,
     }
-
+    console.log(data)
     const response = await fetch('https://api.innovatorymm.com/api/v1/routes',{
         method : 'POST',
         headers: {'content-type' : 'application/json'},
@@ -108,18 +109,23 @@ export const getRoutes = async () => {
 
 export const requestRoute = async (request) => {
 
-    const data = {
+    const requestData = {
         userID: request.userID,
         startPoint: request.startPoint,
         endPoint: request.endPoint,
         routeID : request.routeID,
     }
-
+    console.log(requestData)
     const response = await fetch('https://api.innovatorymm.com/api/v1/requests',{
         method : 'post',
-        headers: {'content-type' : 'application/json'},
-        body : JSON.stringify(data),
+        headers: {'Accept':'application/json','content-type' : 'application/json'},
+        body : JSON.stringify(requestData),
     })
 
+    return response
+}
+
+export const getRequests = async (rid) => {
+    const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/${rid}/requests`)
     return response
 }

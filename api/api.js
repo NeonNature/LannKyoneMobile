@@ -18,8 +18,6 @@ export const userRegister = async(data) => {
         photo : data.formData,
     }
 
-    console.log(userData)
-
     const response = await fetch('https://api.innovatorymm.com/api/v1/users', {
         method : 'POST',
         headers : { 'content-type' : 'application/json'},
@@ -108,17 +106,17 @@ export const getRoutes = async () => {
     return data
 }
 
-export const request = async (request) => {
+export const requestRoute = async (request) => {
 
     const data = {
-        id: request.id,
         userID: request.userID,
         startPoint: request.startPoint,
         endPoint: request.endPoint,
+        routeID : request.routeID,
     }
 
     const response = await fetch('https://api.innovatorymm.com/api/v1/requests',{
-        method : 'POST',
+        method : 'post',
         headers: {'content-type' : 'application/json'},
         body : JSON.stringify(data),
     })

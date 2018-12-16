@@ -6,7 +6,7 @@ import { Modal, Portal, TextInput, Button, Title, Paragraph, List, Checkbox } fr
 
 import Expo from 'expo';
 
-
+import {requestRoute} from '../api/api';
 
 
 import { userData } from '../api/data';
@@ -158,16 +158,15 @@ export default class MapViewScreen extends Component {
 
   async componentDidMount() {
 	const routeData = await getRoutes()
-	this.setState({routes : routeData})
-  this.setState({userID : userData.id})
+	this.setState({routes : routeData, userID : userData.id})
   }
 
 request = async() => {
 
-        const response = await request(this.state)
+        const response = await requestRoute(this.state)
         console.log(response)
         
-        if(response.ok ) {
+        if(response.ok) {
             Alert.alert(
                 'Success!',
                 'ၾကိတ္လိုက္ျပီ ခ်ိဖ',
@@ -181,7 +180,10 @@ request = async() => {
     }
 
 
-  _showModal = () => this.setState({ visible: true });
+  _showModal = (route) => {
+	  console.log(route)
+	  this.setState({ visible: true, routeID: route })
+  }
   _hideModal = () => this.setState({ visible: false });
 
     toggle(name) {
@@ -243,7 +245,10 @@ request = async() => {
 				title={route.rating} 
 				left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={mapstyles.duck} /> }
 			/>
-			<List.Item style={mapstyles.flist} title="Request" onPress={this._showModal} />
+			<List.Item style={mapstyles.flist} title="Request" onPress={()=>{
+				this.setState({routeID : route.id, visible: true})
+				console.log(this.state.routeID)
+			}} />
 		</List.Accordion>
 		))}
     </ScrollView>

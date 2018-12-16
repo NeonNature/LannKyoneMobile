@@ -41,7 +41,7 @@ export default class HistoryScreen extends React.Component {
                     <Card.Content>
                         <Title>Start point : {route.startPoint}</Title>
                         <Title>Destination : {route.endPoint}</Title>
-                        <Paragraph>Date & time : {route.date}, {route.time} </Paragraph>
+                        <Paragraph>Date & time : {route.date} </Paragraph>
                     </Card.Content>
                 </Card>
             )

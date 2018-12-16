@@ -1,10 +1,26 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, TouchableWithoutFeedback, TextInput, StyleSheet, Alert, Picker, Platform, Modal } from 'react-native';
+import { KeyboardAvoidingView, View, Text, TouchableOpacity, TouchableWithoutFeedback, StyleSheet, Alert, Picker, Platform, Modal } from 'react-native';
+import { Dropdown } from 'react-native-material-dropdown';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ImagePicker, Permissions } from 'expo';
+import { TextInput, Button } from 'react-native-paper';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { userRegister, profileUpload } from '../../api/api';
+import { userRegister, profileUpload, photoUpload } from '../../api/api';
+
+const uniData = [
+          { value: 'DU' },
+          { value: 'MMU' },
+          { value: 'TTU' },
+          { value: 'UCSY' },
+          { value: 'UFL' },
+          { value: 'UIT' },
+          { value: 'UM1' },
+          { value: 'UM2' },
+          { value: 'YU' },
+          { value: 'YTU' },
+          { value: 'WYTU' },
+        ];
 
 const styles = StyleSheet.create({
     container : {
@@ -12,53 +28,23 @@ const styles = StyleSheet.create({
         backgroundColor : '#fff',
     },
     registerButton : {
-        marginTop : hp('1%'),
-        width : wp('40%'),
-        height : hp('6%'),
-        padding : hp('1%'),
-		borderRadius : 30,
-		backgroundColor : '#9e005d',
-		alignItems : 'center',
+        marginTop: 20,
+    borderRadius: 20,
+    marginBottom: 20,
     },
-    buttonText : {
-        color: '#fff',
-		fontSize: hp('2.5%'),
-		fontWeight: 'bold',
-    },
+   
     selectButton : {
-        marginVertical : hp('1%'),
-        width : wp('70%'),
-        height : hp('6%'),
-        padding : hp('1%'),
-		borderRadius : 30,
-		backgroundColor : '#a04099',
+        marginTop: 20,
+    borderRadius: 20,
+    marginBottom: 20,
     },
-    selectText : {
-        color: '#fff',
-        fontSize: 15,
-        paddingVertical : 7,
-        paddingLeft : 5,
-    },
-    textInput : {
-        padding : 10,
-        fontSize : 15,
-        backgroundColor : '#a04099',
-        color : '#fff',
-        minWidth : wp('70%'),
-        minHeight : hp('6%'),
-        borderRadius : 30,
-        marginVertical : hp('1%'),
-    },
-    passwordInput : {
-        padding : 10,
-        fontSize : 15,
-        backgroundColor : '#fff200',
-        color : '#111',
-        minWidth : wp('70%'),
-        minHeight : hp('6%'),
-        borderRadius : 30,
-        marginVertical : hp('1.5%'),
-    },
+    textInput: {
+    marginTop: 20,
+    width: 200,
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor: 'white',
+  },
     inputContainer: {
         ...Platform.select({
           ios: {
@@ -200,82 +186,54 @@ export default class Register extends React.Component {
         }
     }
 
+    
+
     render() {
         return (
-            <KeyboardAwareScrollView style={styles.container} alignItems='center' justifyContent='center' extraHeight={hp('2%')}>
+            <KeyboardAwareScrollView  extraScrollHeight={100} enableOnAndroid={true} keyboardShouldPersistTaps='handled' style={styles.container} alignItems='center' justifyContent='center' extraHeight={hp('2%')}>
                 <TextInput 
                     value={this.state.name}
-                    placeholder="Enter your name"
-                    placeholderTextColor='#fff'
+                    label="Name"
                     onChangeText={this.handleName}
                     style={styles.textInput}
                 />
                 <TextInput 
                     value={this.state.phone}
-                    placeholder="Enter phone number"
-                    placeholderTextColor='#fff'
+                    label="Phone number"
                     onChangeText={this.handlePhone}
                     style={styles.textInput}
                 />
 
-                {Platform.OS === 'android' ? (
-                    <Picker selectedValue={this.state.university} onValueChange={this.handleUniversity} style={{backgroundColor : '#ececec'}}>
-                        <Picker.Item key='1' label='YTU' value='YTU'/>
-                        <Picker.Item key='2' label='YUFL' value='YUFL'/>
-                        <Picker.Item key='3' label='UM2' value='UM2'/>
-                        <Picker.Item key='4' label='NMDC' value='NMDC'/>
-                    </Picker>
-                ) : (
-                    <View style={styles.inputContainer}>
-                    <TouchableOpacity onPress={() => this.setState({ modalVisibility: true })} style={styles.selectButton}>
-                        <Text style={styles.selectText}>{this.state.university ? this.state.university : 'Select University'}</Text>
-                    </TouchableOpacity>
-                    <Modal animationType="slide" transparent={true} visible={this.state.modalVisibility}>
-                        <TouchableWithoutFeedback onPress={() => this.setState({ modalVisibility: false })}>
-                            <View style={styles.modalContainer}>
-                                <View style={styles.buttonContainer}>
-                                    <Text style={{ color: "blue", fontSize : 18, paddingVertical : 5 }} onPress={() => this.setState({ modalVisibility: false })}>Done</Text>
-                                </View>
-                                <View>
-                                    <Picker selectedValue={this.state.university} onValueChange={this.handleUniversity} style={{backgroundColor : '#fff'}}>
-                                            <Picker.Item key='1' label='DU' value='DU'/>
-                                            <Picker.Item key='2' label='NMDC' value='NMDC'/>
-                                            <Picker.Item key='3' label='MMU' value='MMU'/>
-                                            <Picker.Item key='4' label='TTU' value='TTU'/>
-                                            <Picker.Item key='5' label='UCSY' value='UCSY'/>
-                                            <Picker.Item key='6' label='UFL' value='UFL'/>
-                                            <Picker.Item key='7' label='UIT' value='UIT'/>
-                                            <Picker.Item key='8' label='UM1' value='UM1'/>
-                                            <Picker.Item key='9' label='UM2' value='UM2'/>
-                                            <Picker.Item key='10' label='YU' value='YU'/>
-                                            <Picker.Item key='11' label='YTU' value='YTU'/>
-                                            <Picker.Item key='12' label='WYTU' value='WYTU'/>
-                                    </Picker>
-                                </View>
-                            </View>
-                        </TouchableWithoutFeedback>
-                    </Modal>
-                </View>
-                )}
-                <TouchableOpacity onPress={this.handleImage} style={styles.selectButton}>
-                        <Text style={styles.selectText}>{this.state.formData ? 'Photo uploaded!' : 'Upload your Student ID'}</Text>
-                </TouchableOpacity>
+                <Dropdown
+                  value={this.state.university}
+                  onChangeText={this.handleUniversity}
+                  label='University'
+                  data={uniData}
+                />
+
+                <Button 
+                onPress={this.handleImage} 
+                style={styles.selectButton} 
+                color="green" 
+                dark={true}
+                mode="contained"
+                >
+                        {this.state.formData ? 'Photo uploaded!' : 'Upload your Student ID'}
+                </Button>
                 
                 
                 {this.props.navigation.getParam('option', 'Driver') === "Driver" ? (
                     <View>
                         <TextInput 
                             value={this.state.carModel}
-                            placeholder="Enter car model"
-                            placeholderTextColor='#fff'
+                            label="Car Model"
                             onChangeText={this.handleCarModel}
                             style={styles.textInput}
                         />
 
                         <TextInput 
                             value={this.state.carNumber}
-                            placeholder="Enter car number"
-                            placeholderTextColor='#fff'
+                            label="Car Number"
                             onChangeText={this.handleCarNumber}
                             style={styles.textInput}
                         />
@@ -284,23 +242,27 @@ export default class Register extends React.Component {
                 
                 <TextInput 
                     value={this.state.password}
-                    placeholder="Enter password"
-                    placeholderTextColor='#9e005d'
+                    label="Password"
                     onChangeText={this.handlePassword}
-                    style={styles.passwordInput}
+                    style={styles.textInput}
                     secureTextEntry={true}
                 />
                 <TextInput 
                     value={this.state.confirmPassword}
-                    placeholder="Confirm password"
-                    placeholderTextColor='#9e005d'
+                    label="Confirm Password"
                     onChangeText={this.handleConfirmPassword}
-                    style={styles.passwordInput}
+                    style={styles.textInput}
                     secureTextEntry={true}
                 />
-                <TouchableOpacity style={styles.registerButton} onPress={this.userRegister}>
-					<Text style={styles.buttonText}>Register</Text>
-				</TouchableOpacity>
+                <Button
+                style={styles.registerButton}
+                onPress={this.userRegister}
+                color="#803176"
+                mode="contained"
+                dark={true}
+                >
+              Register
+              </Button>
             </KeyboardAwareScrollView>
         )
     }

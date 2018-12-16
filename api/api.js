@@ -108,3 +108,20 @@ export const getRoutes = async () => {
     return data
 }
 
+export const request = async (request) => {
+
+    const data = {
+        id: request.id,
+        userID: request.userID,
+        startPoint: request.startPoint,
+        endPoint: request.endPoint,
+    }
+
+    const response = await fetch('https://api.innovatorymm.com/api/v1/requests',{
+        method : 'POST',
+        headers: {'content-type' : 'application/json'},
+        body : JSON.stringify(data),
+    })
+
+    return response
+}

@@ -181,23 +181,16 @@ request = async() => {
     }
 
 
-  _showModal = (rid) => this.setState({ visible: true, routeID : rid });
+  _showModal = () => this.setState({ visible: true });
   _hideModal = () => this.setState({ visible: false });
 
     toggle(name) {
-
    this.setState({
-
         expanded: {
-
             ...this.state.expanded,
-
             [name]: !this.state.expanded[name]
-
         }
-
     });
-
 }
 
   render() {
@@ -250,7 +243,7 @@ request = async() => {
 				title={route.rating} 
 				left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={mapstyles.duck} /> }
 			/>
-			<List.Item style={mapstyles.flist} title="Request" onPress={this._showModal(route.id)} />
+			<List.Item style={mapstyles.flist} title="Request" onPress={this._showModal} />
 		</List.Accordion>
 		))}
     </ScrollView>

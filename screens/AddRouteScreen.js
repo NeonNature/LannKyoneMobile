@@ -54,6 +54,7 @@ constructor(props) {
       startPoint: '',
       endPoint: '',
       date: 'Pick Date and Time',
+      note: '',
       userID : '',
       isDateTimePickerVisible: false,
     };
@@ -81,6 +82,10 @@ constructor(props) {
         this.setState({endPoint: endPoint})
     }
 
+    handleNote = (note) => {
+        this.setState({note: note})
+    }
+
     create = async() => {
 
         const response = await addNewRoute(this.state)
@@ -102,7 +107,7 @@ constructor(props) {
 
   render() {
     return (
-      <KeyboardAwareScrollView style={styles.main} alignItems='center' justifyContent='center'>
+      <KeyboardAwareScrollView  extraScrollHeight={100} enableOnAndroid={true} keyboardShouldPersistTaps='handled' style={styles.main} alignItems='center' justifyContent='center'>
       <Card style={styles.card}>
       <Card.Content>
             <TextInput 
@@ -116,6 +121,13 @@ constructor(props) {
               value={this.state.endPoint}
               label="Ending Point"
               onChangeText={this.handleEnd}
+              underlineColor="#803176"
+              style={styles.textInput}
+             />
+             <TextInput 
+              value={this.state.note}
+              label="Multiple Passing Points"
+              onChangeText={this.handleNote}
               underlineColor="#803176"
               style={styles.textInput}
              />

@@ -12,7 +12,6 @@ import { userData } from '../api/data';
 const mapstyles= StyleSheet.create({
 
 textInput: {
-  alignItems: 'center',
     marginTop: 20,
     width: 250,
     marginLeft: 20,
@@ -248,6 +247,11 @@ request = async() => {
 				title={route.rating} 
 				left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={mapstyles.duck} /> }
 			/>
+      <List.Item 
+        style={mapstyles.lists} 
+        title={route.notes} 
+        left={props => <List.Icon {...props} icon="gps-fixed"  style={mapstyles.duck} /> }
+      />
 			<List.Item style={mapstyles.flist} title="Request" onPress={()=>{
 				this.setState({routeID : route.id, visible: true})
 				console.log(this.state.routeID)

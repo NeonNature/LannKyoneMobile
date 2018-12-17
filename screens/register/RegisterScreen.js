@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
         flex : 1,
         backgroundColor : '#fff',
     },
+    marginFix : {
+        marginTop: 50,
+    },
     registerButton : {
         marginTop: 20,
     borderRadius: 20,
@@ -68,6 +71,10 @@ const styles = StyleSheet.create({
 })
 
 export default class Register extends React.Component {
+    static navigationOptions = {
+        header : null,
+    }
+
     state = {
         id : '',
         name : '',
@@ -190,7 +197,8 @@ export default class Register extends React.Component {
 
     render() {
         return (
-            <KeyboardAwareScrollView  extraScrollHeight={100} enableOnAndroid={true} keyboardShouldPersistTaps='handled' style={styles.container} alignItems='center' justifyContent='center' extraHeight={hp('2%')}>
+            <KeyboardAwareScrollView  enableOnAndroid={true} keyboardShouldPersistTaps='handled' style={styles.container} alignItems='center' justifyContent='center' extraHeight={hp('2%')}>
+                <View style={styles.marginFix}>
                 <TextInput 
                     value={this.state.name}
                     label="Name"
@@ -263,6 +271,7 @@ export default class Register extends React.Component {
                 >
               Register
               </Button>
+              </View>
             </KeyboardAwareScrollView>
         )
     }

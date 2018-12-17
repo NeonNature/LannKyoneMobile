@@ -1,10 +1,13 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import Expo from 'expo';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { Button, TextInput } from 'react-native-paper';
 
 import { login, getUser } from '../../api/api';
 import { setUserData } from '../../api/data';
+
+const theme = { colors: { placeholder: 'white', background: 'white', text: 'white', surface: 'white', primary: 'white' } };
 
 const styles = StyleSheet.create({
     container : {
@@ -15,23 +18,24 @@ const styles = StyleSheet.create({
         justifyContent : 'center',
     },
     textInput : {
-        padding : 10,
-        fontSize : 15,
-        backgroundColor : '#fff',
-        color : '#803176',
-        minWidth : wp('70%'),
-        minHeight : hp('6%'),
-        borderRadius : 30,
-        marginVertical : hp('1.5%'),
+       marginTop: 20,
+    width: 200,
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor : '#70206a',
     },
     loginButton : {
-        marginVertical : hp('2%'),
-        width : wp('50%'),
-		height : hp('6%'),
+        marginTop: 40,
+        width : 200,
 		borderRadius : 30,
-		backgroundColor : '#fff',
+		backgroundColor : '#70206a',
         alignItems : 'center',
         justifyContent : 'center',
+        shadowOffset: { width: 10, height: 10 },  
+        shadowColor: 'black',  
+        shadowOpacity: 1,  
+        elevation: 10,  
+        zIndex:10, 
     },
     loginButtonText : {
         color : '#803176',
@@ -43,6 +47,9 @@ const styles = StyleSheet.create({
 		fontSize: hp('2%'),
 		fontWeight: 'bold',
     },
+    regText: {
+        marginTop: 50,
+    }
 })
 
 export default class LoginScreen extends React.Component {
@@ -92,23 +99,29 @@ export default class LoginScreen extends React.Component {
                 <TextInput
                     style={styles.textInput}
                     value={this.state.phone}
+                    theme={theme}
                     onChangeText={this.setPhoneNumber}
-                    placeholder="Enter phone number"
+                    label="Phone number"
                     keyboardType='number-pad'
+                    underlineColor="#fff"                    
+                    mode="flat"
                 />
                 <TextInput
                     style={styles.textInput}
                     value={this.state.password}
                     onChangeText={this.setPassword}
-                    placeholder="Enter password"
+                    theme={theme}
+                    label="Password"
                     secureTextEntry={true}
+                    underlineColor="#fff"
+                    mode="flat"
                 />
 
-                <TouchableOpacity style={styles.loginButton} onPress={this.userLogin}>
-                    <Text style={styles.loginButtonText}>Login</Text>
-                </TouchableOpacity>
+                <Button style={styles.loginButton} onPress={this.userLogin} mode="contained">
+                    Login
+                </Button>
 
-                <TouchableOpacity onPress={this.register}>
+                <TouchableOpacity onPress={this.register} style={styles.regText}>
                     <Text style={styles.buttonText}>အေကာင့္မရွိဘူးလားခ်ိဖ</Text>
                 </TouchableOpacity>
             </View>

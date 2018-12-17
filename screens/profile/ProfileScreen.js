@@ -23,7 +23,7 @@ const styles= StyleSheet.create({
 	historyButton : {
 		width : Dimensions.get('window').width,
 		padding : hp('2%'),
-		backgroundColor : '#c239b1',
+		backgroundColor : '#803176',
 		alignItems: 'center',
 	},
 	shareButton : {

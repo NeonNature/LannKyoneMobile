@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet, Image, Alert } from 'react-native';
 import { Button, IconButton, Card, Title, Paragraph, List, Checkbox, Divider, FAB } from 'react-native-paper';
 import Expo from 'expo';
+import Communications from 'react-native-communications';
 
 import { getRequests, respondRequest } from '../api/api';
 import { routeData } from '../api/data';
@@ -45,7 +46,7 @@ const styles= StyleSheet.create({
     elevation: 3,  
     zIndex:10, 
 	},
-	flist: {
+	/*flist: {
 		backgroundColor: 'white',
 		width: '70%',
 		marginTop: 5,
@@ -58,7 +59,7 @@ const styles= StyleSheet.create({
     shadowOpacity: 1,  
     elevation: 3,  
     zIndex:10, 
-	},
+	},*/
 	noti: {
 		marginTop: 5,
 	shadowOffset: { width: 3, height: 3 },  
@@ -207,11 +208,11 @@ export default class RouteViewScreen extends Component {
 					  style={styles.lists} 
 					  title={request.name} 
 					  description={request.phone}
+					  onPress={() => Communications.phonecall(request.phone, true)}
 					  left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={styles.duck} />}
 					  />
 				))}
 				  
-          		<List.Item style={styles.flist} title="Chit Poat" />
         	</List.Accordion>
         	<Divider style={styles.divider}/>
 
@@ -239,13 +240,13 @@ export default class RouteViewScreen extends Component {
 					</Card>
 				))}
 
-		</ScrollView> : <View/> }
-				<FAB
+		</ScrollView> : <FAB
     				style={styles.fab}
     				color="white"
     				icon="add"
     				onPress={()=>this.props.navigation.navigate('AddRoute')}
-  				/>
+  				/> }
+				
 		</View>
 		
 		);

@@ -3,9 +3,6 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet, Image, Alert } from 'react-native';
 
 import { Modal, Portal, TextInput, Button, Title, Paragraph, List, Checkbox } from 'react-native-paper';
-
-import Expo from 'expo';
-
 import { requestRoute, getRoutes } from '../api/api';
 import { userData } from '../api/data';
 

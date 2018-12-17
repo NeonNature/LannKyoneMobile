@@ -206,7 +206,7 @@ endbtn: {
 
 })
 
-export default class MapViewScreen extends Component {
+export default class TrackScreen extends Component {
     constructor(props) {
     super(props);
     this.state = {

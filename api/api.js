@@ -145,3 +145,10 @@ export const respondRequest = async (request) => {
 
     return response
 }
+
+export const getPendingByUser = async (uid) => {
+    const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/pending/${uid}`)
+    const data = await response.json()
+
+    return data
+}

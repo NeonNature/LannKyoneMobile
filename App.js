@@ -14,7 +14,10 @@ import PaymentScreen from './screens/profile/PaymentScreen';
 import HistoryScreen from './screens/profile/HistoryScreen';
 
 import RouteViewScreen from './screens/RouteViewScreen';
+import RouteViewPassengerScreen from './screens/RouteViewPassengerScreen';
 import AddRouteScreen from './screens/AddRouteScreen';
+import CheckerScreen from './screens/CheckerScreen';
+import TrackScreen from './screens/TrackScreen';
 
 import RegisterOption from './screens/register/RegisterOption';
 import RegisterScreen from './screens/register/RegisterScreen';
@@ -39,13 +42,17 @@ const RegisterStack = createStackNavigator(
 	}
 )
 
+
 const RouteStack = createStackNavigator(
 	{
 		RouteList : RouteViewScreen,
 		AddRoute : AddRouteScreen,
+		RouteNoti: RouteViewPassengerScreen,
+		Track: TrackScreen,
+		Checker : CheckerScreen,
 	},
 	{
-		initialRouteName : 'RouteList',
+		initialRouteName : 'Checker'
 	}
 )
 

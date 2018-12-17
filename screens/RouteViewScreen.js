@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet, Image, Alert } from 'react-native';
 import { Button, IconButton, Card, Title, Paragraph, List, Checkbox, Divider, FAB } from 'react-native-paper';
-import Expo from 'expo';
 import Communications from 'react-native-communications';
 
 import { getRequests, respondRequest } from '../api/api';
@@ -95,6 +94,13 @@ const styles= StyleSheet.create({
     	right: 0,
     	bottom: 0,
   	},
+  	track: {
+    	position: 'absolute',
+    	backgroundColor: 'green',
+    	margin: 16,
+    	left: 0,
+    	bottom: 0,
+  	},
 })
 
 export default class RouteViewScreen extends Component {
@@ -116,7 +122,7 @@ export default class RouteViewScreen extends Component {
 	}
 
 	async componentDidMount() {
-		const response = await fetch('https://api.innovatorymm.com/api/v1/routes/0809052158739638')
+		const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/${userData.id}`)
 		const responsedata = await response.json()
 		this.setState({route: responsedata.data})
 		this.getRequestData()
@@ -194,9 +200,6 @@ export default class RouteViewScreen extends Component {
 		
 		<View style={styles.container}>
 
-		{ 
-			{routeData.role === 'Driver'} ?
-
 		{this.state.route ? <ScrollView style={styles.main}>
 			<List.Accordion
 				 style={styles.list}
@@ -251,12 +254,12 @@ export default class RouteViewScreen extends Component {
     				onPress={()=>this.props.navigation.navigate('AddRoute')}
   				/> } 
 
-  				: 
-
-  				<View/>
-
-  			}
-				
+				<FAB
+    				style={styles.track}
+    				color="white"
+    				icon="gps-fixed"
+    				onPress={()=>this.props.navigation.navigate('Track')}
+  				/>
 		</View>
 		
 		);

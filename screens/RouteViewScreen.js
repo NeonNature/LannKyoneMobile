@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet, Image } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Image, Alert } from 'react-native';
 import { Button, IconButton, Card, Title, Paragraph, List, Checkbox, Divider, FAB } from 'react-native-paper';
 import Expo from 'expo';
 
-import { getRequests } from '../api/api';
+import { getRequests, respondRequest } from '../api/api';
 import { routeData } from '../api/data';
 
 const styles= StyleSheet.create({
@@ -106,31 +106,81 @@ export default class RouteViewScreen extends Component {
 		super(props);
 		this.state = {
 			route : {},
-			requester: 'Waing La Min Lwin',
-			expanded: false,
-			rating: 123,
-			phone: '09440259616',
 			requests : [],
+			pendings : [],
+			requestID : '',
+			status : '',
+			expanded: false,
 		};
 	}
 
-	componentDidMount() {
-		this.setState({route: routeData})
+	async componentDidMount() {
+		const response = await fetch('https://api.innovatorymm.com/api/v1/routes/0809052158739638')
+		const responsedata = await response.json()
+		this.setState({route: responsedata.data})
+		this.getRequestData()
 	}
 
 	async componentWillReceiveProps() {
 		this.setState({route: routeData})
+
 		const response = await getRequests(this.state.route.id)
-		const {data} = await response.json()
-		this.setState({requests : data})
+		const data = await response.json()
+
+		const requests = data.filter((request)=>request.status=="Confirmed")
+		const pendings = data.filter((request)=>request.status=="Pending")
+		this.setState({requests : requests, pendings : pendings})
 	}
 
-	accept = () => {
-		console.log('Accept Quack');
+	getRequestData = async() => {
+		const rresponse = await getRequests('0809052158739638')
+		const data = await rresponse.json()
+
+		const requests = data.filter((request)=>request.status=="Confirmed")
+		const pendings = data.filter((request)=>request.status=="Pending")
+		this.setState({requests : requests, pendings : pendings})
 	}
 
-	reject = () => {
-		console.log('Reject Quack');
+	accept = async (rid) => {
+		this.setState({status : 'Confirmed', requestID : rid})
+		const request = {
+			requestID : rid,
+			status : 'Confirmed',
+		}
+		const response = await respondRequest(request)
+
+		if (response.ok)
+		{
+			Alert.alert(
+				'Success',
+				'Request accepted successfully!',
+				[
+					{text: 'OK', style : 'default'},
+				]
+			)
+			this.getRequestData()
+		}
+	}
+
+	reject = async() => {
+		this.setState({status : 'Declined', requestID : rid})
+		const request = {
+			requestID : rid,
+			status : 'Declined',
+		}
+		const response = await respondRequest(request)
+
+		if (response.ok)
+		{
+			Alert.alert(
+				'Success',
+				'Request declined successfully!',
+				[
+					{text: 'OK', style : 'default'},
+				]
+			)
+			this.getRequestData()
+		}
 	}
 
      _handlePress = () =>
@@ -151,38 +201,43 @@ export default class RouteViewScreen extends Component {
          		 expanded={this.state.expanded}
          		 onPress={this._handlePress}
         	>
-          		<List.Item 
-          		onPress={this.reject}
-          		style={styles.lists} 
-          		title={this.state.requester} 
-          		description={this.state.phone}
-          		left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={styles.duck} />}
-          		/>
+          		{this.state.requests.map((request)=>(
+					  <List.Item
+					  key={request.id}
+					  style={styles.lists} 
+					  title={request.name} 
+					  description={request.phone}
+					  left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={styles.duck} />}
+					  />
+				))}
+				  
           		<List.Item style={styles.flist} title="Chit Poat" />
         	</List.Accordion>
         	<Divider style={styles.divider}/>
 
-				<Card style={styles.noti}>
-				    <Card.Content style={styles.center}>
-				      <Title> {this.state.requester}</Title>
-				      <Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x {this.state.rating}</Paragraph>
-				    </Card.Content>
-				    <Card.Actions style={styles.center}>
-				      <IconButton			
-  						  icon="cancel"
-  						  color="red"
-  						  size={25}
-  						  onPress={this.reject}
-  						/>
-				      <IconButton
-				      	style={styles.ricon}
-  						  icon="done"
-  						  color="green"
-  						  size={25}
-  						  onPress={this.accept}
-  						/>
-				    </Card.Actions>
-				</Card>
+				{this.state.pendings.map((pending)=>(
+					<Card style={styles.noti} key={pending.id}>
+						<Card.Content style={styles.center}>
+						<Title> {pending.name}</Title>
+						<Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x {pending.rating}</Paragraph>
+						</Card.Content>
+						<Card.Actions style={styles.center}>
+						<IconButton			
+							icon="cancel"
+							color="red"
+							size={25}
+							onPress={this.reject}
+							/>
+						<IconButton
+							style={styles.ricon}
+							icon="done"
+							color="green"
+							size={25}
+							onPress={()=>(this.accept(pending.id))}
+							/>
+						</Card.Actions>
+					</Card>
+				))}
 
 		</ScrollView> : <View/> }
 				<FAB

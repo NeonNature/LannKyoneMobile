@@ -126,6 +126,22 @@ export const requestRoute = async (request) => {
 }
 
 export const getRequests = async (rid) => {
+    console.log(rid)
     const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/${rid}/requests`)
+    return response
+}
+
+export const respondRequest = async (request) => {
+    const data = {
+        id : request.requestID,
+        status : request.status,
+    }
+
+    const response = await fetch('https://api.innovatorymm.com/api/v1/requests/respond', {
+        method : 'post',
+        headers : {'content-type' : 'application/json'},
+        body : JSON.stringify(data)
+    })
+
     return response
 }

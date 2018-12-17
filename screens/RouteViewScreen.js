@@ -5,7 +5,7 @@ import Expo from 'expo';
 import Communications from 'react-native-communications';
 
 import { getRequests, respondRequest } from '../api/api';
-import { routeData } from '../api/data';
+import { routeData, userData } from '../api/data';
 
 const styles= StyleSheet.create({
 	container: {
@@ -193,6 +193,10 @@ export default class RouteViewScreen extends Component {
 		return (
 		
 		<View style={styles.container}>
+
+		{ 
+			{routeData.role === 'Driver'} ?
+
 		{this.state.route ? <ScrollView style={styles.main}>
 			<List.Accordion
 				 style={styles.list}
@@ -245,7 +249,13 @@ export default class RouteViewScreen extends Component {
     				color="white"
     				icon="add"
     				onPress={()=>this.props.navigation.navigate('AddRoute')}
-  				/> }
+  				/> } 
+
+  				: 
+
+  				<View/>
+
+  			}
 				
 		</View>
 		

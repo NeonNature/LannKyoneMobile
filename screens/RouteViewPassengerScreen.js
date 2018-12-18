@@ -106,10 +106,10 @@ export default class RouteViewPassengerScreen extends Component {
 		};
 	}
 
-	async componentDidMount() {
+	componentDidMount = () => {
 		const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/pending/${userData.id}`)
 		const responsedata = await response.json()
-		this.setState({routes: responsedata.data})
+		this.setState({route: responsedata.data})
 	}
 
 

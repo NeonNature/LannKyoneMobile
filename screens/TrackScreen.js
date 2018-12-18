@@ -226,6 +226,7 @@ export default class TrackScreen extends Component {
                 longitudeDelta: LONGITUDE_DELTA,
               },
       open: false,
+      id: '',
       routeID: '',
       markers: [],
       lat: null,
@@ -235,7 +236,7 @@ export default class TrackScreen extends Component {
 
   componentDidMount() {
     this.setState({routeID : routeData.id})
-    this.setState({userID : userData.id})
+    this.setState({id : userData.id})
 
      TimerMixin.setTimeout.call(this, () =>{ 
                 this.track()
@@ -245,22 +246,17 @@ export default class TrackScreen extends Component {
 
     track = async () => {
 
-      this._getLocationAsync()
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
 
+    let location = await Location.getCurrentPositionAsync({});
+    console.log (location);
+    this.setState({ lat: location.coords.latitude, long: location.coords.longitude });
+    const response = await setLocation(this.state)
 
       const markerData = await getLocation(this.state.routeID)
       this.setState({markers : markerData})
       
     }
-
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ lat: location.latitude, long: location.longitude });
-    const response = await setLocation(this.state)
-  };
-
 
   //--------------------------------------------
 

@@ -152,3 +152,43 @@ export const getPendingByUser = async (uid) => {
 
     return data
 }
+
+export const setLocation = async (loc) => {
+
+    const data = {
+        id : loc.id,
+        lat: loc.lat,
+        long: loc.long,
+    }
+    console.log(data)
+    const response = await fetch('https://api.innovatorymm.com/api/v1/users/latlong',{
+        method : 'POST',
+        headers: {'content-type' : 'application/json'},
+        body : JSON.stringify(data),
+    })
+
+    return response
+}
+
+export const getLocation = async (uid) => {
+    const response = await fetch(`https://api.innovatorymm.com/api/v1/users/latlong/${uid}`)
+    const data = await response.json()
+
+    return data
+}
+
+export const rate = async (rate) => {
+
+    const data = {
+        id : rate.id,
+        rating: rating + 1,
+    }
+
+    const response = await fetch('https://api.innovatorymm.com/api/v1/users/latlong',{
+        method : 'POST',
+        headers: {'content-type' : 'application/json'},
+        body : JSON.stringify(data),
+    })
+
+    return response
+}

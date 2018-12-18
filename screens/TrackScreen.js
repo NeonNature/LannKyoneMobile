@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { Dimensions, StyleSheet, View, TextInput, Text } from 'react-native';
 import { Button, FAB, Portal } from 'react-native-paper';
 import MapView, { Callout, Marker } from 'react-native-maps';
-import Expo from 'expo';
+import { Location, Permissions } from 'expo';
 
+import { userData, routeData } from '../api/data';
+import { getLocation, setLocation, rate } from '../api/api';
+import TimerMixin from 'react-timer-mixin';
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyDfl-3OpxnLkWWfQ3PBoZUXOteCKYRLAXw';
 
@@ -196,6 +199,7 @@ main : {
 endbtn: {
   elevation: 4,
 },
+  
   fab: {
       position: 'absolute',
       //backgroundColor: '#803176',
@@ -207,6 +211,11 @@ endbtn: {
 })
 
 export default class TrackScreen extends Component {
+
+  static navigationOptions = ({navigation}) => ({
+    header: null,
+  })
+
     constructor(props) {
     super(props);
     this.state = {
@@ -216,10 +225,42 @@ export default class TrackScreen extends Component {
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LONGITUDE_DELTA,
               },
-      name: 'Chit Poat',
       open: false,
+      routeID: '',
+      markers: [],
+      lat: null,
+      long: null,
     };
   }
+
+  componentDidMount() {
+    this.setState({routeID : routeData.id})
+    this.setState({userID : userData.id})
+
+     TimerMixin.setTimeout.call(this, () =>{ 
+                this.track()
+            },15000);
+
+    }
+
+    track = async () => {
+
+      this._getLocationAsync()
+
+
+      const markerData = await getLocation(this.state.routeID)
+      this.setState({markers : markerData})
+      
+    }
+
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ lat: location.latitude, long: location.longitude });
+    const response = await setLocation(this.state)
+  };
+
 
   //--------------------------------------------
 
@@ -236,12 +277,12 @@ export default class TrackScreen extends Component {
               height={height}
               initialRegion={this.state.region}>
 
-          
+          {this.state.markers.map((mark)=>(
                  <Marker
-                   coordinate={this.state.region}
-                   title={this.state.name}
+                   coordinate={{latitude: this.mark.lat, longitude: this.mark.long}}
+                   title={this.mark.name}
                  />
-
+          ))}
       </MapView>
       <Callout>
               <View style={styles.calloutView} >
@@ -269,7 +310,6 @@ export default class TrackScreen extends Component {
                 onStateChange={({ open }) => this.setState({ open })}
             />
         </Portal>
-
       </View>
     );
   }

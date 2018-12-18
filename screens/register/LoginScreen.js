@@ -85,7 +85,7 @@ export default class LoginScreen extends React.Component {
         setUserData(user)
         console.log(userData.role)
         if(userData.role==='Driver') {
-            this.props.navigation.navigate('DriverMain')
+            this.props.navigation.navigate('Track')
         } else {
             this.props.navigation.navigate('PassengerMain')
         }

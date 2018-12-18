@@ -160,7 +160,6 @@ export const setLocation = async (loc) => {
         lat: loc.lat,
         long: loc.long,
     }
-    console.log(data)
     const response = await fetch('https://api.innovatorymm.com/api/v1/users/latlong',{
         method : 'POST',
         headers: {'content-type' : 'application/json'},
@@ -170,18 +169,17 @@ export const setLocation = async (loc) => {
     return response
 }
 
-export const getLocation = async (uid) => {
-    const response = await fetch(`https://api.innovatorymm.com/api/v1/users/latlong/${uid}`)
+export const getLocation = async (rid) => {
+    const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/${rid}/latlong`)
     const data = await response.json()
 
     return data
 }
 
-export const rate = async (rate) => {
+export const rate = async (userID) => {
 
     const data = {
-        id : rate.id,
-        rating: rating + 1,
+        id : userID,
     }
 
     const response = await fetch('https://api.innovatorymm.com/api/v1/users/latlong',{

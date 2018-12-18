@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, View, TextInput, Text } from 'react-native';
-import { Button, FAB, Portal } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import MapView, { Callout, Marker } from 'react-native-maps';
 import { Location, Permissions } from 'expo';
 
 import { userData, routeData } from '../api/data';
 import { getLocation, setLocation, rate } from '../api/api';
 import TimerMixin from 'react-timer-mixin';
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyDfl-3OpxnLkWWfQ3PBoZUXOteCKYRLAXw';
 
@@ -199,15 +201,16 @@ main : {
 endbtn: {
   elevation: 4,
 },
-  
-  fab: {
-      position: 'absolute',
-      //backgroundColor: '#803176',
-      margin: 25,
-      right: 0,
-      bottom: 0,
-    },
-
+   RactionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'white',
+  },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: '#803176',
+  },
 })
 
 export default class TrackScreen extends Component {
@@ -225,7 +228,6 @@ export default class TrackScreen extends Component {
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LONGITUDE_DELTA,
               },
-      open: false,
       id: '',
       routeID: '',
       markers: [],
@@ -235,8 +237,10 @@ export default class TrackScreen extends Component {
   }
 
   componentDidMount() {
-    this.setState({routeID : routeData.id})
+    this.setState({routeID : '0809052158739638'})
     this.setState({id : userData.id})
+
+    console.log (routeData.id);
 
      TimerMixin.setTimeout.call(this, () =>{ 
                 this.track()
@@ -249,7 +253,6 @@ export default class TrackScreen extends Component {
       let { status } = await Permissions.askAsync(Permissions.LOCATION);
 
     let location = await Location.getCurrentPositionAsync({});
-    console.log (location);
     this.setState({ lat: location.coords.latitude, long: location.coords.longitude });
     const response = await setLocation(this.state)
 
@@ -259,6 +262,9 @@ export default class TrackScreen extends Component {
     }
 
   //--------------------------------------------
+  rate = async (userID) => {
+    const response = await rate(userID)
+  }
 
   end = () => {
         console.log('Filler Quack');
@@ -273,12 +279,12 @@ export default class TrackScreen extends Component {
               height={height}
               initialRegion={this.state.region}>
 
-          {this.state.markers.map((mark)=>(
+          {this.state.markers.map((mark)=> mark.lat === null ? console.log('Null value detected!') : 
                  <Marker
-                   coordinate={{latitude: this.mark.lat, longitude: this.mark.long}}
-                   title={this.mark.name}
+                   coordinate={{latitude: mark.lat, longitude: mark.long}}
+                   title={mark.name}
                  />
-          ))}
+            )}
       </MapView>
       <Callout>
               <View style={styles.calloutView} >
@@ -293,19 +299,15 @@ export default class TrackScreen extends Component {
             </View>
         </Callout>
 
-        <Portal>
-        <FAB.Group
-                style={styles.fab}
-                open={this.state.open}
-                icon={require('../assets/duck.png')}
-                actions={[
-                  { icon: require('../assets/duck.png'), label: 'Poatie', onPress: () => console.log('Quack!')},
-                  { icon: require('../assets/duck.png'), label: 'Poatoat', onPress: () => console.log('Quack!') },
-                  { icon: require('../assets/duck.png'), label: 'Chit Poat', onPress: () => console.log('Quack!') },
-                ]}
-                onStateChange={({ open }) => this.setState({ open })}
-            />
-        </Portal>
+
+        <ActionButton fixNativeFeedbackRadius={true} buttonColor="#803176" icon={<Icon name='duck' size={25} style={styles.RactionButtonIcon} />}>
+        {this.state.markers.map((p)=> p.name === userData.name ? console.log('Disabled Self Vote!') :
+          <ActionButton.Item fixNativeFeedbackRadius={true} buttonColor='white' title={p.name} onPress={() => this.rate(p.id)}>
+            <Icon name="duck" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          )}
+        </ActionButton>
+
       </View>
     );
   }

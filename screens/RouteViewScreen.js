@@ -9,10 +9,16 @@ import { routeData, userData } from '../api/data';
 const styles= StyleSheet.create({
 	container: {
 		position: 'absolute',
+		flex: 1,
 		top: 0,
 		bottom: 0,
 		left: 0,
 		right: 0,
+	},
+	center: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	main : {
 		marginTop: 20,
@@ -71,9 +77,6 @@ const styles= StyleSheet.create({
     	marginRight: 5,
     	marginBottom: 5,
 	},
-	center: {
-		alignItems: 'center',
-	},
 	ricon: {
 			right: 10,
 			position: 'absolute',
@@ -112,6 +115,7 @@ export default class RouteViewScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			id: '',
 			route : {},
 			requests : [],
 			pendings : [],
@@ -122,7 +126,8 @@ export default class RouteViewScreen extends Component {
 	}
 
 	async componentDidMount() {
-		const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/${userData.id}`)
+		this.setState({id: userData.id})
+		const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/${this.state.id}`)
 		const responsedata = await response.json()
 		this.setState({route: responsedata.data})
 		this.getRequestData()
@@ -140,7 +145,7 @@ export default class RouteViewScreen extends Component {
 	}
 
 	getRequestData = async() => {
-		const rresponse = await getRequests('0809052158739638')
+		const rresponse = await getRequests(userData.id)
 		const data = await rresponse.json()
 
 		const requests = data.filter((request)=>request.status=="Confirmed")
@@ -198,9 +203,9 @@ export default class RouteViewScreen extends Component {
 	render() {
 		return (
 		
+		this.state.route ? 
 		<View style={styles.container}>
-
-		{this.state.route ? <ScrollView style={styles.main}>
+<ScrollView style={styles.main}>
 			<List.Accordion
 				 style={styles.list}
          		 title={`${this.state.route.startPoint} - ${this.state.route.endPoint}`}
@@ -247,20 +252,26 @@ export default class RouteViewScreen extends Component {
 					</Card>
 				))}
 
-		</ScrollView> : <FAB
-    				style={styles.fab}
-    				color="white"
-    				icon="add"
-    				onPress={()=>this.props.navigation.navigate('AddRoute')}
-  				/> } 
-
-				<FAB
+		</ScrollView><FAB
     				style={styles.track}
     				color="white"
     				icon="gps-fixed"
     				onPress={()=>this.props.navigation.navigate('Track')}
+  				/></View> : 
+  				<View style={styles.container}>
+	  				<View style={styles.center}>
+	  					<Text>No current routes!</Text>
+	  				</View>
+  				<FAB
+    				style={styles.fab}
+    				color="white"
+    				icon="add"
+    				onPress={()=>this.props.navigation.navigate('AddRoute')}
   				/>
-		</View>
+  				</View> 
+
+				
+		
 		
 		);
 	}

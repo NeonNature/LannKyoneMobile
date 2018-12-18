@@ -1,4 +1,5 @@
 import React from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 
@@ -177,9 +178,18 @@ const MainStack = createSwitchNavigator(
 export default class App extends React.Component {
   render() {
     return (
-    <PaperProvider>
-		<MainStack />
-		</PaperProvider>
+    	<SafeAreaView style={styles.safeArea}>
+		    <PaperProvider>
+				<MainStack />
+			</PaperProvider>
+		</SafeAreaView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#ddd'
+  }
+})

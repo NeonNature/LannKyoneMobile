@@ -28,15 +28,6 @@ import { userData } from './api/data';
 
 //navigation
 
-const driverRoute = {
-	RouteList : RouteViewScreen,
-	AddRoute : AddRouteScreen,
-}
-
-const passengerRoute = {
-	RouteNoti : RouteViewPassengerScreen,
-	Track : TrackScreen,
-}
 
 const RegisterStack = createStackNavigator(
 	{
@@ -55,7 +46,15 @@ const RegisterStack = createStackNavigator(
 )
 
 
-const RouteStack = createStackNavigator(userData.role=='Driver' ? driverRoute : passengerRoute)
+const DriverRouteStack = createStackNavigator({
+	RouteList : RouteViewScreen,
+	AddRoute : AddRouteScreen,
+})
+
+const PassengerRouteStack = createStackNavigator({
+	RouteNoti : RouteViewPassengerScreen,
+	Track : TrackScreen,
+})
 
 const MessageStack = createStackNavigator(
 	{
@@ -100,7 +99,13 @@ MapViewScreen.navigationOptions = {
 	),
 }
 
-RouteStack.navigationOptions = {
+DriverRouteStack.navigationOptions = {
+	tabBarIcon : ({focused, tintColor}) => (
+		<Ionicons name={`ios-car${focused ? '' : '-outline'}`} size={25} color={tintColor} />
+	),
+}
+
+PassengerRouteStack.navigationOptions = {
 	tabBarIcon : ({focused, tintColor}) => (
 		<Ionicons name={`ios-car${focused ? '' : '-outline'}`} size={25} color={tintColor} />
 	),
@@ -129,11 +134,21 @@ ProfileStack.navigationOptions = {
 	),
 }
 
-const MainTabs = createBottomTabNavigator(
+const DriverMainTabs = createBottomTabNavigator(
 	{
-		//Map : MapViewScreen,
-		Routes : RouteStack,
-		//Messages : MessageStack,
+		Routes : DriverRouteStack,
+		Profile : ProfileStack,
+	},
+	{
+		tabBarOptions : {
+			activeTintColor : '#c239b1',
+		}
+	}
+)
+
+const PassengerMainTabs = createBottomTabNavigator(
+	{
+		Routes : PassengerRouteStack,
 		Profile : ProfileStack,
 	},
 	{
@@ -148,7 +163,8 @@ const MainStack = createSwitchNavigator(
 		Intro : IntroScreen,
 		Login : LoginScreen,
 		Register : RegisterStack,
-		Main : MainTabs,
+		DriverMain : DriverMainTabs,
+		PassengerMain : PassengerMainTabs,
 	},
 	{
 		initialRouteName : 'Intro',

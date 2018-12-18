@@ -5,7 +5,7 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { Button, TextInput } from 'react-native-paper';
 
 import { login, getUser } from '../../api/api';
-import { setUserData } from '../../api/data';
+import { setUserData, userData } from '../../api/data';
 
 const theme = { colors: { placeholder: 'white', background: 'white', text: 'white', surface: 'white', primary: 'white' } };
 
@@ -83,6 +83,7 @@ export default class LoginScreen extends React.Component {
         }*/
         const user = await getUser('0808051936360726')
         setUserData(user)
+        console.log(userData.role)
         this.props.navigation.navigate('Main')
     }
 

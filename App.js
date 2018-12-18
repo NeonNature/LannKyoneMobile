@@ -24,7 +24,19 @@ import RegisterScreen from './screens/register/RegisterScreen';
 import LoginScreen from './screens/register/LoginScreen';
 import IntroScreen from './screens/IntroScreen';
 
+import { userData } from './api/data';
+
 //navigation
+
+const driverRoute = {
+	RouteList : RouteViewScreen,
+	AddRoute : AddRouteScreen,
+}
+
+const passengerRoute = {
+	RouteNoti : RouteViewPassengerScreen,
+	Track : TrackScreen,
+}
 
 const RegisterStack = createStackNavigator(
 	{
@@ -43,18 +55,7 @@ const RegisterStack = createStackNavigator(
 )
 
 
-const RouteStack = createStackNavigator(
-	{
-		RouteList : RouteViewScreen,
-		AddRoute : AddRouteScreen,
-		RouteNoti: RouteViewPassengerScreen,
-		Track: TrackScreen,
-		Checker : CheckerScreen,
-	},
-	{
-		initialRouteName : 'Checker'
-	}
-)
+const RouteStack = createStackNavigator(userData.role=='Driver' ? driverRoute : passengerRoute)
 
 const MessageStack = createStackNavigator(
 	{
@@ -130,7 +131,7 @@ ProfileStack.navigationOptions = {
 
 const MainTabs = createBottomTabNavigator(
 	{
-		Map : MapViewScreen,
+		//Map : MapViewScreen,
 		Routes : RouteStack,
 		//Messages : MessageStack,
 		Profile : ProfileStack,

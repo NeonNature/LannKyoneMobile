@@ -21,12 +21,8 @@ export default class CheckerScreen extends Component {
 	}
 
 	render() {
-		return (
-		
-		<View style={styles.container}>
-
-		</View>
-		
-		);
+		return(
+			null
+		)
 	}
 }

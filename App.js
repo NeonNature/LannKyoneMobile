@@ -206,10 +206,13 @@ const PassengerMainStack = createSwitchNavigator(
 export default class App extends React.Component {
 
 	async componentDidMount() {
-		const data = await AsyncStorage.getItem('userData')
-		if(data !== null) {
-			setUserData(JSON.parse(data))
-		}
+		await AsyncStorage.getItem('userData')
+			.then((data)=>{
+				if(data !== null) {
+					setUserData(JSON.parse(data))
+				}
+			})
+		
 	}
 
 	render() {

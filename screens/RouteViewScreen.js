@@ -126,20 +126,7 @@ export default class RouteViewScreen extends Component {
 	}
 
 	async componentDidMount() {
-		await AsyncStorage.getItem('userData')
-			.then((data)=> {
-				setUserData(JSON.parse(data))
-				this.setState({id: userData.id})
-				return fetch(`https://api.innovatorymm.com/api/v1/routes/user/${JSON.parse(data).id}`)
-			})
-			.then((response)=>
-				response.json()
-			)
-			.then((responseData)=> {
-				setRouteData(responseData)
-				this.setState({route: responseData})
-				this.getRequestData()
-			})
+		
 	}
 
 	async componentWillReceiveProps() {

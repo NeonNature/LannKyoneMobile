@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, Dimensions, ScrollView, RefreshControl } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, Dimensions, ScrollView, RefreshControl, AsyncStorage } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ImagePicker, Permissions } from 'expo';
 
@@ -133,11 +133,16 @@ export default class ProfileScreen extends React.Component {
 		this.props.navigation.navigate('Payment')
 	}
 
-	logout = () => {
+	logout = async() => {
 		const data = {}
 		console.log(data)
 		setUserData(data)
-		this.props.navigation.navigate('Login')
+		try {
+            await AsyncStorage.setItem('userData', '')
+        } catch(err) {
+            console.error(err)
+        }
+		this.props.navigation.navigate('Intro')
 	}
 
   	render() {

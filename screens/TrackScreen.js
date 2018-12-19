@@ -237,7 +237,7 @@ export default class TrackScreen extends Component {
   }
 
   componentDidMount() {
-    this.setState({routeID : '0809052158739638'})
+    this.setState({routeID : routeData.id})
     this.setState({id : userData.id})
 
     console.log (routeData.id);

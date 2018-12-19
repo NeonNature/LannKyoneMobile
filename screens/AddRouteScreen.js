@@ -91,6 +91,7 @@ constructor(props) {
         const response = await addNewRoute(this.state)
 		const {data} = await response.json()
 		setRouteData(data)
+
         if(response.ok ) {
             Alert.alert(
                 'Success!',

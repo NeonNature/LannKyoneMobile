@@ -4,7 +4,7 @@ import { Button, IconButton, Card, Title, Paragraph, List, Checkbox, Divider, FA
 import Communications from 'react-native-communications';
 
 import { getRequests, respondRequest } from '../api/api';
-import { routeData, userData } from '../api/data';
+import { routeData, userData, setRouteData } from '../api/data';
 
 const styles= StyleSheet.create({
 	container: {
@@ -127,11 +127,11 @@ export default class RouteViewScreen extends Component {
 
 	async componentDidMount() {
 		this.setState({id: userData.id})
-		//const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/${this.state.id}`)
-		//const responsedata = await response.json()
-		//this.setState({route: responsedata.data})
-		//console.log(responsedata.data)
-		//this.getRequestData()
+		const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/user/${userData.id}`)
+		const responsedata = await response.json()
+		setRouteData(responsedata)
+		this.setState({route: responsedata})
+		this.getRequestData()
 	}
 
 	async componentWillReceiveProps() {
@@ -257,7 +257,7 @@ export default class RouteViewScreen extends Component {
     				style={styles.track}
     				color="white"
     				icon="gps-fixed"
-    				onPress={()=>this.props.navigation.navigate('Track')}
+    				onPress={()=>{this.props.navigation.navigate('Track')}}
   				/></View> : 
   				<View style={styles.container}>
 	  				<View style={styles.center}>

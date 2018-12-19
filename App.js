@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet, AsyncStorage } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 
@@ -25,7 +25,7 @@ import RegisterScreen from './screens/register/RegisterScreen';
 import LoginScreen from './screens/register/LoginScreen';
 import IntroScreen from './screens/IntroScreen';
 
-import { userData } from './api/data';
+import { userData, setUserData } from './api/data';
 
 //navigation
 
@@ -173,18 +173,54 @@ const MainStack = createSwitchNavigator(
 	}
 )
 
+const DriverMainStack = createSwitchNavigator(
+	{
+		Intro : IntroScreen,
+		Login : LoginScreen,
+		Register : RegisterStack,
+		DriverMain : DriverMainTabs,
+		PassengerMain : PassengerMainTabs,
+	},
+	{
+		initialRouteName : 'DriverMain',
+		headerMode : 'none',
+	}
+)
+
+const PassengerMainStack = createSwitchNavigator(
+	{
+		Intro : IntroScreen,
+		Login : LoginScreen,
+		Register : RegisterStack,
+		DriverMain : DriverMainTabs,
+		PassengerMain : PassengerMainTabs,
+	},
+	{
+		initialRouteName : 'PassengerMain',
+		headerMode : 'none',
+	}
+)
+
 //navigation end
 
 export default class App extends React.Component {
-  render() {
-    return (
-    	<SafeAreaView style={styles.safeArea}>
-		    <PaperProvider>
-				<MainStack />
-			</PaperProvider>
-		</SafeAreaView>
-    );
-  }
+
+	async componentDidMount() {
+		const data = await AsyncStorage.getItem('userData')
+		if(data !== null) {
+			setUserData(JSON.parse(data))
+		}
+	}
+
+	render() {
+		return (
+			<SafeAreaView style={styles.safeArea}>
+				<PaperProvider>
+					<MainStack />
+				</PaperProvider>
+			</SafeAreaView>
+		);
+	}
 }
 
 const styles = StyleSheet.create({

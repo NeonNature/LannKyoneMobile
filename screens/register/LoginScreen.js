@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, TouchableWithoutFeedback, Keyboard, Alert, AsyncStorage } from 'react-native';
 import Expo from 'expo';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Button, TextInput } from 'react-native-paper';
@@ -69,6 +69,11 @@ export default class LoginScreen extends React.Component {
         if(response.ok) {
             const {data} = await response.json()
             setUserData(data)
+            try {
+                await AsyncStorage.setItem('userData', JSON.stringify(data))
+            } catch (err) {
+                console.error(err)
+            }
             if(userData.role==='Driver') {
                 this.props.navigation.navigate('DriverMain')
             } else {

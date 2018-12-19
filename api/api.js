@@ -83,7 +83,6 @@ export const addNewRoute = async (route) => {
         date : route.date, 
         userID : route.userID,
     }
-    console.log(data)
     const response = await fetch('https://api.innovatorymm.com/api/v1/routes',{
         method : 'POST',
         headers: {'content-type' : 'application/json'},

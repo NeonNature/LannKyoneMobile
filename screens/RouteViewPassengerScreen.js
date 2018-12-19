@@ -310,7 +310,7 @@ request = async() => {
 	render() {
 		return (
 		
-		this.state.route ? <View style={styles.container}><ScrollView style={styles.main}>
+		(this.state.route && this.state.route.startPoint !== undefined) ? <View style={styles.container}><ScrollView style={styles.main}>
 			<List.Accordion
 			key={this.state.route.id}
 				style={styles.list}

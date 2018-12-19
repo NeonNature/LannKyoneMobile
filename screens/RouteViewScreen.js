@@ -204,7 +204,7 @@ export default class RouteViewScreen extends Component {
 	render() {
 		return (
 		
-		(this.state.route && this.state.route !== undefined) ? 
+		(this.state.route && this.state.route.startPoint !== undefined) ? 
 		<View style={styles.container}>
 <ScrollView style={styles.main}>
 			<List.Accordion

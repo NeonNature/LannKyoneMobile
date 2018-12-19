@@ -324,7 +324,7 @@ export default class TrackScreen extends Component {
                   End Route
                   </Button>
             </View>
-        </Callout> : <>
+        </Callout> : <View />
       }
 
         <ActionButton fixNativeFeedbackRadius={true} buttonColor="#803176" icon={<Icon name='duck' size={25} style={styles.RactionButtonIcon} />}>

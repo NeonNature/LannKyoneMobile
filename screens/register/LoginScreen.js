@@ -56,6 +56,10 @@ export default class LoginScreen extends React.Component {
         password : '',
     }
 
+    componentDidMount() {
+        console.log(userData)
+    }
+
     setPhoneNumber = (phoneNo) => {
         this.setState({phone : phoneNo})
     }

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, View, TextInput, Text } from 'react-native';
+import { Dimensions, StyleSheet, View, TextInput, Text, Alert } from 'react-native';
 import { Button } from 'react-native-paper';
 import MapView, { Callout, Marker } from 'react-native-maps';
 import { Location, Permissions } from 'expo';
 
 import { userData, routeData } from '../api/data';
-import { getLocation, setLocation, rate } from '../api/api';
+import { getLocation, setLocation, rate, endRoute } from '../api/api';
 import TimerMixin from 'react-timer-mixin';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -268,7 +268,31 @@ export default class TrackScreen extends Component {
   }
 
   end = () => {
-        console.log('Filler Quack');
+        Alert.alert(
+        'ဟာ',
+        'ျပီးသြားျပီ ေပါ့ ခ်ိဖ ?',
+        [
+          {text: 'Yes!', onPress: () => this.realend()},
+          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+         
+        ]
+      )
+    }
+
+    realend = () => {
+        Alert.alert(
+        'ေက်းဇူး တင္ပါတယ္',
+        'မဂၤလာရွိ ေသာေန ့ေလး ျဖစ္ပါေစ ခ်ိဖ!',
+        [
+          {text: '~Ok~', onPress: () => this.trueend()},
+         
+        ]
+      )
+    }
+
+    trueend = async () => {
+        const response = await endRoute(this.state.routeID)
+        userData.role === 'Driver' ? this.props.navigation.navigate('DriverMain') : this.props.navigation.navigate('PassengerMain')
     }
 
   render() {
@@ -287,19 +311,21 @@ export default class TrackScreen extends Component {
                  />
             )}
       </MapView>
-      <Callout>
+      
+        {userData.role === 'Driver' ? 
+        <Callout>
               <View style={styles.calloutView} >
                   <Button
                   style={styles.endbtn}
-                    onPress={this.end}
+                    onPress={this.end()}
                     color="#803176"
                     mode="contained"
                     dark={true}>
                   End Route
                   </Button>
             </View>
-        </Callout>
-
+        </Callout> : <>
+      }
 
         <ActionButton fixNativeFeedbackRadius={true} buttonColor="#803176" icon={<Icon name='duck' size={25} style={styles.RactionButtonIcon} />}>
         {this.state.markers.map((p)=> p.name === userData.name ? console.log('Disabled Self Vote!') :

@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions, AsyncStorage } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { userData } from '../api/data';
+import { setUserData, userData } from '../api/data';
 
 styles = StyleSheet.create({
     imagebg : {
@@ -54,16 +54,7 @@ export default class IntroScreen extends React.Component {
         stay : true,
     }
 
-    componentDidMount() {
-        if(userData) {
-            console.log(userData)
-            if (userData.role=='Driver') {
-                this.props.navigation.navigate('DriverMainTabs')
-            } else {
-                this.props.navigation.navigate('PassengerMainTabs')
-            }
-        }
-
+    async componentDidMount() {
         const numOfBg = 4
         let scrolled = 0
         let scrollValue = 0
@@ -80,7 +71,19 @@ export default class IntroScreen extends React.Component {
                     _scrollView.scrollTo({x: scrollValue, animated : false})
                 }
             }
-        }, 3000)   
+        }, 3000)
+        await AsyncStorage.getItem('userData')
+			.then((data)=>{
+				if(data !== null) {
+                    setUserData(JSON.parse(data))
+                    console.log(userData.role)
+                    if (userData.role=='Driver') {
+                        this.props.navigation.navigate('DriverMain')
+                    } else {
+                        this.props.navigation.navigate('PassengerMain')
+                    }
+				}
+			})   
     }
 
     componentWillUnmount() {

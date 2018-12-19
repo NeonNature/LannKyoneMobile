@@ -264,6 +264,7 @@ export default class TrackScreen extends Component {
   //--------------------------------------------
   rate = async (userID) => {
     const response = await rate(userID)
+    console.log(response)
   }
 
   end = () => {
@@ -302,8 +303,8 @@ export default class TrackScreen extends Component {
 
         <ActionButton fixNativeFeedbackRadius={true} buttonColor="#803176" icon={<Icon name='duck' size={25} style={styles.RactionButtonIcon} />}>
         {this.state.markers.map((p)=> p.name === userData.name ? console.log('Disabled Self Vote!') :
-          <ActionButton.Item fixNativeFeedbackRadius={true} buttonColor='white' title={p.name} onPress={() => this.rate(p.id)}>
-            <Icon name="duck" style={styles.actionButtonIcon} />
+          <ActionButton.Item key={p.name} fixNativeFeedbackRadius={true} buttonColor='white' title={p.name} onPress={() => this.rate(p.id)}>
+            <Icon key={p.name} name="duck" style={styles.actionButtonIcon} />
           </ActionButton.Item>
           )}
         </ActionButton>

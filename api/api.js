@@ -180,9 +180,10 @@ export const rate = async (userID) => {
 
     const data = {
         id : userID,
+        rating : 1,
     }
 
-    const response = await fetch('https://api.innovatorymm.com/api/v1/users/latlong',{
+    const response = await fetch('https://api.innovatorymm.com/api/v1/users/rating',{
         method : 'POST',
         headers: {'content-type' : 'application/json'},
         body : JSON.stringify(data),

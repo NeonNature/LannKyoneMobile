@@ -126,7 +126,6 @@ export const requestRoute = async (request) => {
 }
 
 export const getRequests = async (rid) => {
-    console.log(rid)
     const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/${rid}/requests`)
     return response
 }

@@ -65,11 +65,15 @@ export default class LoginScreen extends React.Component {
     }
 
     userLogin = async() => {
-        /*const response = await login(this.state)
+        const response = await login(this.state)
         if(response.ok) {
             const {data} = await response.json()
             setUserData(data)
-            this.props.navigation.navigate('Main')
+            if(userData.role==='Driver') {
+                this.props.navigation.navigate('DriverMain')
+            } else {
+                this.props.navigation.navigate('PassengerMain')
+            }
         }
         else {
             Alert.alert(
@@ -79,16 +83,16 @@ export default class LoginScreen extends React.Component {
                     {text: 'ေတာ္ၿပီ', style: 'cancel'},
                     {text: 'ေအးပါကြာ',},
                 ]
-            )0223024040957241
-        }*/
-        const user = await getUser('0808051936360726')
+            )
+        }
+        /*const user = await getUser('0808051936360726')
         setUserData(user)
         console.log(userData.role)
         if(userData.role==='Driver') {
             this.props.navigation.navigate('Track')
         } else {
             this.props.navigation.navigate('PassengerMain')
-        }
+        }*/
     }
 
     register = () => {

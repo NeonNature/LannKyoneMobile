@@ -79,9 +79,7 @@ export default class ProfileScreen extends React.Component {
 	}
 
 	async componentDidMount() {
-		const user = await getUser('0808051936360726')
-		this.setState({user : user})
-		setUserData(user)
+		this.setState({user : userData})
 	}
 
 	componentWillReceiveProps() {

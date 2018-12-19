@@ -277,7 +277,7 @@ request = async() => {
                 'Success!',
                 'ၾကိတ္လိုက္ျပီ ခ်ိဖ',
                 [
-                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('RouteList') ,style: 'default'},
+                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('PassengerMain') ,style: 'default'},
                 ]
             )
         } else {

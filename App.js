@@ -209,7 +209,6 @@ export default class App extends React.Component {
 		const data = await AsyncStorage.getItem('userData')
 		if(data !== null) {
 			setUserData(JSON.parse(data))
-			//console.log(userData)
 		}
 	}
 
@@ -217,7 +216,7 @@ export default class App extends React.Component {
 		return (
 			<SafeAreaView style={styles.safeArea}>
 				<PaperProvider>
-					{userData ? <DriverMainStack /> : <MainStack />}
+					<MainStack />
 				</PaperProvider>
 			</SafeAreaView>
 		);

@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
+import { userData } from '../api/data';
+
 styles = StyleSheet.create({
     imagebg : {
         width : '100%',
@@ -53,6 +55,15 @@ export default class IntroScreen extends React.Component {
     }
 
     componentDidMount() {
+        if(userData) {
+            console.log(userData)
+            if (userData.role=='Driver') {
+                this.props.navigation.navigate('DriverMainTabs')
+            } else {
+                this.props.navigation.navigate('PassengerMainTabs')
+            }
+        }
+
         const numOfBg = 4
         let scrolled = 0
         let scrollValue = 0

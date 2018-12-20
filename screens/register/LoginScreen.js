@@ -72,16 +72,27 @@ export default class LoginScreen extends React.Component {
         const response = await login(this.state)
         if(response.ok) {
             const {data} = await response.json()
-            setUserData(data)
-            try {
-                await AsyncStorage.setItem('userData', JSON.stringify(data))
-            } catch (err) {
-                console.error(err)
-            }
-            if(userData.role==='Driver') {
-                this.props.navigation.navigate('DriverMain')
+            console.log(data)
+            if(data.status !== 'Verified') {
+                Alert.alert(
+                    'Error!',
+                    'Your account is in verification process!Please wait for a while.',
+                    [
+                        {text: 'OK', style: 'default'},
+                    ]
+                )
             } else {
-                this.props.navigation.navigate('PassengerMain')
+                setUserData(data)
+                try {
+                    await AsyncStorage.setItem('userData', JSON.stringify(data))
+                } catch (err) {
+                    console.error(err)
+                }
+                if(userData.role==='Driver') {
+                    this.props.navigation.navigate('DriverMain')
+                } else {
+                    this.props.navigation.navigate('PassengerMain')
+                }
             }
         }
         else {

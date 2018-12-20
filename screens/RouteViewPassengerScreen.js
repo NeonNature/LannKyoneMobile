@@ -251,7 +251,7 @@ export default class RouteViewPassengerScreen extends Component {
 	}
 
 	async componentDidMount () {
-		const routeData = await getRoutes()
+		const routeData = await getRoutes(userData.university)
 	this.setState({routes : routeData, userID : userData.id})
 
 

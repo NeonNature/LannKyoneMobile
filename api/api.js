@@ -106,8 +106,9 @@ export const getRouteHistory = async(uid) => {
     return data
 }
 
-export const getRoutes = async () => {
-    const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/`)
+export const getRoutes = async (university) => {
+    //const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/`)
+    const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/university/${university}`)
     const data = await response.json()
 
     return data

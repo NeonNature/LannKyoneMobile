@@ -170,7 +170,7 @@ export default class RouteViewScreen extends Component {
 	getRequestData = async() => {
 		const rresponse = await getRequests(userData.id)
 		const data = await rresponse.json()
-
+		console.log(data)
 		const requests = data.filter((request)=>request.status=="Confirmed")
 		const pendings = data.filter((request)=>request.status=="Pending")
 		this.setState({requests : requests, pendings : pendings})

@@ -8,7 +8,7 @@ import { getUser, profileUpload } from '../../api/api';
 
 const styles= StyleSheet.create({
 	main : {
-		paddingTop : hp('5%'),
+		paddingTop : hp('2%'),
 	},
 	image : {
 		width: hp('18%'),

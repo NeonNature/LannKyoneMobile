@@ -1,7 +1,7 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, AsyncStorage } from 'react-native';
+import { StyleSheet, AsyncStorage } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
-import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator, SafeAreaView } from 'react-navigation';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -173,34 +173,6 @@ const MainStack = createSwitchNavigator(
 	}
 )
 
-const DriverMainStack = createSwitchNavigator(
-	{
-		Intro : IntroScreen,
-		Login : LoginScreen,
-		Register : RegisterStack,
-		DriverMain : DriverMainTabs,
-		PassengerMain : PassengerMainTabs,
-	},
-	{
-		initialRouteName : 'DriverMain',
-		headerMode : 'none',
-	}
-)
-
-const PassengerMainStack = createSwitchNavigator(
-	{
-		Intro : IntroScreen,
-		Login : LoginScreen,
-		Register : RegisterStack,
-		DriverMain : DriverMainTabs,
-		PassengerMain : PassengerMainTabs,
-	},
-	{
-		initialRouteName : 'PassengerMain',
-		headerMode : 'none',
-	}
-)
-
 //navigation end
 
 export default class App extends React.Component {
@@ -217,7 +189,7 @@ export default class App extends React.Component {
 
 	render() {
 		return (
-			<SafeAreaView style={styles.safeArea}>
+			<SafeAreaView style={styles.safeArea} forceInset={{bottom : 'never'}}>
 				<PaperProvider>
 					<MainStack />
 				</PaperProvider>

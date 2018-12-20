@@ -181,7 +181,7 @@ export default class RouteViewScreen extends Component {
 	}
 
 	getRequestData = async() => {
-		const rresponse = await getRequests(userData.id)
+		const rresponse = await getRequests(this.state.route.id)
 		const data = await rresponse.json()
 		console.log(data)
 		const requests = data.filter((request)=>request.status=="Confirmed")

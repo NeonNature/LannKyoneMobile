@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet, Image, Alert, AsyncStorage } from 'react-native';
 import { Button, IconButton, Card, Title, Paragraph, List, Checkbox, Divider, FAB } from 'react-native-paper';
 import Communications from 'react-native-communications';
-
+import TimerMixin from 'react-timer-mixin';
 import { getRequests, respondRequest } from '../api/api';
 import { routeData, userData, setRouteData, setUserData } from '../api/data';
 
@@ -126,6 +126,7 @@ export default class RouteViewScreen extends Component {
 	}
 
 	async componentDidMount() {
+		 TimerMixin.setTimeout.call(this, () =>{
 		if(userData.id) {
 			this.setState({id: userData.id})
 			await fetch(`https://api.innovatorymm.com/api/v1/routes/user/${userData.id}`)
@@ -153,7 +154,7 @@ export default class RouteViewScreen extends Component {
 					this.getRequestData()
 				})
 		}
-		
+		},15000);
 	}
 
 	async componentWillReceiveProps() {

@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Image, ScrollView, Alert } from 'react-native';
 import { Modal, Portal, TextInput, Button, Card, Title, Paragraph, List, Checkbox, FAB } from 'react-native-paper';
 
 import Communications from 'react-native-communications';
-
+import TimerMixin from 'react-timer-mixin';
 import { getPendingByUser, requestRoute, getRoutes } from '../api/api';
 import { userData } from '../api/data';
 
@@ -251,6 +251,7 @@ export default class RouteViewPassengerScreen extends Component {
 	}
 
 	async componentDidMount () {
+    TimerMixin.setTimeout.call(this, () =>{ 
 		const routeData = await getRoutes(userData.university)
 	this.setState({routes : routeData, userID : userData.id})
 
@@ -258,6 +259,7 @@ export default class RouteViewPassengerScreen extends Component {
 		const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/pending/${this.state.userID}`)
 		const responsedata = await response.json()
 		this.setState({route: responsedata.data})
+    },15000);
 	}
 
      _handlePress = () =>

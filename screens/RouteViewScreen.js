@@ -178,23 +178,35 @@ export default class RouteViewScreen extends Component {
 	}
 
 	accept = async (rid) => {
-		this.setState({status : 'Confirmed', requestID : rid})
-		const request = {
-			requestID : rid,
-			status : 'Confirmed',
-		}
-		const response = await respondRequest(request)
-
-		if (response.ok)
+		if(userData.point>=300)
 		{
+			userData.point = userData.point - 300
+			this.setState({status : 'Confirmed', requestID : rid})
+			const request = {
+				requestID : rid,
+				status : 'Confirmed',
+			}
+			const response = await respondRequest(request)
+
+			if (response.ok)
+			{
+				Alert.alert(
+					'Success',
+					'Request accepted successfully!',
+					[
+						{text: 'OK', style : 'default'},
+					]
+				)
+				this.getRequestData()
+			}
+		} else {
 			Alert.alert(
-				'Success',
-				'Request accepted successfully!',
+				'Error!',
+				'Low point balance! Please purchase more points to accept more passengers.',
 				[
 					{text: 'OK', style : 'default'},
 				]
 			)
-			this.getRequestData()
 		}
 	}
 

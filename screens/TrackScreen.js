@@ -240,7 +240,7 @@ export default class TrackScreen extends Component {
     this.setState({routeID : routeData.id})
     this.setState({id : userData.id})
 
-    console.log (routeData.id);
+    //console.log (this.state.routeID);
 
      TimerMixin.setTimeout.call(this, () =>{ 
                 this.track()
@@ -272,7 +272,7 @@ export default class TrackScreen extends Component {
         'ဟာ',
         'ျပီးသြားျပီ ေပါ့ ခ်ိဖ ?',
         [
-          {text: 'Yes!', onPress: () => this.realend},
+          {text: 'Yes!', onPress: () => this.realend()},
           {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
          
         ]
@@ -284,7 +284,7 @@ export default class TrackScreen extends Component {
         'ေက်းဇူး တင္ပါတယ္',
         'မဂၤလာရွိ ေသာေန ့ေလး ျဖစ္ပါေစ ခ်ိဖ!',
         [
-          {text: '~Ok~', onPress: () => this.trueend},
+          {text: '~Ok~', onPress: () => this.trueend()},
          
         ]
       )
@@ -292,7 +292,12 @@ export default class TrackScreen extends Component {
 
     trueend = async () => {
         const response = await endRoute(this.state.routeID)
-        userData.role === 'Driver' ? this.props.navigation.navigate('DriverMain') : this.props.navigation.navigate('PassengerMain')
+        //userData.role === 'Driver' ? this.props.navigation.navigate('DriverMain') : this.props.navigation.navigate('PassengerMain')
+        if(userData.role == 'Driver') {
+          this.props.navigation.navigate('DriverMain')
+        } else {
+          this.props.navigation.navigate('PassengerMain')
+        }
     }
 
   render() {

@@ -199,9 +199,8 @@ export const rate = async (userID) => {
 
 
 export const endRoute = async (end) => {
-
     const data = {
-        id : end.routeID,
+        id : end,
     }
     const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/end`,{
         method : 'POST',

@@ -44,7 +44,7 @@ export default class MapViewScreen extends Component {
 static navigationOptions = ({navigation}) => ({
         headerTitle: 'Add Route',
         headerRight: (
-            <Button title='Back' onPress={ ()=>(navigation.navigate('Route')) } color='#803176' />
+            <Button title='Back' onPress={ ()=>(navigation.navigate('DriverMain')) } color='#803176' />
         ),
     })
 
@@ -97,7 +97,7 @@ constructor(props) {
                 'Success!',
                 'ၾကိတ္လိုက္ျပီ ခ်ိဖ',
                 [
-                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('RouteList', {status : 'done'}) ,style: 'default'},
+                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('DriverMain', {status : 'done'}) ,style: 'default'},
                 ]
             )
         } else {

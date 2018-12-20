@@ -50,6 +50,7 @@ const RegisterStack = createStackNavigator(
 const DriverRouteStack = createStackNavigator({
 	RouteList : RouteViewScreen,
 	AddRoute : AddRouteScreen,
+	Track : TrackScreen,
 })
 
 const PassengerRouteStack = createStackNavigator({

@@ -272,7 +272,7 @@ export default class TrackScreen extends Component {
         'ဟာ',
         'ျပီးသြားျပီ ေပါ့ ခ်ိဖ ?',
         [
-          {text: 'Yes!', onPress: () => this.realend()},
+          {text: 'Yes!', onPress: () => this.realend},
           {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
          
         ]
@@ -284,7 +284,7 @@ export default class TrackScreen extends Component {
         'ေက်းဇူး တင္ပါတယ္',
         'မဂၤလာရွိ ေသာေန ့ေလး ျဖစ္ပါေစ ခ်ိဖ!',
         [
-          {text: '~Ok~', onPress: () => this.trueend()},
+          {text: '~Ok~', onPress: () => this.trueend},
          
         ]
       )
@@ -311,22 +311,22 @@ export default class TrackScreen extends Component {
                  />
             )}
       </MapView>
-      
+      <Callout>
         {userData.role === 'Driver' ? 
-        <Callout>
+        
               <View style={styles.calloutView} >
                   <Button
                   style={styles.endbtn}
-                    onPress={this.end()}
+                    onPress={this.end}
                     color="#803176"
                     mode="contained"
                     dark={true}>
                   End Route
                   </Button>
             </View>
-        </Callout> : <View />
+         : <View />
       }
-
+        </Callout>
         <ActionButton fixNativeFeedbackRadius={true} buttonColor="#803176" icon={<Icon name='duck' size={25} style={styles.RactionButtonIcon} />}>
         {this.state.markers.map((p)=> p.name === userData.name ? console.log('Disabled Self Vote!') :
           <ActionButton.Item key={p.name} fixNativeFeedbackRadius={true} buttonColor='white' title={p.name} onPress={() => this.rate(p.id)}>

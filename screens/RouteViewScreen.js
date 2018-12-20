@@ -126,7 +126,7 @@ export default class RouteViewScreen extends Component {
 	}
 
 	async componentDidMount() {
-		 TimerMixin.setTimeout.call(this, () =>{
+		 TimerMixin.setTimeout.call(this, async() =>{
 		if(userData.id) {
 			this.setState({id: userData.id})
 			await fetch(`https://api.innovatorymm.com/api/v1/routes/user/${userData.id}`)

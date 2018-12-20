@@ -17,6 +17,7 @@ export const userRegister = async(data) => {
         role : data.role,
         photo : data.formData,
     }
+    console.log(userData)
 
     const response = await fetch('https://api.innovatorymm.com/api/v1/users', {
         method : 'POST',

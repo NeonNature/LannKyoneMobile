@@ -162,7 +162,7 @@ export default class Register extends React.Component {
         this.setState({id : data})
 
         const response = await userRegister(this.state)
-        
+        console.log(response)
         if(response.ok ) {
             Alert.alert(
                 'Success!',

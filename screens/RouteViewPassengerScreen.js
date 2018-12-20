@@ -251,7 +251,7 @@ export default class RouteViewPassengerScreen extends Component {
 	}
 
 	async componentDidMount () {
-    TimerMixin.setTimeout.call(this, () =>{ 
+    TimerMixin.setTimeout.call(this, async() =>{ 
 		const routeData = await getRoutes(userData.university)
 	this.setState({routes : routeData, userID : userData.id})
 

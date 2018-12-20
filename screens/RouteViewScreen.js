@@ -226,7 +226,7 @@ export default class RouteViewScreen extends Component {
 		}
 	}
 
-	reject = async() => {
+	reject = async(rid) => {
 		this.setState({status : 'Declined', requestID : rid})
 		const request = {
 			requestID : rid,

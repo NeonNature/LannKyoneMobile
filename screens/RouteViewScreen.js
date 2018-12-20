@@ -126,9 +126,9 @@ export default class RouteViewScreen extends Component {
 	}
 
 	async componentDidMount() {
-		this.start
+		this.start()
 		 TimerMixin.setTimeout.call(this, async() =>{
-			this.start
+			this.start()
 		},15000);
 	}
 
@@ -174,9 +174,9 @@ export default class RouteViewScreen extends Component {
 	}
 
 	async componentWillReceiveProps() {
-		this.start2
+		this.start2()
 		TimerMixin.setTimeout.call(this, async() =>{
-			this.start2
+			this.start2()
 		},15000);
 	}
 
@@ -187,6 +187,7 @@ export default class RouteViewScreen extends Component {
 		const requests = data.filter((request)=>request.status=="Confirmed")
 		const pendings = data.filter((request)=>request.status=="Pending")
 		this.setState({requests : requests, pendings : pendings})
+		console.log(this.state.pendings)
 	}
 
 	accept = async (rid) => {

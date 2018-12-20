@@ -243,7 +243,7 @@ export default class TrackScreen extends Component {
     //console.log (this.state.routeID);
 
      TimerMixin.setTimeout.call(this, () =>{ 
-                this.track
+                this.track()
             },15000);
 
     }

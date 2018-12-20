@@ -261,9 +261,9 @@ mount = async () => {
 }
 
 	async componentDidMount () {
-    this.mount
+    this.mount()
     TimerMixin.setTimeout.call(this, async() =>{ 
-		  this.mount
+		  this.mount()
     },15000);
 	}
 

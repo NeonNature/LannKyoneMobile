@@ -123,7 +123,6 @@ export const requestRoute = async (request) => {
         endPoint: request.endPoint,
         routeID : request.routeID,
     }
-    console.log(requestData)
     const response = await fetch('https://api.innovatorymm.com/api/v1/requests',{
         method : 'post',
         headers: {'Accept':'application/json','content-type' : 'application/json'},

@@ -97,7 +97,7 @@ constructor(props) {
                 'Success!',
                 'ၾကိတ္လိုက္ျပီ ခ်ိဖ',
                 [
-                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('DriverMain', {status : 'done'}) ,style: 'default'},
+                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('RouteList', {status : 'done'}) ,style: 'default'},
                 ]
             )
         } else {

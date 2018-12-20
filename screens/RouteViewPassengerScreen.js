@@ -176,6 +176,7 @@ const styles= StyleSheet.create({
 		marginTop: 5,
 		marginLeft: '15%',
 		marginRight: '15%',
+    marginBottom: 5,
 		borderBottomLeftRadius: 25,
 		borderBottomRightRadius: 25,		
 		shadowOffset: { width: 3, height: 3 },  
@@ -255,9 +256,8 @@ mount = async () => {
   this.setState({routes : routeData, userID : userData.id})
 
 
-    const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/pending/${this.state.userID}`)
-    const responsedata = await response.json()
-    this.setState({route: responsedata.data})
+    const response = await getPendingByUser(this.state.userID)
+    this.setState({route: response[0]})
 }
 
 	async componentDidMount () {
@@ -284,7 +284,7 @@ request = async() => {
                 'Success!',
                 'ၾကိတ္လိုက္ျပီ ခ်ိဖ',
                 [
-                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('PassengerMain') ,style: 'default'},
+                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('RouteNoti') ,style: 'default'},
                 ]
             )
         } else {
@@ -344,7 +344,7 @@ request = async() => {
 		        style={styles.flist} 
 		        title={this.state.route.phone} 
 		        onPress={() => Communications.phonecall(this.state.route.phone, true)}
-		        left={props => <List.Icon {...props} icon="gps-fixed"  style={styles.duck} /> }
+		        left={props => <List.Icon {...props} icon="phone"  style={styles.duck} /> }
 		      />
 		</List.Accordion> 
 		

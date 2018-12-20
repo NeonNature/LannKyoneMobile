@@ -292,7 +292,7 @@ export default class RouteViewScreen extends Component {
 							icon="cancel"
 							color="red"
 							size={25}
-							onPress={this.reject}
+							onPress={()=>(this.reject(pending.id))}
 							/>
 						<IconButton
 							style={styles.ricon}

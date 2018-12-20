@@ -5,7 +5,7 @@ import MapView, { Callout, Marker } from 'react-native-maps';
 import { Location, Permissions } from 'expo';
 
 import { userData, routeData } from '../api/data';
-import { getLocation, setLocation, rate, endRoute } from '../api/api';
+import { getLocation, setLocation, rate, endRoute, getPendingByUser } from '../api/api';
 import TimerMixin from 'react-timer-mixin';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -236,11 +236,19 @@ export default class TrackScreen extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    if (userData.role === 'Driver')
+    {
     this.setState({routeID : routeData.id})
+    }
+    else
+    {
+    const response = await getPendingByUser(userData.id)
+    this.setState({routeID: response[0].id})
+    }
+
     this.setState({id : userData.id})
 
-    //console.log (this.state.routeID);
 
      TimerMixin.setTimeout.call(this, () =>{ 
                 this.track()
@@ -291,13 +299,11 @@ export default class TrackScreen extends Component {
     }
 
     trueend = async () => {
+      this.props.navigation.navigate('RouteList') 
         const response = await endRoute(this.state.routeID)
         //userData.role === 'Driver' ? this.props.navigation.navigate('DriverMain') : this.props.navigation.navigate('PassengerMain')
-        if(userData.role == 'Driver') {
-          this.props.navigation.navigate('DriverMain')
-        } else {
-          this.props.navigation.navigate('PassengerMain')
-        }
+       
+          
     }
 
   render() {
@@ -332,9 +338,9 @@ export default class TrackScreen extends Component {
          : <View />
       }
         </Callout>
-        <ActionButton fixNativeFeedbackRadius={true} buttonColor="#803176" icon={<Icon name='duck' size={25} style={styles.RactionButtonIcon} />}>
-        {this.state.markers.map((p)=> p.name === userData.name ? console.log('Disabled Self Vote!') :
-          <ActionButton.Item key={p.name} fixNativeFeedbackRadius={true} buttonColor='white' title={p.name} onPress={() => this.rate(p.id)}>
+        <ActionButton fixNativeFeedbackRadius={true} hideShadow={true} buttonColor="#803176" icon={<Icon name='duck' size={25} style={styles.RactionButtonIcon} />}>
+        {this.state.markers.map((p)=> p.id === userData.id ? console.log('Disabled Self Vote!') :
+          <ActionButton.Item key={p.name} hideShadow={true} fixNativeFeedbackRadius={true} buttonColor='white' title={p.name} onPress={() => this.rate(p.id)}>
             <Icon key={p.name} name="duck" style={styles.actionButtonIcon} />
           </ActionButton.Item>
           )}

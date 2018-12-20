@@ -80,7 +80,12 @@ const styles= StyleSheet.create({
 	ricon: {
 			right: 10,
 			position: 'absolute',
-			marginBottom: 5
+			bottom: 7
+	},
+	licon: {
+			left: 10,
+			position: 'absolute',
+			bottom: 7
 	},
 	divider: {
 		marginTop: 10,
@@ -284,7 +289,8 @@ export default class RouteViewScreen extends Component {
 						<Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x {pending.rating}</Paragraph>
 						</Card.Content>
 						<Card.Actions style={styles.center}>
-						<IconButton			
+						<IconButton	
+							style={styles.licon}		
 							icon="cancel"
 							color="red"
 							size={25}

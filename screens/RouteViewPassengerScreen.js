@@ -250,15 +250,20 @@ export default class RouteViewPassengerScreen extends Component {
 		};
 	}
 
+mount = async () => {
+  const routeData = await getRoutes(userData.university)
+  this.setState({routes : routeData, userID : userData.id})
+
+
+    const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/pending/${this.state.userID}`)
+    const responsedata = await response.json()
+    this.setState({route: responsedata.data})
+}
+
 	async componentDidMount () {
+    this.mount
     TimerMixin.setTimeout.call(this, async() =>{ 
-		const routeData = await getRoutes(userData.university)
-	this.setState({routes : routeData, userID : userData.id})
-
-
-		const response = await fetch(`https://api.innovatorymm.com/api/v1/routes/pending/${this.state.userID}`)
-		const responsedata = await response.json()
-		this.setState({route: responsedata.data})
+		  this.mount
     },15000);
 	}
 

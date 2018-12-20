@@ -126,7 +126,13 @@ export default class RouteViewScreen extends Component {
 	}
 
 	async componentDidMount() {
+		this.start
 		 TimerMixin.setTimeout.call(this, async() =>{
+			this.start
+		},15000);
+	}
+
+	start = async () => {
 		if(userData.id) {
 			this.setState({id: userData.id})
 			await fetch(`https://api.innovatorymm.com/api/v1/routes/user/${userData.id}`)
@@ -154,10 +160,9 @@ export default class RouteViewScreen extends Component {
 					this.getRequestData()
 				})
 		}
-		},15000);
 	}
 
-	async componentWillReceiveProps() {
+	start2 = async () => {
 		this.setState({route: routeData})
 
 		const response = await getRequests(this.state.route.id)
@@ -166,6 +171,13 @@ export default class RouteViewScreen extends Component {
 		const requests = data.filter((request)=>request.status=="Confirmed")
 		const pendings = data.filter((request)=>request.status=="Pending")
 		this.setState({requests : requests, pendings : pendings})
+	}
+
+	async componentWillReceiveProps() {
+		this.start2
+		TimerMixin.setTimeout.call(this, async() =>{
+			this.start2
+		},15000);
 	}
 
 	getRequestData = async() => {

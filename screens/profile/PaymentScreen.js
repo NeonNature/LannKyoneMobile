@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { ScrollView, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Keyboard, TouchableWithoutFeedback, AsyncStorage } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { userData, setUserData } from '../../api/data';
@@ -66,6 +66,8 @@ export default class PaymentScreen extends React.Component {
                         onPress : async() => {
                             const data = await getUser(userData.id)
                             setUserData(data)
+                            console.log(userData)
+                            await AsyncStorage.setItem('userData', JSON.stringify(userData))
                             this.props.navigation.navigate('Profile', {status : 'done'})
                         },
                         style: 'default'

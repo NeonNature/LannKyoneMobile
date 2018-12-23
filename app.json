@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "LannKyoneMobile",
+    "name": "LannyoneMobile",
     "description": "This project is really great.",
     "slug": "LannKyoneMobile",
     "privacy": "public",
@@ -20,6 +20,9 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android" : {
+      "package" : "com.innovatorymm.lankyone"
+    },
     "ios": {
       "supportsTablet": true
     }

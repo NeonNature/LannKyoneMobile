@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "LannKyoneMobile",
-    "description": "This project is really great.",
-    "slug": "LannKyoneMobile",
+    "name": "LanKyone",
+    "description": "Myanmar's First Community-based Ridesharing Platform",
+    "slug": "LanKyone",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": ["ios", "android"],
@@ -21,7 +21,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.innovatorymm.lankyone"
+    },
+    "android": {
+      "package": "com.innovatorymm.lankyone"
     }
   }
 }

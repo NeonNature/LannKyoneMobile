@@ -220,7 +220,8 @@ export default class RouteViewScreen extends Component {
 				'Error!',
 				'Low point balance! Please purchase more points to accept more passengers.',
 				[
-					{text: 'OK', style : 'default'},
+					{text: 'Cancel', style : 'cancel'},
+					{text: 'Topup', onPress : ()=>this.props.navigation.navigate('Payment'),style : 'default'},
 				]
 			)
 		}

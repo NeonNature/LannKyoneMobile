@@ -242,12 +242,12 @@ export default class RouteViewPassengerScreen extends Component {
 			route: [],
 			expand: false,
 			expanded: {},
-       visible: false,
-      routes: [],
-      startPoint: '',
-      endPoint: '',
-      userID: '',
-      routeID: '',
+            visible: false,
+            routes: [],
+            startPoint: '',
+            endPoint: '',
+            userID: '',
+            routeID: '',
 		};
 	}
 
@@ -274,12 +274,11 @@ mount = async () => {
 
 
 request = async() => {
-
         const response = await requestRoute(this.state)
         console.log(response)
         
         if(response.ok) {
-			this.setState({visible : false})
+			this.setState({visible : false, requested : true})
             Alert.alert(
                 'Success!',
                 'ၾကိတ္လိုက္ျပီ ခ်ိဖ',
@@ -288,15 +287,16 @@ request = async() => {
                 ]
             )
         } else {
+            const message = await response.json()
 			Alert.alert(
 				'Error!',
-				'Something went wrong :(',
+				message,
 				[
 					{text : 'OK', style : 'default'},
 				]
 			)
 		}
-    }
+}
 
 
   _showModal = (route) => {

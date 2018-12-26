@@ -71,9 +71,12 @@ const styles = StyleSheet.create({
 })
 
 export default class Register extends React.Component {
-    static navigationOptions = {
-        header : null,
-    }
+    static navigationOptions = ({navigation}) => ({
+        headerTitle: 'Register',
+        headerRight: (
+            <Button title='Back' onPress={ ()=>(navigation.navigate('RegisterOption')) } color='#803176' />
+        ),
+    })
 
     state = {
         id : '',

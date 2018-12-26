@@ -29,6 +29,13 @@ const historyStyle = StyleSheet.create({
 })
 
 export default class HistoryScreen extends React.Component {
+    static navigationOptions = ({navigation}) => ({
+        headerTitle: 'Profile',
+        headerRight: (
+            <Button title='Back' onPress={ ()=>(navigation.navigate('DriverMain')) } color='#803176' />
+        ),
+    })
+
     state = {
         routeData : [],
     }

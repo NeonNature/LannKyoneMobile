@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "LanKyone",
+    "name": "LannKyoneMobile",
     "description": "Myanmar's First Community-based Ridesharing Platform",
-    "slug": "LanKyone",
+    "slug": "LannKyoneMobile",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": ["ios", "android"],

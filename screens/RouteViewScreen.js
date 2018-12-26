@@ -5,6 +5,7 @@ import Communications from 'react-native-communications';
 import TimerMixin from 'react-timer-mixin';
 import { getRequests, respondRequest } from '../api/api';
 import { routeData, userData, setRouteData, setUserData } from '../api/data';
+import { registerForPushNotificationsAsync } from '../api/notification';
 
 const styles= StyleSheet.create({
 	container: {
@@ -131,6 +132,7 @@ export default class RouteViewScreen extends Component {
 	}
 
 	async componentDidMount() {
+		registerForPushNotificationsAsync()
 		this.start()
 		 TimerMixin.setTimeout.call(this, async() =>{
 			this.start()

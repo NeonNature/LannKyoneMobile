@@ -21,14 +21,12 @@
       "**/*"
     ],
     "android" : {
-      "package" : "com.innovatorymm.lankyone"
+      "package" : "com.innovatorymm.lankyone",
+      "googleServicesFile" : "./google-services.json"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.innovatorymm.lankyone"
-    },
-    "android": {
-      "package": "com.innovatorymm.lankyone"
     }
   }
 }

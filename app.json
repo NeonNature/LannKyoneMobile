@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "LanKyone",
+    "name": "LannKyoneMobile",
     "description": "Myanmar's First Community-based Ridesharing Platform",
-    "slug": "LanKyone",
+    "slug": "LannKyoneMobile",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": ["ios", "android"],
@@ -21,14 +21,12 @@
       "**/*"
     ],
     "android" : {
-      "package" : "com.innovatorymm.lankyone"
+      "package" : "com.innovatorymm.lankyone",
+      "googleServicesFile" : "./google-services.json"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.innovatorymm.lankyone"
-    },
-    "android": {
-      "package": "com.innovatorymm.lankyone"
     }
   }
 }

@@ -328,7 +328,7 @@ export default class RouteViewPassengerScreen extends Component {
 			/>
 		      <List.Item 
 		        style={styles.lists} 
-		        title={this.state.route.notes} 
+		        description={this.state.route.notes} 
 		        left={props => <List.Icon {...props} icon="gps-fixed"  style={styles.duck} /> }
 		      />
 			<List.Item 
@@ -397,7 +397,7 @@ export default class RouteViewPassengerScreen extends Component {
 			/>
       <List.Item 
         style={mapstyles.lists} 
-        title={route.notes} 
+        description={route.notes} 
         left={props => <List.Icon {...props} icon="gps-fixed"  style={mapstyles.duck} /> }
       />
 			<List.Item style={mapstyles.flist} title="Request" onPress={()=>{

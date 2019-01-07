@@ -4,8 +4,8 @@ import { Button } from 'react-native-paper';
 import MapView, { Callout, Marker } from 'react-native-maps';
 import { Location, Permissions } from 'expo';
 
-import { userData, routeData } from '../api/data';
-import { getLocation, setLocation, rate, endRoute, getPendingByUser } from '../api/api';
+import { userData, routeData, setRouteData } from '../../data/data';
+import { getLocation, setLocation, rate, endRoute, getPendingByUser } from './api';
 import TimerMixin from 'react-timer-mixin';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -299,11 +299,14 @@ export default class TrackScreen extends Component {
     }
 
     trueend = async () => {
-      this.props.navigation.navigate('RouteList') 
+      //this.props.navigation.navigate('RouteList') 
         const response = await endRoute(this.state.routeID)
-        //userData.role === 'Driver' ? this.props.navigation.navigate('DriverMain') : this.props.navigation.navigate('PassengerMain')
-       
-          
+        setRouteData({})
+        if (userData.role == 'Driver') {
+          this.props.navigation.navigate('DriverMain')
+        } else {
+          this.props.navigation.navigate('PassengerMain')
+        } 
     }
 
   render() {

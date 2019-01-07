@@ -4,8 +4,8 @@ import Expo from 'expo';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { Button, TextInput } from 'react-native-paper';
 
-import { login, getUser } from '../../api/api';
-import { setUserData, userData } from '../../api/data';
+import { login } from './api';
+import { setUserData, userData } from '../../data/data';
 
 const theme = { colors: { placeholder: 'white', background: 'white', text: 'white', surface: 'white', primary: 'white' } };
 
@@ -105,14 +105,6 @@ export default class LoginScreen extends React.Component {
                 ]
             )
         }
-        /*const user = await getUser('0808051936360726')
-        setUserData(user)
-        console.log(userData.role)
-        if(userData.role==='Driver') {
-            this.props.navigation.navigate('Track')
-        } else {
-            this.props.navigation.navigate('PassengerMain')
-        }*/
     }
 
     register = () => {

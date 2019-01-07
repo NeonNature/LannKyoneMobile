@@ -6,7 +6,7 @@ import { ImagePicker, Permissions } from 'expo';
 import { TextInput, Button } from 'react-native-paper';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { userRegister, profileUpload, photoUpload } from '../../api/api';
+import { userRegister, photoUpload } from './api';
 
 const uniData = [
           { value: 'DU' },

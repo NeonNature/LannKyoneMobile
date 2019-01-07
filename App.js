@@ -5,27 +5,24 @@ import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator, 
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import MapViewScreen from './screens/MapViewScreen';
+//import MapViewScreen from './screens/MapViewScreen';
 
-import MessageListScreen from './screens/message/MessageListScreen';
-import MessageScreen from './screens/message/MessageScreen';
+//import MessageListScreen from './app/message/MessageListScreen';
+//import MessageScreen from './app/message/MessageScreen';
 
-import ProfileScreen from './screens/profile/ProfileScreen';
-import PaymentScreen from './screens/profile/PaymentScreen';
-import HistoryScreen from './screens/profile/HistoryScreen';
+import ProfileScreen from './app/profile/ProfileScreen';
+import PaymentScreen from './app/profile/PaymentScreen';
+import HistoryScreen from './app/profile/HistoryScreen';
 
-import RouteViewScreen from './screens/RouteViewScreen';
-import RouteViewPassengerScreen from './screens/RouteViewPassengerScreen';
-import AddRouteScreen from './screens/AddRouteScreen';
-import CheckerScreen from './screens/CheckerScreen';
-import TrackScreen from './screens/TrackScreen';
+import RouteViewScreen from './app/driverRoute/RouteViewScreen';
+import RouteViewPassengerScreen from './app/passengerRoute/RouteViewPassengerScreen';
+import AddRouteScreen from './app/driverRoute/AddRouteScreen';
+import TrackScreen from './app/driverRoute/TrackScreen';
 
-import RegisterOption from './screens/register/RegisterOption';
-import RegisterScreen from './screens/register/RegisterScreen';
-import LoginScreen from './screens/register/LoginScreen';
-import IntroScreen from './screens/IntroScreen';
-
-import { userData, setUserData } from './api/data';
+import RegisterOption from './app/register/RegisterOption';
+import RegisterScreen from './app/register/RegisterScreen';
+import LoginScreen from './app/login/LoginScreen';
+import IntroScreen from './app/intro/IntroScreen';
 
 //navigation
 
@@ -46,7 +43,6 @@ const RegisterStack = createStackNavigator(
 	}
 )
 
-
 const DriverRouteStack = createStackNavigator({
 	RouteList : RouteViewScreen,
 	AddRoute : AddRouteScreen,
@@ -57,24 +53,6 @@ const PassengerRouteStack = createStackNavigator({
 	RouteNoti : RouteViewPassengerScreen,
 	Track : TrackScreen,
 })
-
-const MessageStack = createStackNavigator(
-	{
-		MessageList : MessageListScreen,
-		MessageBox : MessageScreen,
-	},
-	{
-		mode : 'card',
-		header : 'none',
-		initialRouteName : 'MessageList',
-		navigationOptions : {
-			headerTintColor : '#31c3e0',
-			headerStyle : {
-				backgroundColor : '#fff',
-			},
-		},
-	}
-)
 
 const ProfileStack = createStackNavigator(
 	{
@@ -95,25 +73,31 @@ const ProfileStack = createStackNavigator(
 	}
 )
 
-MapViewScreen.navigationOptions = {
+/*const MessageStack = createStackNavigator(
+	{
+		MessageList : MessageListScreen,
+		MessageBox : MessageScreen,
+	},
+	{
+		mode : 'card',
+		header : 'none',
+		initialRouteName : 'MessageList',
+		navigationOptions : {
+			headerTintColor : '#31c3e0',
+			headerStyle : {
+				backgroundColor : '#fff',
+			},
+		},
+	}
+)*/
+
+/*MapViewScreen.navigationOptions = {
 	tabBarIcon : ({focused, tintColor}) => (
 		<Ionicons name={`ios-map${focused ? '' : '-outline'}`} size={25} color={tintColor} />
 	),
-}
+}*/
 
-DriverRouteStack.navigationOptions = {
-	tabBarIcon : ({focused, tintColor}) => (
-		<Ionicons name={`ios-car${focused ? '' : '-outline'}`} size={25} color={tintColor} />
-	),
-}
-
-PassengerRouteStack.navigationOptions = {
-	tabBarIcon : ({focused, tintColor}) => (
-		<Ionicons name={`ios-car${focused ? '' : '-outline'}`} size={25} color={tintColor} />
-	),
-}
-
-MessageStack.navigationOptions = ({navigation}) => {
+/*MessageStack.navigationOptions = ({navigation}) => {
 	if(navigation.state.index == 1) {
 		return {
 			tabBarVisible : false,
@@ -128,6 +112,18 @@ MessageStack.navigationOptions = ({navigation}) => {
 			<Ionicons name={`ios-chatboxes${focused ? '' : '-outline'}`} size={25} color={tintColor} />
 		),
 	}
+}*/
+
+DriverRouteStack.navigationOptions = {
+	tabBarIcon : ({focused, tintColor}) => (
+		<Ionicons name={`ios-car${focused ? '' : '-outline'}`} size={25} color={tintColor} />
+	),
+}
+
+PassengerRouteStack.navigationOptions = {
+	tabBarIcon : ({focused, tintColor}) => (
+		<Ionicons name={`ios-car${focused ? '' : '-outline'}`} size={25} color={tintColor} />
+	),
 }
 
 ProfileStack.navigationOptions = {
@@ -177,17 +173,6 @@ const MainStack = createSwitchNavigator(
 //navigation end
 
 export default class App extends React.Component {
-
-	async componentDidMount() {
-		await AsyncStorage.getItem('userData')
-			.then((data)=>{
-				if(data !== null) {
-					setUserData(JSON.parse(data))
-				}
-			})
-		
-	}
-
 	render() {
 		return (
 			<SafeAreaView style={styles.safeArea} forceInset={{bottom : 'never'}}>

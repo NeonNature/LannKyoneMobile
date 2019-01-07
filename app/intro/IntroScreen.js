@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView, Dimensions, AsyncStorage } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { setUserData, userData } from '../api/data';
+import { setUserData, userData } from '../../data/data';
 
 styles = StyleSheet.create({
     imagebg : {
@@ -76,7 +76,6 @@ export default class IntroScreen extends React.Component {
 			.then((data)=>{
 				if(data !== null) {
                     setUserData(JSON.parse(data))
-                    console.log(userData.role)
                     if (userData.role=='Driver') {
                         this.props.navigation.navigate('DriverMain')
                     } else {
@@ -104,10 +103,10 @@ export default class IntroScreen extends React.Component {
         return (
             <View>
                 <ScrollView ref={(ScrollView) => { _scrollView = ScrollView}} horizontal={true} pagingEnabled={true}>
-                    <Image source={require('../assets/intro1.jpg')} style={styles.image} />
-                    <Image source={require('../assets/intro2.jpg')} style={styles.image} />
-                    <Image source={require('../assets/intro3.jpg')} style={styles.image} />
-                    <Image source={require('../assets/intro4.jpg')} style={styles.image} />
+                    <Image source={require('../../assets/intro1.jpg')} style={styles.image} />
+                    <Image source={require('../../assets/intro2.jpg')} style={styles.image} />
+                    <Image source={require('../../assets/intro3.jpg')} style={styles.image} />
+                    <Image source={require('../../assets/intro4.jpg')} style={styles.image} />
                 </ScrollView>
                 <View style={styles.container}>
                     <TouchableOpacity style={styles.loginButton} onPress={this.login}>

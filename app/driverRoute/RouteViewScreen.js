@@ -3,9 +3,8 @@ import { Text, View, ScrollView, StyleSheet, Image, Alert, AsyncStorage } from '
 import { Button, IconButton, Card, Title, Paragraph, List, Checkbox, Divider, FAB } from 'react-native-paper';
 import Communications from 'react-native-communications';
 import TimerMixin from 'react-timer-mixin';
-import { getRequests, respondRequest } from '../api/api';
-import { routeData, userData, setRouteData, setUserData } from '../api/data';
-import { registerForPushNotificationsAsync } from '../api/notification';
+import { getRoutesByUser, getRequests, respondRequest } from './api';
+import { routeData, userData, setRouteData, setUserData } from '../../data/data';
 
 const styles= StyleSheet.create({
 	container: {
@@ -132,35 +131,16 @@ export default class RouteViewScreen extends Component {
 	}
 
 	async componentDidMount() {
-		registerForPushNotificationsAsync()
-		this.start()
+		this.getCurrentRoute()
 		 TimerMixin.setTimeout.call(this, async() =>{
-			this.start()
+			this.start2()
 		},15000);
 	}
 
-	start = async () => {
+	getCurrentRoute = async () => {
 		if(userData.id) {
 			this.setState({id: userData.id})
-			await fetch(`https://api.innovatorymm.com/api/v1/routes/user/${userData.id}`)
-				.then((response)=>
-					response.json()
-				)
-				.then((responseData)=> {
-					setRouteData(responseData)
-					this.setState({route: responseData})
-					this.getRequestData()
-				})
-		} else {
-			await AsyncStorage.getItem('userData')
-				.then((data)=> {
-					setUserData(JSON.parse(data))
-					this.setState({id: userData.id})
-					return fetch(`https://api.innovatorymm.com/api/v1/routes/user/${JSON.parse(data).id}`)
-				})
-				.then((response)=>
-					response.json()
-				)
+			await getRoutesByUser(userData.id)
 				.then((responseData)=> {
 					setRouteData(responseData)
 					this.setState({route: responseData})
@@ -258,7 +238,7 @@ export default class RouteViewScreen extends Component {
 	render() {
 		return (
 		
-		(this.state.route && this.state.route.startPoint !== undefined) ? 
+		(routeData && this.state.route.startPoint !== undefined) ? 
 		<View style={styles.container}>
 <ScrollView style={styles.main}>
 			<List.Accordion
@@ -276,7 +256,7 @@ export default class RouteViewScreen extends Component {
 					  title={request.name} 
 					  description={request.phone}
 					  onPress={() => Communications.phonecall(request.phone, true)}
-					  left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={styles.duck} />}
+					  left={props => <List.Icon {...props} icon={require('../../assets/duck.png')}  style={styles.duck} />}
 					  />
 				))}
 				  
@@ -287,7 +267,7 @@ export default class RouteViewScreen extends Component {
 					<Card style={styles.noti} key={pending.id}>
 						<Card.Content style={styles.center}>
 						<Title> {pending.name}</Title>
-						<Paragraph><Image source={require('../assets/duck.png')} style={styles.duck} /> x {pending.rating}</Paragraph>
+						<Paragraph><Image source={require('../../assets/duck.png')} style={styles.duck} /> x {pending.rating}</Paragraph>
 						</Card.Content>
 						<Card.Actions style={styles.center}>
 						<IconButton	

@@ -1,12 +1,12 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Button } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import { Constants } from 'expo';
 
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { getRouteHistory } from '../../api/api';
-import { userData } from '../../api/data';
+import { getRouteHistory } from './api';
+import { userData } from '../../data/data';
 
 const historyStyle = StyleSheet.create({
     main : {
@@ -45,10 +45,6 @@ export default class HistoryScreen extends React.Component {
         const data = await getRouteHistory(userData.id)
         this.setState({routeData : data})
         console.log(this.state.routeData.length)
-    }
-
-    cardView = () => {
-        return 
     }
 
     render() {

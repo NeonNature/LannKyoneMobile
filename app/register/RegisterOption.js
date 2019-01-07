@@ -30,15 +30,11 @@ export default class RegisterOption extends React.Component {
         header : null,
     }
 
-    state = {
-    }
-
     passengerRegister = () => {
         this.props.navigation.navigate('Registration', {option : 'Passenger'})
     }
 
     driverRegister = () => {
-        this.setState({option : 'Driver'})
         this.props.navigation.navigate('Registration', {option : 'Driver'})
     }
 

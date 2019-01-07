@@ -3,8 +3,8 @@ import { StyleSheet, View, Text, Image, TouchableOpacity, Dimensions, ScrollView
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { ImagePicker, Permissions } from 'expo';
 
-import { userData, setUserData } from '../../api/data';
-import { getUser, profileUpload } from '../../api/api';
+import { userData, setUserData } from '../../data/data';
+import { profileUpload } from './api';
 
 const styles= StyleSheet.create({
 	main : {

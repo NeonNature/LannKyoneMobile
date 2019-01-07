@@ -5,8 +5,8 @@ import { TextInput, Card, Button, Divider } from 'react-native-paper';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
-import { addNewRoute } from '../api/api';
-import { userData, setRouteData, routeData } from '../api/data';
+import { addNewRoute } from './api';
+import { userData, setRouteData, routeData } from '../../data/data';
 
 const styles= StyleSheet.create({
   main: {

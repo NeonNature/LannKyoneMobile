@@ -4,8 +4,8 @@ import { Modal, Portal, TextInput, Button, Card, Title, Paragraph, List, Checkbo
 
 import Communications from 'react-native-communications';
 import TimerMixin from 'react-timer-mixin';
-import { getPendingByUser, requestRoute, getRoutes } from '../api/api';
-import { userData } from '../api/data';
+import { getPendingByUser, requestRoute, getRoutes } from './api';
+import { userData } from '../../data/data';
 
 const mapstyles= StyleSheet.create({
 textInput: {
@@ -219,10 +219,44 @@ const styles= StyleSheet.create({
 })
 
 export default class RouteViewPassengerScreen extends Component {
+	static navigationOptions = ({navigation}) => ({
+		header: null,
+	})
 
+	state = {
+		route: [],
+		expand: false,
+		expanded: {},
+        visible: false,
+        routes: [],
+        startPoint: '',
+        endPoint: '',
+        userID: '',
+        routeID: '',
+	}
 
+	mount = async () => {
+		const routeData = await getRoutes(userData.university)
+		this.setState({routes : routeData, userID : userData.id})
 
-  handleStart = (startPoint) => {
+		const response = await getPendingByUser(this.state.userID)
+		this.setState({route: response[0]})
+	}
+
+	async componentDidMount () {
+		this.mount()
+		TimerMixin.setTimeout.call(this, async() =>{ 
+			this.mount()
+		},15000);
+	}
+
+    _handlePress = () => {
+		this.setState({
+		expand: !this.state.expand
+		})
+	}
+	
+	handleStart = (startPoint) => {
         this.setState({startPoint: startPoint})
     }
 
@@ -230,64 +264,21 @@ export default class RouteViewPassengerScreen extends Component {
         this.setState({endPoint: endPoint})
     }
 
-
-
-	static navigationOptions = ({navigation}) => ({
-		header: null,
-	})
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			route: [],
-			expand: false,
-			expanded: {},
-            visible: false,
-            routes: [],
-            startPoint: '',
-            endPoint: '',
-            userID: '',
-            routeID: '',
-		};
-	}
-
-mount = async () => {
-  const routeData = await getRoutes(userData.university)
-  this.setState({routes : routeData, userID : userData.id})
-
-
-    const response = await getPendingByUser(this.state.userID)
-    this.setState({route: response[0]})
-}
-
-	async componentDidMount () {
-    this.mount()
-    TimerMixin.setTimeout.call(this, async() =>{ 
-		  this.mount()
-    },15000);
-	}
-
-     _handlePress = () =>
-    this.setState({
-      expand: !this.state.expand
-    });
-
-
-request = async() => {
-        const response = await requestRoute(this.state)
-        console.log(response)
-        
-        if(response.ok) {
+	request = async() => {
+		const response = await requestRoute(this.state)
+		console.log(response)
+			
+		if(response.ok) {
 			this.setState({visible : false, requested : true})
-            Alert.alert(
-                'Success!',
-                'ၾကိတ္လိုက္ျပီ ခ်ိဖ',
-                [
-                    {text: 'OK', onPress : ()=>this.props.navigation.navigate('RouteNoti') ,style: 'default'},
-                ]
-            )
-        } else {
-            const message = await response.json()
+			Alert.alert(
+				'Success!',
+				'ၾကိတ္လိုက္ျပီ ခ်ိဖ',
+				[
+					{text: 'OK', onPress : ()=>this.props.navigation.navigate('RouteNoti') ,style: 'default'},
+				]
+			)
+		} else {
+			const message = await response.json()
 			Alert.alert(
 				'Error!',
 				message,
@@ -296,22 +287,22 @@ request = async() => {
 				]
 			)
 		}
-}
+	}
 
 
-  _showModal = (route) => {
-	  this.setState({ visible: true, routeID: route })
-  }
-  _hideModal = () => this.setState({ visible: false });
+	_showModal = (route) => {
+		this.setState({ visible: true, routeID: route })
+	}
+	_hideModal = () => this.setState({ visible: false });
 
-    toggle(name) {
-   this.setState({
-        expanded: {
-            ...this.state.expanded,
-            [name]: !this.state.expanded[name]
-        }
-    });
-}
+		toggle(name) {
+	this.setState({
+			expanded: {
+				...this.state.expanded,
+				[name]: !this.state.expanded[name]
+			}
+		});
+	}
 
 
 	render() {
@@ -333,7 +324,7 @@ request = async() => {
 			<List.Item 
 				style={styles.lists} 
 				title={this.state.route.rating} 
-				left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={styles.duck} /> }
+				left={props => <List.Icon {...props} icon={require('../../assets/duck.png')}  style={styles.duck} /> }
 			/>
 		      <List.Item 
 		        style={styles.lists} 
@@ -402,7 +393,7 @@ request = async() => {
 			<List.Item 
 				style={mapstyles.lists} 
 				title={route.rating} 
-				left={props => <List.Icon {...props} icon={require('../assets/duck.png')}  style={mapstyles.duck} /> }
+				left={props => <List.Icon {...props} icon={require('../../assets/duck.png')}  style={mapstyles.duck} /> }
 			/>
       <List.Item 
         style={mapstyles.lists} 

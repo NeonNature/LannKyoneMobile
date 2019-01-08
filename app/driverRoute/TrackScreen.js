@@ -219,73 +219,64 @@ export default class TrackScreen extends Component {
     header: null,
   })
 
-    constructor(props) {
-    super(props);
-    this.state = {
-      region: {
-                latitude: 16.8661,
-                longitude: 96.1951,
-                latitudeDelta: LATITUDE_DELTA,
-                longitudeDelta: LONGITUDE_DELTA,
-              },
-      id: '',
-      routeID: '',
-      markers: [],
-      lat: null,
-      long: null,
-    };
-  }
-
-  async componentDidMount() {
-    if (userData.role === 'Driver')
-    {
-    this.setState({routeID : routeData.id})
-    }
-    else
-    {
-    const response = await getPendingByUser(userData.id)
-    this.setState({routeID: response[0].id})
+    state = {
+      	region: {
+            latitude: 16.8661,
+            longitude: 96.1951,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+        },
+      	id: '',
+      	routeID: '',
+      	markers: [],
+      	lat: null,
+      	long: null,
     }
 
-    this.setState({id : userData.id})
+	async componentDidMount() {
+		if (userData.role === 'Driver') {
+			this.setState({routeID : routeData.id})
+		}
+		else {
+			const response = await getPendingByUser(userData.id)
+			this.setState({routeID: response[0].id})
+		}
+		this.setState({id : userData.id})
 
+		TimerMixin.setInterval.call(this, () =>{ 
+					this.track()
+				},15000);
 
-     TimerMixin.setTimeout.call(this, () =>{ 
-                this.track()
-            },15000);
-
-    }
+	}
 
     track = async () => {
+      	let { status } = await Permissions.askAsync(Permissions.LOCATION);
 
-      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+		let location = await Location.getCurrentPositionAsync({});
+		this.setState({ lat: location.coords.latitude, long: location.coords.longitude });
+		const response = await setLocation(this.state)
 
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ lat: location.coords.latitude, long: location.coords.longitude });
-    const response = await setLocation(this.state)
-
-      const markerData = await getLocation(this.state.routeID)
-      this.setState({markers : markerData})
-      
+		const markerData = await getLocation(this.state.routeID)
+		this.setState({markers : markerData})
     }
 
-  //--------------------------------------------
-  rate = async (userID) => {
-    const response = await rate(userID)
-    console.log(response)
-  }
+	//--------------------------------------------
+	rate = async (userID) => {
+		const response = await rate(userID)
+		console.log(response)
+	}
 
-  end = () => {
-        Alert.alert(
-        'ဟာ',
-        'ျပီးသြားျပီ ေပါ့ ခ်ိဖ ?',
-        [
-          {text: 'Yes!', onPress: () => this.realend()},
-          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-         
-        ]
-      )
-    }
+	end = () => {
+			Alert.alert(
+			'ဟာ',
+			'ျပီးသြားျပီ ေပါ့ ခ်ိဖ ?',
+			[
+			{text: 'Yes!', onPress: () => this.realend()},
+			{text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+			
+			]
+		)
+	}
 
     realend = () => {
         Alert.alert(
@@ -299,59 +290,59 @@ export default class TrackScreen extends Component {
     }
 
     trueend = async () => {
-      //this.props.navigation.navigate('RouteList') 
-        const response = await endRoute(this.state.routeID)
+        await endRoute(this.state.routeID)
         setRouteData({})
-        if (userData.role == 'Driver') {
-          this.props.navigation.navigate('DriverMain')
+        /*if (userData.role == 'Driver') {
+          	this.props.navigation.navigate('DriverMain')
         } else {
-          this.props.navigation.navigate('PassengerMain')
-        } 
+          	this.props.navigation.navigate('PassengerMain')
+		}*/
+		this.props.navigation.navigate('RouteList')
     }
 
-  render() {
-    return (
-    <View style={styles.main}>
-      <MapView
-              customMapStyle={mapStyle}
-              width={width}
-              height={height}
-              initialRegion={this.state.region}>
+	render() {
+		return (
+		<View style={styles.main}>
+		<MapView
+				customMapStyle={mapStyle}
+				width={width}
+				height={height}
+				initialRegion={this.state.region}>
 
-          {this.state.markers.map((mark)=> mark.lat === null ? console.log('Null value detected!') : 
-                 <Marker
-                   coordinate={{latitude: mark.lat, longitude: mark.long}}
-                   title={mark.name}
-                 />
-            )}
-      </MapView>
-      <Callout>
-        {userData.role === 'Driver' ? 
-        
-              <View style={styles.calloutView} >
-                  <Button
-                  style={styles.endbtn}
-                    onPress={this.end}
-                    color="#803176"
-                    mode="contained"
-                    dark={true}>
-                  End Route
-                  </Button>
-            </View>
-         : <View />
-      }
-        </Callout>
-        <ActionButton fixNativeFeedbackRadius={true} hideShadow={true} buttonColor="#803176" icon={<Icon name='duck' size={25} style={styles.RactionButtonIcon} />}>
-        {this.state.markers.map((p)=> p.id === userData.id ? console.log('Disabled Self Vote!') :
-          <ActionButton.Item key={p.name} hideShadow={true} fixNativeFeedbackRadius={true} buttonColor='white' title={p.name} onPress={() => this.rate(p.id)}>
-            <Icon key={p.name} name="duck" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          )}
-        </ActionButton>
+			{this.state.markers.map((mark)=> mark.lat === null ? console.log('Null value detected!') : 
+					<Marker
+					coordinate={{latitude: mark.lat, longitude: mark.long}}
+					title={mark.name}
+					/>
+				)}
+		</MapView>
+		<Callout>
+			{userData.role === 'Driver' ? 
+			
+				<View style={styles.calloutView} >
+					<Button
+					style={styles.endbtn}
+						onPress={this.end}
+						color="#803176"
+						mode="contained"
+						dark={true}>
+					End Route
+					</Button>
+				</View>
+			: <View />
+		}
+			</Callout>
+			<ActionButton fixNativeFeedbackRadius={true} hideShadow={true} buttonColor="#803176" icon={<Icon name='duck' size={25} style={styles.RactionButtonIcon} />}>
+			{this.state.markers.map((p)=> p.id === userData.id ? console.log('Disabled Self Vote!') :
+			<ActionButton.Item key={p.name} hideShadow={true} fixNativeFeedbackRadius={true} buttonColor='white' title={p.name} onPress={() => this.rate(p.id)}>
+				<Icon key={p.name} name="duck" style={styles.actionButtonIcon} />
+			</ActionButton.Item>
+			)}
+			</ActionButton>
 
-      </View>
-    );
-  }
+		</View>
+		);
+	}
 
 
 

@@ -50,7 +50,7 @@ const DriverRouteStack = createStackNavigator({
 })
 
 const PassengerRouteStack = createStackNavigator({
-	RouteNoti : RouteViewPassengerScreen,
+	RouteList : RouteViewPassengerScreen,
 	Track : TrackScreen,
 })
 

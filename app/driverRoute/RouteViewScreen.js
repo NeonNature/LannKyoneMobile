@@ -6,6 +6,8 @@ import TimerMixin from 'react-timer-mixin';
 import { getRoutesByUser, getRequests, respondRequest } from './api';
 import { routeData, userData, setRouteData, setUserData } from '../../data/data';
 
+import { registerForPushNotificationsAsync } from './notification';
+
 const styles= StyleSheet.create({
 	container: {
 		position: 'absolute',
@@ -117,24 +119,31 @@ export default class RouteViewScreen extends Component {
 		header: null,
 	})
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			id: '',
-			route : {},
-			requests : [],
-			pendings : [],
-			requestID : '',
-			status : '',
-			expanded: false,
-		};
+	state = {
+		id: '',
+		route : {},
+		requests : [],
+		pendings : [],
+		requestID : '',
+		status : '',
+		expanded: false,
 	}
 
 	async componentDidMount() {
+		registerForPushNotificationsAsync()
 		this.getCurrentRoute()
-		 TimerMixin.setTimeout.call(this, async() =>{
-			this.start2()
+		 TimerMixin.setInterval.call(this, async() =>{
+			console.log("timix working!")
+			this.getRequestData()
 		},15000);
+	}
+
+	async componentWillReceiveProps() {
+		this.setState({route: routeData})
+		/*this.getRequestData()
+		TimerMixin.setInterval.call(this, async() =>{
+			this.getRequestData()
+		},15000);*/
 	}
 
 	getCurrentRoute = async () => {
@@ -147,24 +156,6 @@ export default class RouteViewScreen extends Component {
 					this.getRequestData()
 				})
 		}
-	}
-
-	start2 = async () => {
-		this.setState({route: routeData})
-
-		const response = await getRequests(this.state.route.id)
-		const data = await response.json()
-
-		const requests = data.filter((request)=>request.status=="Confirmed")
-		const pendings = data.filter((request)=>request.status=="Pending")
-		this.setState({requests : requests, pendings : pendings})
-	}
-
-	async componentWillReceiveProps() {
-		this.start2()
-		TimerMixin.setTimeout.call(this, async() =>{
-			this.start2()
-		},15000);
 	}
 
 	getRequestData = async() => {

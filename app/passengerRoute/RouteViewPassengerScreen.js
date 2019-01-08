@@ -245,7 +245,7 @@ export default class RouteViewPassengerScreen extends Component {
 
 	async componentDidMount () {
 		this.mount()
-		TimerMixin.setTimeout.call(this, async() =>{ 
+		TimerMixin.setInterval.call(this, async() =>{ 
 			this.mount()
 		},15000);
 	}
